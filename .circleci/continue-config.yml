@@ -1,0 +1,30 @@
+version: 2.1
+
+executors:
+  base:
+    docker:
+      - image: cimg/base:stable
+
+parameters:
+  global:
+    type: boolean
+    default: false
+  namer:
+    type: boolean
+    default: false
+  emea:
+    type: boolean
+    default: false
+  japac:
+    type: boolean
+    default: false
+  namer-platforms:
+    type: boolean
+    default: false
+  emea-platforms:
+    type: boolean
+    default: false
+  japac-platforms:
+    type: boolean
+    default: false
+    
