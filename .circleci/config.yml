@@ -41,9 +41,9 @@ workflows:
           config-path: .circleci/continue-config.yml
           mapping: |
             global/.* global true
-            namer-eks/.* namer true
-            emea-eks/.* emea true
-            japac-eks/.* japac true
+            namer-eks/.* namer-eks true
+            emea-eks/.* emea-eks true
+            japac-eks/.* japac-eks true
             namer-platforms/.* namer-platforms true
             emea-platforms/.* emea-platforms true
             japac-platforms/.* japac-platforms true
