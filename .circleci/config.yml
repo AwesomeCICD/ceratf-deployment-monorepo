@@ -11,7 +11,7 @@ parameters:
     default: true
   global:
     type: boolean
-    default: true
+    default: false
 
 jobs:
   run-everything:
@@ -43,7 +43,7 @@ workflows:
     when: << pipeline.parameters.global >>
     jobs:
       - run-everything
-  actual-orb-workflow:
+  eks_layer:
     unless: << pipeline.parameters.global >>
     jobs:
       - actual-setup-job

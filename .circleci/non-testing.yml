@@ -6,18 +6,31 @@ parameters:
     default: false
 
 jobs:
-  standard-job:
+  namer-eks:
     docker:
       - image: cimg/base:2023.06
     resource_class: small
     steps:
       - checkout
       - run: 
-          name: standard job
+          name: orb testing job - orb tools/pack and publish
           command: |
-            echo "just a standard job"
+            echo "orb testing job"
+            
+  namer-platforms:
+    docker:
+      - image: cimg/base:2023.06
+    resource_class: small
+    steps:
+        - run: 
+            name: namer platforms
+            command: |
+              echo "namer platforms"
 
 workflows:
-  my-orbs-workflow:
+  namer-eks-layer:
     jobs:
-      - standard-job
+      - namer-eks
+      - namer-platforms:
+          requires:
+            - namer-eks
