@@ -118,6 +118,24 @@ workflows:
     jobs:
       - namer-platforms
   
+  eks_layer_emea:
+    when: 
+      and: 
+        - not: << pipeline.parameters.global >>
+        - equal: [ true, <<pipeline.parameters.emea-eks>> ]
+    jobs:
+      - emea-eks
+      - emea-platforms
+
+  platform_layer_emea:
+    when:
+      and: 
+       - not: << pipeline.parameters.global >>
+       - not: <<pipeline.parameters.emea-eks>>
+       - equal: [ true, <<pipeline.parameters.emea-platforms>> ]
+    jobs:
+      - emea-platforms
+  
 
 
   # namer:
