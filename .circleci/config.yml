@@ -10,28 +10,6 @@ parameters:
   run-setup-workflow:
     type: boolean
     default: true
-  global:
-    type: boolean
-    default: true
-  # namer-eks:  
-  #   type: boolean
-  #   default: false
-  # namer-platform: 
-  #   type: boolean
-  #   default: true
-
-# jobs:
-#   run-everything:
-#     docker:
-#       - image: cimg/base:2023.06
-#     resource_class: small
-#     steps:
-#       - checkout
-#       - run:
-#           name: execute global
-#           command: echo "execute global"
-#       - path-filtering/set-parameters:
-#           configuration_path: .circleci/continue-config.yml
 
 workflows:
   setup-workflow:
@@ -47,60 +25,3 @@ workflows:
             namer-platforms/.* namer-platforms true
             emea-platforms/.* emea-platforms true
             japac-platforms/.* japac-platforms true
-# # VS Code Extension Version: 1.0.0
-  # actual-setup-job:
-  #   docker:
-  #     - image: cimg/base:2023.06
-  #   resource_class: small
-  #   steps:
-  #     - checkout
-  #     - run:
-  #         name: doing the setup part of the orb
-  #         command: echo "doing the setup part of the orb"
-  #     - continuation/continue:
-  #         configuration_path: .circleci/non-testing.yml
-  
-  # platform-layer-namer:
-  #   docker:
-  #     - image: cimg/base:2023.06
-  #   resource_class: small
-  #   steps:
-  #     - checkout
-  #     - run:
-  #         name: doing the setup part of the orb
-  #         command: echo "doing the setup part of the orb"
-  #     - continuation/continue:
-  #         configuration_path: .circleci/non-testing.yml
-
-# workflows:
-#   global:
-#     when: << pipeline.parameters.global >>
-#     jobs:
-#       - run-everything
-  # eks_layer:
-  #   when: 
-  #     and: 
-  #       - not: << pipeline.parameters.global >>
-  #       - equal: [ true, <<pipeline.parameters.namer-eks>> ]
-  #   jobs:
-  #     - actual-setup-job
-  # platform_layer:
-  #   when:
-  #     and: 
-  #      - not: << pipeline.parameters.global >>
-  #      - not: <<pipeline.parameters.namer-eks>>
-  #      - equal: [ true, <<pipeline.parameters.namer-platform>> ]
-  #   jobs:
-  #     - platform-layer-namer
-
-# version: 2.1
-
-# # denotes that it is setup workflow 
-# setup: true
-
-# # using the path filtering orb
-# orbs:
-#   path-filtering: circleci/path-filtering@0.0.2
-
-
-# # workflow using path-filtering orb (w/ built in continuation)

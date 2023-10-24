@@ -100,14 +100,6 @@ jobs:
             name: japac platforms
             command: |
               echo "japac platforms"
-      # - run: 
-      #     name: trigger API request
-      #     command: |
-      #       curl --request POST \
-      #         --url https://circleci.com/api/v2/project/gh/AwesomeCICD/ceratf-deployment-monorepo/pipeline \
-      #         --header "Circle-Token: $CCI_APIKEY" \
-      #         --header "content-type: application/json" \
-      #         --data '{"parameters":{"run-orb-tests":false}}'
 
 workflows:
   global-workflow:
@@ -192,43 +184,3 @@ workflows:
        - equal: [ true, <<pipeline.parameters.japac-platforms>> ]
     jobs:
       - japac-platforms
-  
-
-
-  # namer:
-  #   jobs:
-  #     - namer-eks
-  #     - namer-platforms:
-  #         requires:
-  #           - namer-eks
-
-# version: 2.1
-
-# executors:
-#   base:
-#     docker:
-#       - image: cimg/base:stable
-
-# parameters:
-#   global:
-#     type: boolean
-#     default: false
-#   namer:
-#     type: boolean
-#     default: false
-#   emea:
-#     type: boolean
-#     default: false
-#   japac:
-#     type: boolean
-#     default: false
-#   namer-platforms:
-#     type: boolean
-#     default: false
-#   emea-platforms:
-#     type: boolean
-#     default: false
-#   japac-platforms:
-#     type: boolean
-#     default: false
-    
