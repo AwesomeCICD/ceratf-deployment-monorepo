@@ -4,8 +4,28 @@ parameters:
   run-orb-tests:
     type: boolean
     default: false
+  global:
+    type: boolean
+    default: false
+  namer-eks:  
+    type: boolean
+    default: false
+  namer-platform: 
+    type: boolean
+    default: true
 
 jobs:
+  global:
+    docker:
+      - image: cimg/base:2023.06
+    resource_class: small
+    steps:
+      - checkout
+      - run: 
+          name: run global
+          command: |
+            echo "global"
+  
   namer-eks:
     docker:
       - image: cimg/base:2023.06
@@ -13,9 +33,9 @@ jobs:
     steps:
       - checkout
       - run: 
-          name: orb testing job - orb tools/pack and publish
+          name: namer
           command: |
-            echo "orb testing job"
+            echo "run namer"
             
   namer-platforms:
     docker:
@@ -36,12 +56,22 @@ jobs:
       #         --data '{"parameters":{"run-orb-tests":false}}'
 
 workflows:
-  namer:
+  global-workflow:
+    when: << pipeline.parameters.global >>
     jobs:
-      - namer-eks
+      - global
+      - namer-eks:
+          requires:
+            - global
       - namer-platforms:
           requires:
             - namer-eks
+  # namer:
+  #   jobs:
+  #     - namer-eks
+  #     - namer-platforms:
+  #         requires:
+  #           - namer-eks
 
 # version: 2.1
 
