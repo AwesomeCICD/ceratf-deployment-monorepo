@@ -29,13 +29,8 @@ jobs:
       - run:
           name: execute global
           command: echo "execute global"
-      -  run:
-          name: set params
-          command: | 
-            echo << pipeline.parameters >> >> "circle-ci-setup-parameters.json"
       - continuation/continue:
           configuration_path: .circleci/continue-config.yml
-          parameters: ./circle-ci-setup-parameters.json
   
   # actual-setup-job:
   #   docker:
