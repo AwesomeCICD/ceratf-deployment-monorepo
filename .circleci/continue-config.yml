@@ -19,6 +19,12 @@ parameters:
   emea-platforms: 
     type: boolean
     default: false
+  japac-eks:  
+    type: boolean
+    default: false
+  japac-platforms: 
+    type: boolean
+    default: false
 
 jobs:
   global:
@@ -73,6 +79,27 @@ jobs:
             name: emea platforms
             command: |
               echo "emea platforms"
+  
+  japac-eks:
+    docker:
+      - image: cimg/base:2023.06
+    resource_class: small
+    steps:
+      - checkout
+      - run: 
+          name: japac
+          command: |
+            echo "run japac"
+            
+  japac-platforms:
+    docker:
+      - image: cimg/base:2023.06
+    resource_class: small
+    steps:
+        - run: 
+            name: japac platforms
+            command: |
+              echo "japac platforms"
       # - run: 
       #     name: trigger API request
       #     command: |
@@ -99,6 +126,12 @@ workflows:
       - emea-platforms:
           requires:
             - emea-eks
+      - japac-eks:
+          requires:
+            - global
+      - japac-platforms:
+          requires:
+            - japac-eks
   
   eks_layer_namer:
     when: 
@@ -107,7 +140,9 @@ workflows:
         - equal: [ true, <<pipeline.parameters.namer-eks>> ]
     jobs:
       - namer-eks
-      - namer-platforms
+      - namer-platforms:
+          requires:
+            - namer-eks
 
   platform_layer_namer:
     when:
@@ -125,7 +160,9 @@ workflows:
         - equal: [ true, <<pipeline.parameters.emea-eks>> ]
     jobs:
       - emea-eks
-      - emea-platforms
+      - emea-platforms:
+          requires:
+            - emea-eks
 
   platform_layer_emea:
     when:
@@ -135,6 +172,26 @@ workflows:
        - equal: [ true, <<pipeline.parameters.emea-platforms>> ]
     jobs:
       - emea-platforms
+  
+  eks_layer_japac:
+    when: 
+      and: 
+        - not: << pipeline.parameters.global >>
+        - equal: [ true, <<pipeline.parameters.japac-eks>> ]
+    jobs:
+      - japac-eks
+      - japac-platforms:
+          requires:
+            - japac-eks
+
+  platform_layer_japac:
+    when:
+      and: 
+       - not: << pipeline.parameters.global >>
+       - not: <<pipeline.parameters.japac-eks>>
+       - equal: [ true, <<pipeline.parameters.japac-platforms>> ]
+    jobs:
+      - japac-platforms
   
 
 
