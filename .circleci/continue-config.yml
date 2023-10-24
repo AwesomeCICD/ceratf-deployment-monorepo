@@ -10,9 +10,9 @@ parameters:
   namer-eks:  
     type: boolean
     default: false
-  namer-platform: 
+  namer-platforms: 
     type: boolean
-    default: true
+    default: false
 
 jobs:
   global:
@@ -81,7 +81,7 @@ workflows:
       and: 
        - not: << pipeline.parameters.global >>
        - not: <<pipeline.parameters.namer-eks>>
-       - equal: [ true, <<pipeline.parameters.namer-platform>> ]
+       - equal: [ true, <<pipeline.parameters.namer-platforms>> ]
     jobs:
       - namer-platforms
   
