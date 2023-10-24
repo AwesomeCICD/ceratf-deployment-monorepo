@@ -37,7 +37,7 @@ workflows:
   setup-workflow:
     jobs:
       - path-filtering/filter:
-          base-revision: db-demo
+          base-revision: SE309-setup-POC
           config-path: .circleci/continue-config.yml
           mapping: |
             global/.* global true
