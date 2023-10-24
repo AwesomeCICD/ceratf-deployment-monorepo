@@ -42,8 +42,8 @@ workflows:
           mapping: |
             global/.* global true
             namer-eks/.* namer true
-            emea/.* emea true
-            japac/.* japac true
+            emea-eks/.* emea true
+            japac-eks/.* japac true
             namer-platforms/.* namer-platforms true
             emea-platforms/.* emea-platforms true
             japac-platforms/.* japac-platforms true
