@@ -1,0 +1,23 @@
+version: 2.1
+
+parameters:
+  run-orb-tests:
+    type: boolean
+    default: false
+
+jobs:
+  standard-job:
+    docker:
+      - image: cimg/base:2023.06
+    resource_class: small
+    steps:
+      - checkout
+      - run: 
+          name: standard job
+          command: |
+            echo "just a standard job"
+
+workflows:
+  my-orbs-workflow:
+    jobs:
+      - standard-job

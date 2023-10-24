@@ -1,26 +1,76 @@
 version: 2.1
 
-# denotes that it is setup workflow 
-setup: true
+setup: << pipeline.parameters.run-setup-workflow >>
 
-# using the path filtering orb
 orbs:
-  path-filtering: circleci/path-filtering@0.0.2
+  continuation: circleci/continuation@1.0.0
 
+parameters:
+  run-setup-workflow:
+    type: boolean
+    default: true
+  global:
+    type: boolean
+    default: true
 
-# workflow using path-filtering orb (w/ built in continuation)
+jobs:
+  run-everything:
+    docker:
+      - image: cimg/base:2023.06
+    resource_class: small
+    steps:
+      - checkout
+      - run:
+          name: execute global
+          command: echo "execute global"
+      - continuation/continue:
+          configuration_path: .circleci/continue-config.yml
+  
+  actual-setup-job:
+    docker:
+      - image: cimg/base:2023.06
+    resource_class: small
+    steps:
+      - checkout
+      - run:
+          name: doing the setup part of the orb
+          command: echo "doing the setup part of the orb"
+      - continuation/continue:
+          configuration_path: .circleci/non-testing.yml
+
 workflows:
-  setup-workflow:
+  global:
+    when: << pipeline.parameters.global >>
     jobs:
-      - path-filtering/filter:
-          base-revision: db-demo
-          config-path: .circleci/continue-config.yml
-          mapping: |
-            global/.* global true
-            namer/.* namer true
-            emea/.* emea true
-            japac/.* japac true
-            namer-platforms/.* namer-platforms true
-            emea-platforms/.* emea-platforms true
-            japac-platforms/.* japac-platforms true
-# VS Code Extension Version: 1.0.0
+      - run-everything
+  actual-orb-workflow:
+    unless: << pipeline.parameters.global >>
+    jobs:
+      - actual-setup-job
+
+# version: 2.1
+
+# # denotes that it is setup workflow 
+# setup: true
+
+# # using the path filtering orb
+# orbs:
+#   path-filtering: circleci/path-filtering@0.0.2
+
+
+# # workflow using path-filtering orb (w/ built in continuation)
+# workflows:
+#   setup-workflow:
+#     jobs:
+#       - path-filtering/filter:
+#           base-revision: db-demo
+#           config-path: .circleci/continue-config.yml
+#           mapping: |
+#             global/.* global true
+#             namer/.* namer true
+#             emea/.* emea true
+#             japac/.* japac true
+#             namer-platforms/.* namer-platforms true
+#             emea-platforms/.* emea-platforms true
+#             japac-platforms/.* japac-platforms true
+# # VS Code Extension Version: 1.0.0
