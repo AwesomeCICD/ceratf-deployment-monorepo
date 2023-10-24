@@ -13,6 +13,12 @@ parameters:
   namer-platforms: 
     type: boolean
     default: false
+  emea-eks:  
+    type: boolean
+    default: false
+  emea-platforms: 
+    type: boolean
+    default: false
 
 jobs:
   global:
@@ -46,6 +52,27 @@ jobs:
             name: namer platforms
             command: |
               echo "namer platforms"
+  
+  emea-eks:
+    docker:
+      - image: cimg/base:2023.06
+    resource_class: small
+    steps:
+      - checkout
+      - run: 
+          name: emea
+          command: |
+            echo "run emea"
+            
+  emea-platforms:
+    docker:
+      - image: cimg/base:2023.06
+    resource_class: small
+    steps:
+        - run: 
+            name: emea platforms
+            command: |
+              echo "emea platforms"
       # - run: 
       #     name: trigger API request
       #     command: |
@@ -66,8 +93,14 @@ workflows:
       - namer-platforms:
           requires:
             - namer-eks
+      - emea-eks:
+          requires:
+            - global
+      - emea-platforms:
+          requires:
+            - emea-eks
   
-  eks_layer:
+  eks_layer_namer:
     when: 
       and: 
         - not: << pipeline.parameters.global >>
@@ -76,7 +109,7 @@ workflows:
       - namer-eks
       - namer-platforms
 
-  platform_layer:
+  platform_layer_namer:
     when:
       and: 
        - not: << pipeline.parameters.global >>
