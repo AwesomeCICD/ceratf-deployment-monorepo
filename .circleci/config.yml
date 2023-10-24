@@ -32,7 +32,7 @@ jobs:
       -  run:
           name: set params
           command: | 
-            echo "$PARAMETERS" >> "circle-ci-setup-parameters.json"
+            echo << pipeline.parameters >> >> "circle-ci-setup-parameters.json"
       - continuation/continue:
           configuration_path: .circleci/continue-config.yml
           parameters: ./circle-ci-setup-parameters.json
