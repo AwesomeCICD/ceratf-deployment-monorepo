@@ -12,6 +12,9 @@ parameters:
   global:
     type: boolean
     default: false
+  namer-eks:  
+    type: boolean
+    default: true
 
 jobs:
   run-everything:
@@ -44,7 +47,10 @@ workflows:
     jobs:
       - run-everything
   eks_layer:
-    unless: << pipeline.parameters.global >>
+    when: 
+      and: 
+        - not: << pipeline.parameters.global >>
+        - equal: [ true, <<pipeline.parameters.namer-eks>> ]
     jobs:
       - actual-setup-job
 
