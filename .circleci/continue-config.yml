@@ -71,11 +71,10 @@ jobs:
       - checkout
       - terraform/fmt:
           path: ./global
-          <<: *tf_job_defaults
       - terraform/validate:
-          <<: *tf_job_defaults
+          path: ./global
       - terraform/plan:
-          <<: *tf_job_defaults
+          path: ./global
   
   namer-eks:
     docker:
@@ -144,7 +143,8 @@ workflows:
   global-workflow:
     when: << pipeline.parameters.global >>
     jobs:
-      - global
+      - global:
+          <<: *tf_job_defaults
       - namer-eks:
           requires:
             - global
