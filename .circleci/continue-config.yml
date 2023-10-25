@@ -4,33 +4,33 @@ orbs:
   terraform: circleci/terraform@3.2.1
   aws-cli: circleci/aws-cli@4.1.1
 
-tf_job_defaults: &tf_job_defaults
-  attach-workspace: true
-  context:
-    - empty-context #to explicitly generate OIDC token
-    - tf-deploy-machine-user-key
-  pre-steps: &presteps
-    - checkout
-    - add_ssh_keys:
-        fingerprints:
-          - "4c:17:59:7f:f3:7d:61:e0:08:6d:b5:b3:cb:8b:ef:c6" # belongs to GH user "ceratf-module-bot"
-    - aws-cli/install
-    - aws-cli/assume_role_with_web_identity:
-        role_arn: "arn:aws:iam::483285841698:role/SolutionsEngineeringEKS"
-        role_session_name: "cci-se-eks-cluster-global-<< pipeline.number >>"
-    # We're doing this because BASH_ENV doesn't work with sh, and sh is the shell on the Terraform docker images
-    # TODO: Come up with a better solution
-    - run:
-        name: Create AWS credentials file
-        command: |  
-          mkdir -p ~/.aws && \
-          source $BASH_ENV && \
-          cat > ~/.aws/credentials \<<EOF
-          [default]
-          aws_access_key_id=${AWS_ACCESS_KEY_ID}
-          aws_secret_access_key=${AWS_SECRET_ACCESS_KEY}
-          aws_session_token=${AWS_SESSION_TOKEN}
-          EOF
+# tf_job_defaults: &tf_job_defaults
+#   attach-workspace: true
+#   context:
+#     - empty-context #to explicitly generate OIDC token
+#     - tf-deploy-machine-user-key
+#   pre-steps: &presteps
+#     - checkout
+#     - add_ssh_keys:
+#         fingerprints:
+#           - "4c:17:59:7f:f3:7d:61:e0:08:6d:b5:b3:cb:8b:ef:c6" # belongs to GH user "ceratf-module-bot"
+#     - aws-cli/install
+#     - aws-cli/assume_role_with_web_identity:
+#         role_arn: "arn:aws:iam::483285841698:role/SolutionsEngineeringEKS"
+#         role_session_name: "cci-se-eks-cluster-global-<< pipeline.number >>"
+#     # We're doing this because BASH_ENV doesn't work with sh, and sh is the shell on the Terraform docker images
+#     # TODO: Come up with a better solution
+#     - run:
+#         name: Create AWS credentials file
+#         command: |  
+#           mkdir -p ~/.aws && \
+#           source $BASH_ENV && \
+#           cat > ~/.aws/credentials \<<EOF
+#           [default]
+#           aws_access_key_id=${AWS_ACCESS_KEY_ID}
+#           aws_secret_access_key=${AWS_SECRET_ACCESS_KEY}
+#           aws_session_token=${AWS_SESSION_TOKEN}
+#           EOF
 
 parameters:
   run-orb-tests:
@@ -144,7 +144,31 @@ workflows:
     when: << pipeline.parameters.global >>
     jobs:
       - global:
-          <<: *tf_job_defaults
+          context:
+            - empty-context #to explicitly generate OIDC token
+            - tf-deploy-machine-user-key
+          pre-steps:
+            - checkout
+            - add_ssh_keys:
+                fingerprints:
+                  - "4c:17:59:7f:f3:7d:61:e0:08:6d:b5:b3:cb:8b:ef:c6" # belongs to GH user "ceratf-module-bot"
+            - aws-cli/install
+            - aws-cli/assume_role_with_web_identity:
+                role_arn: "arn:aws:iam::483285841698:role/SolutionsEngineeringEKS"
+                role_session_name: "cci-se-eks-cluster-global-<< pipeline.number >>"
+            # We're doing this because BASH_ENV doesn't work with sh, and sh is the shell on the Terraform docker images
+            # TODO: Come up with a better solution
+            - run:
+                name: Create AWS credentials file
+                command: |  
+                  mkdir -p ~/.aws && \
+                  source $BASH_ENV && \
+                  cat > ~/.aws/credentials \<<EOF
+                  [default]
+                  aws_access_key_id=${AWS_ACCESS_KEY_ID}
+                  aws_secret_access_key=${AWS_SECRET_ACCESS_KEY}
+                  aws_session_token=${AWS_SESSION_TOKEN}
+                  EOF
       - namer-eks:
           requires:
             - global
