@@ -64,9 +64,7 @@ parameters:
 
 jobs:
   global:
-    docker:
-      - image: cimg/base:2023.06
-    resource_class: small
+    executor: terraform/default
     steps:
       - checkout
       - terraform/fmt:

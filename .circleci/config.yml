@@ -5,6 +5,7 @@ setup: << pipeline.parameters.run-setup-workflow >>
 orbs:
   continuation: circleci/continuation@1.0.0
   path-filtering: circleci/path-filtering@0.1.7
+  terraform: circleci/terraform@3.2.1
 
 parameters:
   run-setup-workflow:
