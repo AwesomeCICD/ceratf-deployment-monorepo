@@ -1,0 +1,27 @@
+version: 2.1
+
+setup: << pipeline.parameters.run-setup-workflow >>
+
+orbs:
+  continuation: circleci/continuation@1.0.0
+  path-filtering: circleci/path-filtering@0.1.7
+
+parameters:
+  run-setup-workflow:
+    type: boolean
+    default: true
+
+workflows:
+  setup-workflow:
+    jobs:
+      - path-filtering/filter:
+          base-revision: SE309-setup-POC
+          config-path: .circleci/continue-config.yml
+          mapping: |
+            global/.* global true
+            namer-eks/.* namer-eks true
+            emea-eks/.* emea-eks true
+            japac-eks/.* japac-eks true
+            namer-platforms/.* namer-platforms true
+            emea-platforms/.* emea-platforms true
+            japac-platforms/.* japac-platforms true
