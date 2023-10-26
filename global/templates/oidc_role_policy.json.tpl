@@ -15,6 +15,7 @@
             "Sid": "VisualEditor1",
             "Effect": "Allow",
             "Action": [
+                "acm:DescribeCertificate"
                 "autoscaling:AttachInstances",
                 "autoscaling:CreateAutoScalingGroup",
                 "autoscaling:CreateLaunchConfiguration",
@@ -102,7 +103,9 @@
                 "ec2:RevokeSecurityGroupIngress",
                 "ec2:RunInstances",
                 "ecr:*",
+                "ecs:DescribeClusters",
                 "eks:*",
+                "elasticfilesystem:DescribeLifecycleConfiguration",
                 "kms:CreateKey",
                 "kms:CreateAlias",
                 "kms:ListAliases",
