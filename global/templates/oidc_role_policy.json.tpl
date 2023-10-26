@@ -152,6 +152,8 @@
                 "logs:DescribeLogGroups",
                 "logs:ListTagsLogGroup",
                 "logs:TagLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
                 "logs:PutRetentionPolicy",
                 "route53:*",
                 "s3:DeleteObject",
