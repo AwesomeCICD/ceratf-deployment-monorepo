@@ -15,7 +15,7 @@
             "Sid": "VisualEditor1",
             "Effect": "Allow",
             "Action": [
-                "acm:DescribeCertificate"
+                "acm:DescribeCertificate",
                 "autoscaling:AttachInstances",
                 "autoscaling:CreateAutoScalingGroup",
                 "autoscaling:CreateLaunchConfiguration",
