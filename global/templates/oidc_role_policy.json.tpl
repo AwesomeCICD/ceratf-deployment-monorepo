@@ -105,6 +105,8 @@
                 "ec2:RunInstances",
                 "ecr:*",
                 "ecs:DescribeClusters",
+                "ecs:DescribeTaskDefinition",
+                "ecs:*",
                 "eks:*",
                 "elasticfilesystem:DescribeLifecycleConfiguration",
                 "elasticfilesystem:DescribeMountTargetSecurityGroups",
