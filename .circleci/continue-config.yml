@@ -47,9 +47,7 @@ jobs:
           path: ./global
   
   namer-eks:
-    docker:
-      - image: cimg/base:2023.06
-    resource_class: small
+    executor: terraform/default
     steps:
       - checkout
       - run: 
@@ -58,9 +56,7 @@ jobs:
             echo "run namer"
             
   namer-platforms:
-    docker:
-      - image: cimg/base:2023.06
-    resource_class: small
+    executor: terraform/default
     steps:
         - run: 
             name: namer platforms
@@ -68,9 +64,7 @@ jobs:
               echo "namer platforms"
   
   emea-eks:
-    docker:
-      - image: cimg/base:2023.06
-    resource_class: small
+    executor: terraform/default
     steps:
       - checkout
       - run: 
@@ -79,9 +73,7 @@ jobs:
             echo "run emea"
             
   emea-platforms:
-    docker:
-      - image: cimg/base:2023.06
-    resource_class: small
+    executor: terraform/default
     steps:
         - run: 
             name: emea platforms
@@ -89,9 +81,7 @@ jobs:
               echo "emea platforms"
   
   japac-eks:
-    docker:
-      - image: cimg/base:2023.06
-    resource_class: small
+    executor: terraform/default
     steps:
       - checkout
       - terraform/fmt:
@@ -102,9 +92,7 @@ jobs:
           path: ./japac-eks
             
   japac-platforms:
-    docker:
-      - image: cimg/base:2023.06
-    resource_class: small
+    executor: terraform/default
     steps:
         - run: 
             name: japac platforms
@@ -141,18 +129,18 @@ workflows:
                   aws_secret_access_key=${AWS_SECRET_ACCESS_KEY}
                   aws_session_token=${AWS_SESSION_TOKEN}
                   EOF
-      - namer-eks:
-          requires:
-            - global
-      - namer-platforms:
-          requires:
-            - namer-eks
-      - emea-eks:
-          requires:
-            - global
-      - emea-platforms:
-          requires:
-            - emea-eks
+      # - namer-eks:
+      #     requires:
+      #       - global
+      # - namer-platforms:
+      #     requires:
+      #       - namer-eks
+      # - emea-eks:
+      #     requires:
+      #       - global
+      # - emea-platforms:
+      #     requires:
+      #       - emea-eks
       - japac-eks:
           requires:
             - global
@@ -181,9 +169,9 @@ workflows:
                   aws_secret_access_key=${AWS_SECRET_ACCESS_KEY}
                   aws_session_token=${AWS_SESSION_TOKEN}
                   EOF
-      - japac-platforms:
-          requires:
-            - japac-eks
+      # - japac-platforms:
+      #     requires:
+      #       - japac-eks
   
   eks_layer_namer:
     when: 
