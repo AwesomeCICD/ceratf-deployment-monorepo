@@ -16,6 +16,7 @@
             "Effect": "Allow",
             "Action": [
                 "acm:DescribeCertificate",
+                "acm:ListTagsForCertificate",
                 "autoscaling:AttachInstances",
                 "autoscaling:CreateAutoScalingGroup",
                 "autoscaling:CreateLaunchConfiguration",
@@ -106,6 +107,7 @@
                 "ecs:DescribeClusters",
                 "eks:*",
                 "elasticfilesystem:DescribeLifecycleConfiguration",
+                "elasticfilesystem:DescribeMountTargetSecurityGroups",
                 "kms:CreateKey",
                 "kms:CreateAlias",
                 "kms:ListAliases",
