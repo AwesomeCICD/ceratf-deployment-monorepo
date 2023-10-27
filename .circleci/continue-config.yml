@@ -81,6 +81,8 @@ jobs:
           path: ./global
       - persist_to_workspace:
           root: workspace
+          paths: 
+            - ./
     
   namer-eks:
     executor: terraform/default
@@ -114,6 +116,9 @@ jobs:
           path: ./emea-eks
       - persist_to_workspace:
           root: /workspace
+          paths:
+            - ./ 
+
             
   emea-platforms:
     executor: terraform/default
@@ -130,6 +135,8 @@ jobs:
           path: ./emea-platforms
       - persist_to_workspace:
           root: /workspace
+          paths:
+            - ./
   
   japac-eks:
     executor: terraform/default
