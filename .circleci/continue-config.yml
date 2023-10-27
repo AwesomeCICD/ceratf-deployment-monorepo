@@ -176,6 +176,7 @@ workflows:
           context:
             - empty-context
             - tf-deploy-machine-user-key
+            - CERA-INIT-EMEA
           requires:
             - global
           <<: *tf_job_defaults
@@ -183,20 +184,25 @@ workflows:
           context:
             - empty-context
             - tf-deploy-machine-user-key
+            - CERA-INIT-EMEA
           requires:
             - emea-eks
           <<: *tf_job_defaults
-      # - japac-eks:
-      #     requires:
-      #       - global
-      #     context:
-      #        - empty-context #to explicitly generate OIDC token
-      #        - tf-deploy-machine-user-key
-      #     <<: *tf_job_defaults
-      # - japac-platforms:
-      #     requires:
-      #       - japac-eks
-      #     <<: *tf_job_defaults
+      - japac-eks:
+          requires:
+            - global
+          context:
+             - empty-context #to explicitly generate OIDC token
+             - tf-deploy-machine-user-key
+          <<: *tf_job_defaults
+      - japac-platforms:
+          context:
+            - empty-context
+            - tf-deploy-machine-user-key
+            - CERA-INIT-EMEA
+          requires:
+            - japac-eks
+          <<: *tf_job_defaults
   
   eks_layer_namer:
     when: 
@@ -235,6 +241,11 @@ workflows:
        - not: << pipeline.parameters.global >>
        - not: <<pipeline.parameters.emea-eks>>
        - equal: [ true, <<pipeline.parameters.emea-platforms>> ]
+    context:
+      - empty-context
+      - tf-deploy-machine-user-key
+      - CERA-INIT-EMEA
+    <<: *tf_job_defaults
     jobs:
       - emea-platforms
   
