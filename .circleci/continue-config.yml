@@ -155,6 +155,7 @@ workflows:
           context:
             - CERA-INIT-EMEA
             - empty-context
+            - tf-deploy-machine-user-key
           requires:
             - global
           <<: *tf_job_defaults
@@ -166,6 +167,7 @@ workflows:
             - global
           context:
              - empty-context #to explicitly generate OIDC token
+             - tf-deploy-machine-user-key
           <<: *tf_job_defaults
       - japac-platforms:
           requires:
