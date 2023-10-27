@@ -1,7 +1,12 @@
 # Putting this here for visibility
 locals {
   circleci_region = "emea"
+  common_namespace_labels = {
+    istio-injection = "enabled"
+  }
 }
+
+
 
 module "vault_config" {
   source = "git@github.com:AwesomeCICD/ceratf-module-vault-config?ref=1.0.3"
@@ -20,14 +25,14 @@ module "nexus_config" {
 
 
 module "app_spaces" {
-  source           = "git@github.com:AwesomeCICD/ceratf-module-appspaces?ref=1.0.0"
+  source           = "git@github.com:AwesomeCICD/ceratf-module-appspaces?ref=tryit"
   cluster_endpoint = data.terraform_remote_state.ceratf_regional.outputs.cluster_endpoint
   cluster_name     = data.terraform_remote_state.ceratf_regional.outputs.cluster_name
 }
 
 
 module "argo_rollouts" {
-  source = "git@github.com:AwesomeCICD/ceratf-module-helm-argocd?ref=1.0.0"
+  source = "git@github.com:AwesomeCICD/ceratf-module-helm-argocd?ref=1.0.1"
 }
 
 
