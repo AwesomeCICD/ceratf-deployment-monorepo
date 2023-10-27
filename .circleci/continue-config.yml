@@ -273,15 +273,19 @@ workflows:
       and: 
         - not: << pipeline.parameters.global >>
         - equal: [ true, <<pipeline.parameters.japac-eks>> ]
-    context:
-      - empty-context #to explicitly generate OIDC token
-      - tf-deploy-machine-user-key
-    <<: *tf_job_defaults
     jobs:
-      - japac-eks
+      - japac-eks:
+          context:
+            - empty-context #to explicitly generate OIDC token
+            - tf-deploy-machine-user-key
+          <<: *tf_job_defaults
       - japac-platforms:
           requires:
             - japac-eks
+          context:
+            - empty-context #to explicitly generate OIDC token
+            - tf-deploy-machine-user-key
+          <<: *tf_job_defaults
 
   platform_layer_japac:
     when:
