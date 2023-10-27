@@ -254,25 +254,29 @@ workflows:
           requires:
             - emea-eks
 
-  platform_layer_emea:
-    when:
-      and: 
-       - not: << pipeline.parameters.global >>
-       - not: <<pipeline.parameters.emea-eks>>
-       - equal: [ true, <<pipeline.parameters.emea-platforms>> ]
-    context:
-      - empty-context
-      - tf-deploy-machine-user-key
-      - CERA-INIT-EMEA
-    <<: *tf_job_defaults
-    jobs:
-      - emea-platforms
+  # platform_layer_emea:
+  #   when:
+  #     and: 
+  #      - not: << pipeline.parameters.global >>
+  #      - not: <<pipeline.parameters.emea-eks>>
+  #      - equal: [ true, <<pipeline.parameters.emea-platforms>> ]
+  #   context:
+  #     - empty-context
+  #     - tf-deploy-machine-user-key
+  #     - CERA-INIT-EMEA
+  #   <<: *tf_job_defaults
+  #   jobs:
+  #     - emea-platforms
   
   eks_layer_japac:
     when: 
       and: 
         - not: << pipeline.parameters.global >>
         - equal: [ true, <<pipeline.parameters.japac-eks>> ]
+    context:
+      - empty-context #to explicitly generate OIDC token
+      - tf-deploy-machine-user-key
+    <<: *tf_job_defaults
     jobs:
       - japac-eks
       - japac-platforms:
@@ -286,5 +290,9 @@ workflows:
        - not: <<pipeline.parameters.japac-eks>>
        - not: << pipeline.parameters.destroy_all >>
        - equal: [ true, <<pipeline.parameters.japac-platforms>> ]
+    context:
+      - empty-context
+      - tf-deploy-machine-user-key
+    <<: *tf_job_defaults
     jobs:
       - japac-platforms
