@@ -78,7 +78,7 @@ jobs:
       - terraform/plan:
           path: ./global
       - persist_to_workspace:
-          root: workspace
+          root: ./
           paths:
             - echo-output
     
@@ -104,7 +104,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: /workspace
+          at: ./
       - terraform/fmt:
           path: ./emea-eks
       - terraform/validate:
@@ -112,7 +112,7 @@ jobs:
       - terraform/plan:
           path: ./emea-eks
       - persist_to_workspace:
-          root: workspace
+          root: ./
           paths:
             - echo-output
             
@@ -121,7 +121,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: /workspace
+          at: ./
       - terraform/fmt:
           path: ./emea-platforms
       - terraform/validate:
@@ -129,7 +129,7 @@ jobs:
       - terraform/plan:
           path: ./emea-platforms
       - persist_to_workspace:
-          root: workspace
+          root: ./
           paths:
             - echo-output
   
