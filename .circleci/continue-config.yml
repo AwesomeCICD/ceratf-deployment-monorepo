@@ -176,7 +176,6 @@ workflows:
           context:
             - empty-context
             - tf-deploy-machine-user-key
-            - CERA-INIT-EMEA
           requires:
             - global
           <<: *tf_job_defaults
@@ -184,7 +183,6 @@ workflows:
           context:
             - empty-context
             - tf-deploy-machine-user-key
-            - CERA-INIT-EMEA
           requires:
             - emea-eks
           <<: *tf_job_defaults
@@ -199,7 +197,6 @@ workflows:
           context:
             - empty-context
             - tf-deploy-machine-user-key
-            - CERA-INIT-EMEA
           requires:
             - japac-eks
           <<: *tf_job_defaults
