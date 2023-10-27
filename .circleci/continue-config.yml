@@ -71,6 +71,7 @@ jobs:
     executor: terraform/default
     steps:
       - checkout
+      - run: mkdir -p workspace
       - terraform/fmt:
           path: ./global
       - terraform/validate:
@@ -78,9 +79,7 @@ jobs:
       - terraform/plan:
           path: ./global
       - persist_to_workspace:
-          root: ./
-          paths:
-            - echo-output
+          root: workspace
     
   namer-eks:
     executor: terraform/default
@@ -104,7 +103,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: ./
+          at: /root/workspace
       - terraform/fmt:
           path: ./emea-eks
       - terraform/validate:
@@ -112,16 +111,14 @@ jobs:
       - terraform/plan:
           path: ./emea-eks
       - persist_to_workspace:
-          root: ./
-          paths:
-            - echo-output
+          root: /workspace
             
   emea-platforms:
     executor: terraform/default
     steps:
       - checkout
       - attach_workspace:
-          at: ./
+          at: /root/workspace
       - terraform/fmt:
           path: ./emea-platforms
       - terraform/validate:
@@ -129,9 +126,7 @@ jobs:
       - terraform/plan:
           path: ./emea-platforms
       - persist_to_workspace:
-          root: ./
-          paths:
-            - echo-output
+          root: /workspace
   
   japac-eks:
     executor: terraform/default
