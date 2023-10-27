@@ -99,10 +99,12 @@ jobs:
     executor: terraform/default
     steps:
       - checkout
-      - run: 
-          name: emea
-          command: |
-            echo "run emea"
+      - terraform/fmt:
+          path: ./emea-eks
+      - terraform/validate:
+          path: ./emea-eks
+      - terraform/plan:
+          path: ./emea-eks
             
   emea-platforms:
     executor: terraform/default
@@ -149,9 +151,13 @@ workflows:
       # - namer-platforms:
       #     requires:
       #       - namer-eks
-      # - emea-eks:
-      #     requires:
-      #       - global
+      - emea-eks:
+          context:
+            - CERA-INIT-EMEA
+            - empty-context
+          requires:
+            - global
+          <<: *tf_job_defaults
       # - emea-platforms:
       #     requires:
       #       - emea-eks
