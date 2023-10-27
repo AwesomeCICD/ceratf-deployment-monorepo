@@ -69,6 +69,7 @@ tf_job_defaults: &tf_job_defaults
 jobs:
   global:
     executor: terraform/default
+    working_directory: ./
     steps:
       - checkout
       - run: mkdir -p workspace
@@ -100,6 +101,7 @@ jobs:
   
   emea-eks:
     executor: terraform/default
+    working_directory: ./
     steps:
       - checkout
       - attach_workspace:
@@ -115,6 +117,7 @@ jobs:
             
   emea-platforms:
     executor: terraform/default
+    working_directory: ./
     steps:
       - checkout
       - attach_workspace:
