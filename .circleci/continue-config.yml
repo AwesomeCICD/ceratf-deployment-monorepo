@@ -37,10 +37,6 @@ parameters:
 
 tf_job_defaults: &tf_job_defaults
   #tag: "1.5.1"
-  resource_class: large
-  attach-workspace: true
-  context:
-    - CERA-INIT-EMEA
   pre-steps:
     - checkout
     - add_ssh_keys:
@@ -143,6 +139,9 @@ workflows:
     when: << pipeline.parameters.global >>
     jobs:
       - global:
+          context:
+             - empty-context #to explicitly generate OIDC token
+             - tf-deploy-machine-user-key
           <<: *tf_job_defaults
       # - namer-eks:
       #     requires:
@@ -159,6 +158,8 @@ workflows:
       - japac-eks:
           requires:
             - global
+          context:
+             - empty-context #to explicitly generate OIDC token
           <<: *tf_job_defaults
       - japac-platforms:
           requires:
