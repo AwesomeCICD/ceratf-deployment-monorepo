@@ -77,7 +77,9 @@ jobs:
           path: ./global
       - terraform/plan:
           path: ./global
-  
+      - persist_to_workspace:
+          root: workspace
+    
   namer-eks:
     executor: terraform/default
     steps:
@@ -98,6 +100,8 @@ jobs:
   emea-eks:
     executor: terraform/default
     steps:
+      - attach_workspace:
+          at: /workspace
       - checkout
       - terraform/fmt:
           path: ./emea-eks
@@ -105,10 +109,14 @@ jobs:
           path: ./emea-eks
       - terraform/plan:
           path: ./emea-eks
+      - persist_to_workspace:
+          root: workspace
             
   emea-platforms:
     executor: terraform/default
     steps:
+      - attach_workspace:
+          at: /workspace
       - checkout
       - terraform/fmt:
           path: ./emea-platforms
@@ -116,6 +124,8 @@ jobs:
           path: ./emea-platforms
       - terraform/plan:
           path: ./emea-platforms
+      - persist_to_workspace:
+          root: workspace
   
   japac-eks:
     executor: terraform/default
@@ -240,68 +250,3 @@ workflows:
        - equal: [ true, <<pipeline.parameters.japac-platforms>> ]
     jobs:
       - japac-platforms
-
-    # jobs:
-    #   - terraform/fmt:
-    #       name: terraform fmt
-    #       <<: *tf_job_defaults
-    #   - terraform/validate:
-    #       name: terraform validate
-    #       <<: *tf_job_defaults
-    #   - terraform/plan:
-    #       name: terraform plan
-    #       <<: *tf_job_defaults
-    #       requires: 
-    #         - terraform fmt
-    #         - terraform validate
-    #   - terraform/apply:
-    #       name: terraform apply
-    #       <<: *tf_job_defaults
-    #       requires: 
-    #         - terraform plan
-    #       filters:
-    #           branches:
-    #               only: 
-    #                 - main
-
-# jobs:
-#       - terraform/fmt:
-#           name: terraform fmt
-#           <<: *tf_job_defaults
-#       - terraform/validate:
-#           name: terraform validate
-#           <<: *tf_job_defaults
-#       - terraform/plan:
-#           name: terraform plan
-#           <<: *tf_job_defaults
-#           requires: 
-#             - terraform fmt
-#             - terraform validate
-#       - wait_for_approval:
-#           type: approval
-#           requires:
-#             - terraform plan
-#           filters:
-#               branches:
-#                   only: 
-#                     - main
-#       - terraform/apply:
-#           name: terraform apply
-#           <<: *tf_job_defaults 
-#           pre-steps:
-#             - *presteps
-#             - run: 
-#                 name: Setup Ansible
-#                 command: |
-#                   #ansible needs a small army of libraries
-#                   apk add --update --no-cache python3 gcc python3-dev musl-dev libffi-dev
-#                   python3 -m ensurepip
-#                   python3 -m pip install uptime-kuma-api
-#                   python3 -m pip install ansible
-#                   ansible-galaxy collection install lucasheld.uptime_kuma
-#           requires: 
-#             - wait_for_approval
-#           filters:
-#               branches:
-#                   only: 
-#                     - main
