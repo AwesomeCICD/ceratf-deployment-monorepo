@@ -109,10 +109,13 @@ jobs:
   emea-platforms:
     executor: terraform/default
     steps:
-        - run: 
-            name: emea platforms
-            command: |
-              echo "emea platforms"
+      - checkout
+      - terraform/fmt:
+          path: ./emea-platforms
+      - terraform/validate:
+          path: ./emea-platforms
+      - terraform/plan:
+          path: ./emea-platforms
   
   japac-eks:
     executor: terraform/default
