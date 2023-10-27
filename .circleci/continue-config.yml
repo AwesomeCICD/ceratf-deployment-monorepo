@@ -162,17 +162,17 @@ workflows:
       # - emea-platforms:
       #     requires:
       #       - emea-eks
-      - japac-eks:
-          requires:
-            - global
-          context:
-             - empty-context #to explicitly generate OIDC token
-             - tf-deploy-machine-user-key
-          <<: *tf_job_defaults
-      - japac-platforms:
-          requires:
-            - japac-eks
-          <<: *tf_job_defaults
+      # - japac-eks:
+      #     requires:
+      #       - global
+      #     context:
+      #        - empty-context #to explicitly generate OIDC token
+      #        - tf-deploy-machine-user-key
+      #     <<: *tf_job_defaults
+      # - japac-platforms:
+      #     requires:
+      #       - japac-eks
+      #     <<: *tf_job_defaults
   
   eks_layer_namer:
     when: 
