@@ -158,9 +158,13 @@ workflows:
           requires:
             - global
           <<: *tf_job_defaults
-      # - emea-platforms:
-      #     requires:
-      #       - emea-eks
+      - emea-platforms:
+          context:
+            - empty-context
+            - tf-deploy-machine-user-key
+          requires:
+            - emea-eks
+          <<: *tf_job_defaults
       # - japac-eks:
       #     requires:
       #       - global
