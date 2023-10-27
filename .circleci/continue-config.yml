@@ -78,6 +78,8 @@ jobs:
           path: ./global
       - terraform/plan:
           path: ./global
+      - terraform/apply:
+          path: ./global
       - persist_to_workspace:
           root: workspace
           paths: 
@@ -112,6 +114,8 @@ jobs:
           path: ./emea-eks
       - terraform/plan:
           path: ./emea-eks
+      - terraform/apply:
+          path: ./emea-eks
       - persist_to_workspace:
           root: /workspace
           paths:
@@ -130,6 +134,8 @@ jobs:
           path: ./emea-platforms
       - terraform/plan:
           path: ./emea-platforms
+      - terraform/apply:
+          path: ./emea-platforms
       - persist_to_workspace:
           root: /workspace
           paths:
@@ -139,23 +145,39 @@ jobs:
     executor: terraform/default
     steps:
       - checkout
+      - attach_workspace:
+          at: /workspace
       - terraform/fmt:
           path: ./japac-eks
       - terraform/validate:
           path: ./japac-eks
       - terraform/plan:
           path: ./japac-eks
+      - terraform/apply:
+          path: ./japac-eks
+      - persist_to_workspace:
+          root: /workspace
+          paths:
+            - ./
             
   japac-platforms:
     executor: terraform/default
     steps:
       - checkout
+      - attach_workspace:
+          at: /workspace
       - terraform/fmt:
           path: ./japac-platforms
       - terraform/validate:
           path: ./japac-platforms
       - terraform/plan:
           path: ./japac-platforms
+      - terraform/apply:
+          path: ./japac-platforms
+      - persist_to_workspace:
+          root: /workspace
+          paths:
+            - ./
 
 workflows:
   global-workflow:
