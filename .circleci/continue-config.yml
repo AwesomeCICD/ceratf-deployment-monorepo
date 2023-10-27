@@ -69,7 +69,6 @@ tf_job_defaults: &tf_job_defaults
 jobs:
   global:
     executor: terraform/default
-    working_directory: /tmp
     steps:
       - checkout
       - terraform/fmt:
@@ -102,11 +101,10 @@ jobs:
   
   emea-eks:
     executor: terraform/default
-    working_directory: /tmp
     steps:
       - checkout
       - attach_workspace:
-          at: /tmp/workspace
+          at: /workspace
       - terraform/fmt:
           path: ./emea-eks
       - terraform/validate:
@@ -120,11 +118,10 @@ jobs:
             
   emea-platforms:
     executor: terraform/default
-    working_directory: /tmp
     steps:
       - checkout
       - attach_workspace:
-          at: /tmp/workspace
+          at: /workspace
       - terraform/fmt:
           path: ./emea-platforms
       - terraform/validate:
