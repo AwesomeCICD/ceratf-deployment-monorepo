@@ -16,7 +16,7 @@ workflows:
   setup-workflow:
     jobs:
       - path-filtering/filter:
-          base-revision: SE311-JAPAC-Migration
+          base-revision: SE-238-Regional-Migration
           config-path: .circleci/continue-config.yml
           mapping: |
             global/.* global true
