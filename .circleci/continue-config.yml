@@ -30,10 +30,6 @@ parameters:
   japac-platforms: 
     type: boolean
     default: false
-  destroy_all:
-    type: boolean
-    default: false
-    description: run tf destroy as pipeline user.
 
 tf_job_defaults: &tf_job_defaults
   #tag: "1.5.1"
@@ -254,19 +250,18 @@ workflows:
           requires:
             - emea-eks
 
-  # platform_layer_emea:
-  #   when:
-  #     and: 
-  #      - not: << pipeline.parameters.global >>
-  #      - not: <<pipeline.parameters.emea-eks>>
-  #      - equal: [ true, <<pipeline.parameters.emea-platforms>> ]
-  #   context:
-  #     - empty-context
-  #     - tf-deploy-machine-user-key
-  #     - CERA-INIT-EMEA
-  #   <<: *tf_job_defaults
-  #   jobs:
-  #     - emea-platforms
+  platform_layer_emea:
+    when:
+      and: 
+       - not: << pipeline.parameters.global >>
+       - not: <<pipeline.parameters.emea-eks>>
+       - equal: [ true, <<pipeline.parameters.emea-platforms>> ]
+    context:
+      - empty-context
+      - tf-deploy-machine-user-key
+    <<: *tf_job_defaults
+    jobs:
+      - emea-platforms
   
   eks_layer_japac:
     when: 
@@ -292,7 +287,6 @@ workflows:
       and: 
        - not: << pipeline.parameters.global >>
        - not: <<pipeline.parameters.japac-eks>>
-       - not: << pipeline.parameters.destroy_all >>
        - equal: [ true, <<pipeline.parameters.japac-platforms>> ]
     context:
       - empty-context
