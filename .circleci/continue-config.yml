@@ -288,9 +288,9 @@ workflows:
        - not: << pipeline.parameters.global >>
        - not: <<pipeline.parameters.japac-eks>>
        - equal: [ true, <<pipeline.parameters.japac-platforms>> ]
-    context:
-      - empty-context
-      - tf-deploy-machine-user-key
-    <<: *tf_job_defaults
     jobs:
-      - japac-platforms
+      - japac-platforms:
+          context:
+            - empty-context
+            - tf-deploy-machine-user-key
+          <<: *tf_job_defaults
