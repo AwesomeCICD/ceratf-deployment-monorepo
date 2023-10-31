@@ -9,6 +9,7 @@ Platform Level services that depend on base region deployment and expose app tea
 
 
 ## App Namespaces & SAs
+ - added Dr. Demo
 
 
 ## Nexus Server, including Roles and Repos
