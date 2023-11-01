@@ -101,10 +101,21 @@ jobs:
   namer-platforms:
     executor: terraform/default
     steps:
-        - run: 
-            name: namer platforms
-            command: |
-              echo "namer platforms"
+      - checkout
+      - attach_workspace:
+          at: /workspace
+      - terraform/fmt:
+          path: ./namer-platforms
+      - terraform/validate:
+          path: ./namer-platforms
+      - terraform/plan:
+          path: ./namer-platforms
+      # - terraform/apply:
+      #     path: ./emea-platforms
+      - persist_to_workspace:
+          root: /workspace
+          paths:
+            - ./
   
   emea-eks:
     executor: terraform/default
