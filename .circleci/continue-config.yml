@@ -85,10 +85,18 @@ jobs:
     executor: terraform/default
     steps:
       - checkout
-      - run: 
-          name: namer
-          command: |
-            echo "run namer"
+      - attach_workspace:
+          at: /workspace
+      - terraform/fmt:
+          path: ./emea-eks
+      - terraform/validate:
+          path: ./emea-eks
+      - terraform/plan:
+          path: ./emea-eks
+      - persist_to_workspace:
+          root: /workspace
+          paths:
+            - ./
             
   namer-platforms:
     executor: terraform/default
@@ -225,10 +233,18 @@ workflows:
         - not: << pipeline.parameters.global >>
         - equal: [ true, <<pipeline.parameters.namer-eks>> ]
     jobs:
-      - namer-eks
+      - namer-eks:
+          context:
+            - empty-context
+            - tf-deploy-machine-user-key
+          <<: *tf_job_defaults
       - namer-platforms:
+          context:
+            - empty-context
+            - tf-deploy-machine-user-key
           requires:
             - namer-eks
+          <<: *tf_job_defaults
 
   platform_layer_namer:
     when:
