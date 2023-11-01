@@ -88,11 +88,11 @@ jobs:
       - attach_workspace:
           at: /workspace
       - terraform/fmt:
-          path: ./emea-eks
+          path: ./namer-eks
       - terraform/validate:
-          path: ./emea-eks
+          path: ./namer-eks
       - terraform/plan:
-          path: ./emea-eks
+          path: ./namer-eks
       - persist_to_workspace:
           root: /workspace
           paths:
