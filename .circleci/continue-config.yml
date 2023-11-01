@@ -264,7 +264,11 @@ workflows:
        - not: <<pipeline.parameters.namer-eks>>
        - equal: [ true, <<pipeline.parameters.namer-platforms>> ]
     jobs:
-      - namer-platforms
+      - namer-platforms:
+          context:
+            - empty-context
+            - tf-deploy-machine-user-key
+          <<: *tf_job_defaults
   
   eks_layer_emea:
     when: 
