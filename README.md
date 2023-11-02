@@ -7,8 +7,6 @@
 
 # A new monorepo for CERA Terraform deployment
 
-![Screenshot](./.img/tree.png)
-
 
 ## Index
 - [What is CERA?](#What-is-CERA?)
@@ -59,7 +57,7 @@ CERA has a lot of moving parts and will require collaboration to be complex. In 
 JIRA will act as a wall of work where individuals can look and be assigned tasks. By utilizing JIRA the Solutions Engineering team can effectively collaborate on multiple tasks across different time zones.
 
 **How we work**
-#### TOO
+#### TODO
 
 
 ## Diagrams
@@ -69,7 +67,33 @@ JIRA will act as a wall of work where individuals can look and be assigned tasks
 [Here](https://circleci.atlassian.net/wiki/spaces/CE/pages/6582469344/CERA+Customer+Engineering+Cluster+Details) is the link containing information on accessing the CERA EKS Cluster. (CCI Employees only)
 
 
-## Development Workflows
+## Workflows & Layers
+![Screenshot](./.img/tree.png)
+### Global
+Our global module represents common resources needed by all clusters. If this path is triggerd, an apply will propigate through all layers of our infrastructure (Global -> EKS -> Platform)
+
+Services deployed at the global layers include: 
+- Route 53
+- IAM
+- Kuma
+
+### (namer/emea/japac-eks)
+Our EKS layer and modules will handle the deployment of our EKS clusters in each of the regions above. If this path is triggerd, an apply will trigger the following jobs (EKS -> Platform)
+
+Services deployed at the EKS layer include: 
+- EKS cluster to eu-west-2, us-west-2 or ap-northeast-1, depending on what region is triggered
+- Istio service mesh
+- Vault
+
+### (namer/emea/japac-platforms)
+Our platform layer and modules will handle the deployment of the required services to our clusters in each of the regions above. If this path is triggerd, an apply will trigger the following jobs at the Platform level only
+
+Services & configuration deployed at the platform layer include: 
+- Vault config
+- Nexus
+- Nexus Config
+- Argo Rollouts
+- CircleCI Release Agent
 
 ### TOO
 
