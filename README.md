@@ -4,9 +4,7 @@
 
 <h2 align="center" >C.E.R.A</h1>
 <h1 align="center" >CircleCI Enterprise Reference Architecture</h1>
-
-# A new monorepo for CERA Terraform deployment
-
+<h1 align="center" >A new monorepo for CERA Terraform deployment</h1>
 
 ## Index
 - [What is CERA?](#What-is-CERA?)
