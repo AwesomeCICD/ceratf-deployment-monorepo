@@ -58,7 +58,9 @@ At the end of the day CircleCI needs an environment that Solutions Engineering c
 CERA has a lot of moving parts and will require collaboration to be complex. In order to stay organized this project will be utilizing [JIRA](https://circleci.atlassian.net/jira/software/projects/SE/boards/392).
 JIRA will act as a wall of work where individuals can look and be assigned tasks. By utilizing JIRA the Solutions Engineering team can effectively collaborate on multiple tasks across different time zones.
 
-[comment]: <> (**How we work**, including cermonies and motions is documented [on the company wiki](https://circleci.atlassian.net/wiki/spaces/CE/pages/6576177159/Tracking+Dev+Work+in+Solutions). Please make sure you understand the guidance there before contributing.)
+**How we work**
+#### TOO
+
 
 ## Diagrams
 [Here](https://drive.google.com/file/d/1hYCSr-1dme95koshN_0nmEKLA9JI3yEs/view?usp=sharing) is the link to the diagrams!
@@ -67,23 +69,9 @@ JIRA will act as a wall of work where individuals can look and be assigned tasks
 [Here](https://circleci.atlassian.net/wiki/spaces/CE/pages/6582469344/CERA+Customer+Engineering+Cluster+Details) is the link containing information on accessing the CERA EKS Cluster. (CCI Employees only)
 
 
-[comment]: <> (##Development Workflows
+## Development Workflows
 
-### If making changes to the main CERA cluster, the workflow is as follows:
-
-- Create a feature branch and make your changes.
-- Once those changes are pushed, the CircleCI pipeline will begin to run through the test-and-deploy-terraform workflow.
-- The test-and-deploy-terraform workflow includes the entire cluster lifecyle, with jobs to provision the cluster, 
-   create the cluster service accounts, and a hold job that on approval will destroy the cluster. (Do not approve the hold job until later steps)
-- The workflow automatically creates a new cluster with the branch name appended to the default cluster naming convention (cera-solutions-eng),
-   and will also provision boa-service accounts for your cluster as well as terraform statefiles and a dynamoDB lock entry.
-- Once the changes have been made on your branch, and you are ready to merge into main, seek approvals.
-- Once the changes are reviewed and approved, proceed to approve the hold job in CircleCI, and wait for the cluster to be destroyed.
-- Once the cluster tears down successfully, you will have passing checks in GitHub and you will be able to merge your branch into main.
-
-### To initiate the teardown of a cluster that is not the main CERA cluster
-
-- Trigger the pipeline via the CircleCI UI passing a parameter with *statefile_to_destroy* as the key, and the statefile name as the value. (The statefile name will be the name of the branch that created the cluster.))
+### TOO
 
 
 ## Use Cases
