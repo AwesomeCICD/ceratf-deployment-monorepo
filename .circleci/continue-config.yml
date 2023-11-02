@@ -93,6 +93,8 @@ jobs:
           path: ./namer-eks
       - terraform/plan:
           path: ./namer-eks
+      - terraform/apply:
+          path: ./namer-eks
       - persist_to_workspace:
           root: /workspace
           paths:
@@ -110,8 +112,8 @@ jobs:
           path: ./namer-platforms
       - terraform/plan:
           path: ./namer-platforms
-      # - terraform/apply:
-      #     path: ./emea-platforms
+      - terraform/apply:
+          path: ./emea-platforms
       - persist_to_workspace:
           root: /workspace
           paths:
