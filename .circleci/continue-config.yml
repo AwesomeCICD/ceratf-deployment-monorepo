@@ -205,12 +205,20 @@ workflows:
              - empty-context #to explicitly generate OIDC token
              - tf-deploy-machine-user-key
           <<: *tf_job_defaults
-      # - namer-eks:
-      #     requires:
-      #       - global
-      # - namer-platforms:
-      #     requires:
-      #       - namer-eks
+      - namer-eks:
+          context:
+            - empty-context
+            - tf-deploy-machine-user-key
+          requires:
+            - global
+          <<: *tf_job_defaults
+      - namer-platforms:
+          context:
+            - empty-context
+            - tf-deploy-machine-user-key
+          requires:
+            - namer-eks
+          <<: *tf_job_defaults
       - emea-eks:
           context:
             - empty-context
