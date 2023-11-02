@@ -286,10 +286,18 @@ workflows:
         - not: << pipeline.parameters.global >>
         - equal: [ true, <<pipeline.parameters.emea-eks>> ]
     jobs:
-      - emea-eks
+      - emea-eks:
+          context:
+            - empty-context
+            - tf-deploy-machine-user-key
+          <<: *tf_job_defaults
       - emea-platforms:
+          context:
+            - empty-context
+            - tf-deploy-machine-user-key
           requires:
             - emea-eks
+          <<: *tf_job_defaults
 
   platform_layer_emea:
     when:
@@ -297,12 +305,12 @@ workflows:
        - not: << pipeline.parameters.global >>
        - not: <<pipeline.parameters.emea-eks>>
        - equal: [ true, <<pipeline.parameters.emea-platforms>> ]
-    context:
-      - empty-context
-      - tf-deploy-machine-user-key
-    <<: *tf_job_defaults
     jobs:
-      - emea-platforms
+      - emea-platforms:
+          context:
+            - empty-context
+            - tf-deploy-machine-user-key
+          <<: *tf_job_defaults
   
   eks_layer_japac:
     when: 
