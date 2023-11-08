@@ -223,14 +223,8 @@ workflows:
         - equal: [ true, <<pipeline.parameters.namer-eks>> ]
     jobs:
       - namer-eks:
-          context:
-            - empty-context
-            - tf-deploy-machine-user-key
           <<: *tf_job_defaults
       - namer-platforms:
-          context:
-            - empty-context
-            - tf-deploy-machine-user-key
           requires:
             - namer-eks
           <<: *tf_job_defaults
@@ -243,9 +237,6 @@ workflows:
        - equal: [ true, <<pipeline.parameters.namer-platforms>> ]
     jobs:
       - namer-platforms:
-          context:
-            - empty-context
-            - tf-deploy-machine-user-key
           <<: *tf_job_defaults
   
   eks_layer_emea:
@@ -255,14 +246,8 @@ workflows:
         - equal: [ true, <<pipeline.parameters.emea-eks>> ]
     jobs:
       - emea-eks:
-          context:
-            - empty-context
-            - tf-deploy-machine-user-key
           <<: *tf_job_defaults
       - emea-platforms:
-          context:
-            - empty-context
-            - tf-deploy-machine-user-key
           requires:
             - emea-eks
           <<: *tf_job_defaults
@@ -275,9 +260,6 @@ workflows:
        - equal: [ true, <<pipeline.parameters.emea-platforms>> ]
     jobs:
       - emea-platforms:
-          context:
-            - empty-context
-            - tf-deploy-machine-user-key
           <<: *tf_job_defaults
   
   eks_layer_japac:
@@ -287,16 +269,10 @@ workflows:
         - equal: [ true, <<pipeline.parameters.japac-eks>> ]
     jobs:
       - japac-eks:
-          context:
-            - empty-context #to explicitly generate OIDC token
-            - tf-deploy-machine-user-key
           <<: *tf_job_defaults
       - japac-platforms:
           requires:
             - japac-eks
-          context:
-            - empty-context #to explicitly generate OIDC token
-            - tf-deploy-machine-user-key
           <<: *tf_job_defaults
 
   platform_layer_japac:
@@ -307,7 +283,4 @@ workflows:
        - equal: [ true, <<pipeline.parameters.japac-platforms>> ]
     jobs:
       - japac-platforms:
-          context:
-            - empty-context
-            - tf-deploy-machine-user-key
           <<: *tf_job_defaults
