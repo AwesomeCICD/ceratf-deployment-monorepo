@@ -5,6 +5,7 @@ setup: << pipeline.parameters.run-setup-workflow >>
 orbs:
   continuation: circleci/continuation@1.0.0
   path-filtering: circleci/path-filtering@0.1.7
+  terraform: circleci/terraform@3.2.1
 
 parameters:
   run-setup-workflow:
@@ -15,7 +16,7 @@ workflows:
   setup-workflow:
     jobs:
       - path-filtering/filter:
-          base-revision: SE309-setup-POC
+          base-revision: main
           config-path: .circleci/continue-config.yml
           mapping: |
             global/.* global true
