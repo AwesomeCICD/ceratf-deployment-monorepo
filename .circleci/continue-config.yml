@@ -198,6 +198,8 @@ workflows:
           requires:
             - namer-eks
           <<: *tf_job_defaults
+          context:
+            - CERA-INIT-NAMER
       - emea-eks:
           requires:
             - global
@@ -206,6 +208,8 @@ workflows:
           requires:
             - emea-eks
           <<: *tf_job_defaults
+          context:
+            - CERA-INIT-EMEA
       - japac-eks:
           requires:
             - global
@@ -214,6 +218,8 @@ workflows:
           requires:
             - japac-eks
           <<: *tf_job_defaults
+          context:
+            - CERA-INIT-JAPAC
   
   eks_layer_namer:
     when: 
@@ -237,6 +243,8 @@ workflows:
     jobs:
       - namer-platforms:
           <<: *tf_job_defaults
+          context:
+            - CERA-INIT-NAMER
   
   eks_layer_emea:
     when: 
@@ -260,6 +268,8 @@ workflows:
     jobs:
       - emea-platforms:
           <<: *tf_job_defaults
+          context:
+            - CERA-INIT-EMEA
   
   eks_layer_japac:
     when: 
@@ -283,3 +293,5 @@ workflows:
     jobs:
       - japac-platforms:
           <<: *tf_job_defaults
+          context:
+            - CERA-INIT-JAPAC
