@@ -12,7 +12,6 @@ resource "aws_route53_zone" "circleci_labs" {
 }
 
 
-
 #-------------------------------------------------------------------------------
 # AWS IAM RESOURCES
 # Creates an OIDC provider and an accompanying IAM role and policy

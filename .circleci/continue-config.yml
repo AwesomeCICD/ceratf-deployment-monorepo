@@ -34,7 +34,6 @@ parameters:
 tf_job_defaults: &tf_job_defaults
   context:
     - empty-context #to explicitly generate OIDC token
-    - tf-deploy-machine-user-key
   #tag: "1.5.1"
   pre-steps:
     - checkout
