@@ -18,6 +18,7 @@ terraform {
   }
 }
 
+
 # The k8s and helm configs are duplicated which is not ideal
 # Not sure whether there's a way for helm to inherit from the k8s provider so we don't have to get two separate tokens
 provider "kubernetes" {
