@@ -36,7 +36,7 @@ module "release_agent" {
 
   release_agent_token = var.rt_token
 
-  chart_version = "0.0.4"
+  chart_version = "0.0.5"
 
   depends_on = [module.argo_rollouts]
 }
