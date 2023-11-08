@@ -32,6 +32,9 @@ parameters:
     default: false
 
 tf_job_defaults: &tf_job_defaults
+  context:
+    - empty-context #to explicitly generate OIDC token
+    - tf-deploy-machine-user-key
   #tag: "1.5.1"
   pre-steps:
     - checkout
@@ -41,7 +44,7 @@ tf_job_defaults: &tf_job_defaults
     - aws-cli/install
     - aws-cli/assume-role-with-web-identity:
         role-arn: "arn:aws:iam::483285841698:role/SolutionsEngineeringEKS"
-        role-session-name: "cci-ceratf-deployment-emea-<< pipeline.number >>"
+        role-session-name: "cci-ceratf-deployment-<< pipeline.number >>"
     # We're doing this because BASH_ENV doesn't work with sh, and sh is the shell on the Terraform docker images
     # TODO: Come up with a better solution
     - run:
@@ -72,8 +75,6 @@ jobs:
           path: ./global
       - terraform/validate:
           path: ./global
-      - terraform/plan:
-          path: ./global
       - terraform/apply:
           path: ./global
       - persist_to_workspace:
@@ -90,8 +91,6 @@ jobs:
       - terraform/fmt:
           path: ./namer-eks
       - terraform/validate:
-          path: ./namer-eks
-      - terraform/plan:
           path: ./namer-eks
       - terraform/apply:
           path: ./namer-eks
@@ -110,8 +109,6 @@ jobs:
           path: ./namer-platforms
       - terraform/validate:
           path: ./namer-platforms
-      - terraform/plan:
-          path: ./namer-platforms
       - terraform/apply:
           path: ./namer-platforms
       - persist_to_workspace:
@@ -128,8 +125,6 @@ jobs:
       - terraform/fmt:
           path: ./emea-eks
       - terraform/validate:
-          path: ./emea-eks
-      - terraform/plan:
           path: ./emea-eks
       - terraform/apply:
           path: ./emea-eks
@@ -149,8 +144,6 @@ jobs:
           path: ./emea-platforms
       - terraform/validate:
           path: ./emea-platforms
-      - terraform/plan:
-          path: ./emea-platforms
       - terraform/apply:
           path: ./emea-platforms
       - persist_to_workspace:
@@ -167,8 +160,6 @@ jobs:
       - terraform/fmt:
           path: ./japac-eks
       - terraform/validate:
-          path: ./japac-eks
-      - terraform/plan:
           path: ./japac-eks
       - terraform/apply:
           path: ./japac-eks
@@ -187,8 +178,6 @@ jobs:
           path: ./japac-platforms
       - terraform/validate:
           path: ./japac-platforms
-      - terraform/plan:
-          path: ./japac-platforms
       - terraform/apply:
           path: ./japac-platforms
       - persist_to_workspace:
@@ -201,49 +190,28 @@ workflows:
     when: << pipeline.parameters.global >>
     jobs:
       - global:
-          context:
-             - empty-context #to explicitly generate OIDC token
-             - tf-deploy-machine-user-key
           <<: *tf_job_defaults
       - namer-eks:
-          context:
-            - empty-context
-            - tf-deploy-machine-user-key
           requires:
             - global
           <<: *tf_job_defaults
       - namer-platforms:
-          context:
-            - empty-context
-            - tf-deploy-machine-user-key
           requires:
             - namer-eks
           <<: *tf_job_defaults
       - emea-eks:
-          context:
-            - empty-context
-            - tf-deploy-machine-user-key
           requires:
             - global
           <<: *tf_job_defaults
       - emea-platforms:
-          context:
-            - empty-context
-            - tf-deploy-machine-user-key
           requires:
             - emea-eks
           <<: *tf_job_defaults
       - japac-eks:
           requires:
             - global
-          context:
-             - empty-context #to explicitly generate OIDC token
-             - tf-deploy-machine-user-key
           <<: *tf_job_defaults
       - japac-platforms:
-          context:
-            - empty-context
-            - tf-deploy-machine-user-key
           requires:
             - japac-eks
           <<: *tf_job_defaults
