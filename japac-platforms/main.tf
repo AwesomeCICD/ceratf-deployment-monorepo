@@ -28,11 +28,11 @@ module "app_spaces" {
 }
 
 module "argo_rollouts" {
-  source = "git@github.com:AwesomeCICD/ceratf-module-helm-argocd?ref=1.0.1"
+  source = "git@github.com:AwesomeCICD/ceratf-module-helm-argorollouts?ref=1.0.1"
 }
 
 module "release_agent" {
-  source = "git@github.com:AwesomeCICD/ceratf-module-helm-cci-release-agent?ref=0.0.4"
+  source = "git@github.com:AwesomeCICD/ceratf-module-helm-cci-release-agent?ref=0.0.6"
 
   release_agent_token = var.rt_token
 
