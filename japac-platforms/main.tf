@@ -22,7 +22,7 @@ module "nexus_config" {
 }
 
 module "app_spaces" {
-  source           = "git@github.com:AwesomeCICD/ceratf-module-appspaces?ref=1.2.0"
+  source           = "git@github.com:AwesomeCICD/ceratf-module-appspaces?ref=1.3.0"
   cluster_endpoint = data.terraform_remote_state.ceratf_regional.outputs.cluster_endpoint
   cluster_name     = data.terraform_remote_state.ceratf_regional.outputs.cluster_name
 }
