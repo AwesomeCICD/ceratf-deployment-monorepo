@@ -8,7 +8,7 @@ locals {
 
 
 module "vault_config" {
-  source = "git@github.com:AwesomeCICD/ceratf-module-vault-config?ref=1.5.0"
+  source = "git@github.com:AwesomeCICD/ceratf-module-vault-config?ref=1.5.1"
 }
 
 module "nexus" {
