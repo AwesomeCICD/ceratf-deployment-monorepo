@@ -13,13 +13,13 @@ module "vault_config" {
 }
 
 module "nexus" {
-  source               = "git@github.com:AwesomeCICD/ceratf-module-helm-nexus?ref=3.0.2"
+  source               = "git@github.com:AwesomeCICD/ceratf-module-helm-nexus?ref=4.0.1"
   nexus_admin_password = var.nexus_admin_password
   circleci_region      = local.circleci_region
 }
 
 module "nexus_config" {
-  source     = "git@github.com:AwesomeCICD/ceratf-module-nexus-config?ref=0.0.1"
+  source     = "git@github.com:AwesomeCICD/ceratf-module-nexus-config?ref=0.1.8"
   depends_on = [module.nexus]
 }
 

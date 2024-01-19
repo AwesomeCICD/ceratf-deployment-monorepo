@@ -11,7 +11,7 @@ terraform {
     }
 
     nexus = {
-      source  = "datadrivers/nexus"
+      source = "datadrivers/nexus"
     }
   }
 
