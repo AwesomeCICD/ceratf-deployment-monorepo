@@ -10,7 +10,7 @@ terraform {
       version = "2.9.0"
     }
     nexus = {
-      source  = "datadrivers/nexus"
+      source = "datadrivers/nexus"
     }
   }
 }
