@@ -43,7 +43,7 @@ module "release_agent" {
 
   chart_version = "0.0.6"
 
-  managed_namespaces = ["default", "guidebook", "guidebook-dev", "boa", "boa-dev", "circleci-release-agent-system", "dr-demo"]
+  managed_namespaces = ["default", "guidebook", "guidebook-dev", "boa", "boa-dev", "circleci-release-agent-system", "dr-demo", "eddies-demo"]
 
   depends_on = [module.argo_rollouts]
 }
