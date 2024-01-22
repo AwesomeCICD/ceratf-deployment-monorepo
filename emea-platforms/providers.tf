@@ -61,6 +61,5 @@ provider "nexus" {
 
 provider "vault" {
   address = "https://vault.${data.terraform_remote_state.ceratf_regional.outputs.target_domain}"
-
-  token = data.kubernetes_secret.vault_token.data.token
+  token   = data.kubernetes_secret.vault_token.data.token
 }

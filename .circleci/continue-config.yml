@@ -63,6 +63,14 @@ tf_job_defaults: &tf_job_defaults
             curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
             chmod a+x kubectl
             mv kubectl /usr/local/bin
+    - run:
+        name: Install Modern TF
+        command: |
+            cd ~
+            curl -LO "https://releases.hashicorp.com/terraform/1.7.0/terraform_1.7.0_linux_amd64.zip"
+            unzip terraform_1.7.0*
+            chmod a+x terraform
+            mv terraform /usr/local/bin
 
 jobs:
   global:

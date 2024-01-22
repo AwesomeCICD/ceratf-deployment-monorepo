@@ -9,11 +9,8 @@ terraform {
       source  = "hashicorp/helm"
       version = "2.9.0"
     }
-
     nexus = {
-      source  = "datadrivers/nexus"
-      version = "1.21.2"
+      source = "datadrivers/nexus"
     }
   }
-
 }
