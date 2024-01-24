@@ -31,7 +31,7 @@ module "app_spaces" {
 
 
 module "argo_rollouts" {
-  source = "git@github.com:AwesomeCICD/ceratf-module-helm-argorollouts?ref=1.1.0"
+  source = "git@github.com:AwesomeCICD/ceratf-module-helm-argorollouts?ref=1.1.1"
 }
 
 
