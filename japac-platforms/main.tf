@@ -36,7 +36,7 @@ module "release_agent" {
 
   release_agent_token = var.rt_token
 
-  chart_version = "0.0.6"
+  chart_version = "0.0.7"
 
   managed_namespaces = ["default", "guidebook", "guidebook-dev", "boa", "boa-dev", "circleci-release-agent-system", "dr-demo", "eddies-demo"]
 
