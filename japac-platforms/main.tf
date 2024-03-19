@@ -32,11 +32,9 @@ module "argo_rollouts" {
 }
 
 module "release_agent" {
-  source = "git@github.com:AwesomeCICD/ceratf-module-helm-cci-release-agent?ref=0.0.6"
+  source = "git@github.com:AwesomeCICD/ceratf-module-helm-cci-release-agent?ref=1.0.0"
 
   release_agent_token = var.rt_token
-
-  chart_version = "0.0.7"
 
   managed_namespaces = ["default", "guidebook", "guidebook-dev", "boa", "boa-dev", "circleci-release-agent-system", "dr-demo", "eddies-demo"]
 
