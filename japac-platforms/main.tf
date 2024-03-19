@@ -32,7 +32,7 @@ module "argo_rollouts" {
 }
 
 module "release_agent" {
-  source = "git@github.com:AwesomeCICD/ceratf-module-helm-cci-release-agent?ref=1.0.0"
+  source = "git@github.com:AwesomeCICD/ceratf-module-helm-cci-release-agent?ref=1.0.1"
 
   release_agent_token = var.rt_token
 
