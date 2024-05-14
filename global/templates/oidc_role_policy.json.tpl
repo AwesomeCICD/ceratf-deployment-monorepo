@@ -150,6 +150,7 @@
                 "iam:TagPolicy",
                 "iam:TagRole",
                 "iam:UpdateAssumeRolePolicy",
+                "iam:UpdateOpenIDConnectProviderThumbprint",
                 "kms:*",
                 "logs:CreateLogGroup",
                 "logs:DeleteLogGroup",
