@@ -68,7 +68,7 @@ resource "aws_iam_role_policy_attachment" "se_eks" {
 
 
 module "uptime_kuma" {
-  source = "git@github.com:AwesomeCICD/ceratf-module-uptime-kuma?ref=1.0.2"
+  source = "git@github.com:AwesomeCICD/ceratf-module-uptime-kuma?ref=1.1.0"
 
   subdomain = "status"
   #target admin password from 1password, set as envvar
