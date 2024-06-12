@@ -100,6 +100,7 @@
                 "ec2:DisassociateRouteTable",
                 "ec2:ModifySubnetAttribute",
                 "ec2:ModifyVpcAttribute",
+                "ec2:ModifyLaunchTemplate",
                 "ec2:ReleaseAddress",
                 "ec2:ReplaceRoute",
                 "ec2:RevokeSecurityGroupEgress",
