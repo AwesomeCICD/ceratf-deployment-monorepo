@@ -18,7 +18,7 @@ variable "fe_email_usernames" {
 
 variable "common_tags" {
   description = "Tags to be applied to all resources."
-  type = map(string)
+  type        = map(string)
   default = {
     "cost_center"    = "mixed"
     "owner"          = "field@circleci.com"
