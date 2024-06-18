@@ -30,7 +30,7 @@ variable "common_tags" {
   }
 }
 
-variable "kuma_admin_password" {
-  sensitive   = true
-  description = "Set TF_VAR_kuma_admin_password in root module execution."
-}
+# variable "kuma_admin_password" {
+#   sensitive   = true
+#   description = "Set TF_VAR_kuma_admin_password in root module execution."
+# }
