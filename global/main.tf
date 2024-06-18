@@ -4,7 +4,7 @@
 #-------------------------------------------------------------------------------
 
 resource "aws_route53_zone" "circleci_labs" {
-  name    = "circleci-labs.com"
+  name    = "circleci-fieldeng.com"
   comment = "Please contact solutions@cirlceci.com with questions"
   tags = {
     "Owner" = "eddie@circleci.com"
@@ -29,9 +29,9 @@ resource "aws_iam_openid_connect_provider" "awesomeci" {
 }
 
 
-resource "aws_iam_role" "se_eks" {
-  name        = "SolutionsEngineeringEKS"
-  description = "Role to provision and manage EKS clusters for the SE team"
+resource "aws_iam_role" "fe_eks" {
+  name        = "FieldEngineeringEKS"
+  description = "Role to provision and manage EKS clusters for the FE team"
 
   assume_role_policy = templatefile(
     "${path.module}/templates/oidc_assume_role.json.tpl",
@@ -45,10 +45,10 @@ resource "aws_iam_role" "se_eks" {
   tags = var.common_tags
 }
 
-resource "aws_iam_policy" "se_eks" {
-  name = "SolutionsEngineering-ManagedEKS"
+resource "aws_iam_policy" "fe_eks" {
+  name = "FieldEngineering-ManagedEKS"
 
-  description = "Policy for the Solutions Engineering team to provision and manage EKS clusters"
+  description = "Policy for the Field Engineering team to provision and manage EKS clusters"
 
   policy = templatefile(
     "${path.module}/templates/oidc_role_policy.json.tpl",
@@ -61,17 +61,17 @@ resource "aws_iam_policy" "se_eks" {
   tags = var.common_tags
 }
 
-resource "aws_iam_role_policy_attachment" "se_eks" {
-  role       = aws_iam_role.se_eks.name
-  policy_arn = aws_iam_policy.se_eks.arn
+resource "aws_iam_role_policy_attachment" "fe_eks" {
+  role       = aws_iam_role.fe_eks.name
+  policy_arn = aws_iam_policy.fe_eks.arn
 }
 
 
-module "uptime_kuma" {
-  source = "git@github.com:AwesomeCICD/ceratf-module-uptime-kuma?ref=1.1.0"
+# module "uptime_kuma" {
+#   source = "git@github.com:AwesomeCICD/ceratf-module-uptime-kuma?ref=1.1.0"
 
-  subdomain = "status"
-  #target admin password from 1password, set as envvar
-  kuma_admin_password = var.kuma_admin_password
+#   subdomain = "status"
+#   #target admin password from 1password, set as envvar
+#   kuma_admin_password = var.kuma_admin_password
 
-}
+# }

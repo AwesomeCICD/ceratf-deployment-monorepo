@@ -6,7 +6,7 @@ locals {
   }
 }
 
-module "se_eks_cluster" {
+module "fe_eks_cluster" {
   source = "git@github.com:AwesomeCICD/ceratf-module-eks.git?ref=0.0.3"
 
   cluster_version                 = "1.27"
@@ -35,13 +35,13 @@ module "helm_istio" {
   aws_region                = data.aws_region.current.name
   aws_account_no            = data.aws_caller_identity.current.account_id
   namespace_labels          = local.common_namespace_labels
-  cluster_security_group_id = module.se_eks_cluster.cluster_security_group_id
-  node_security_group_id    = module.se_eks_cluster.node_security_group_id
+  cluster_security_group_id = module.fe_eks_cluster.cluster_security_group_id
+  node_security_group_id    = module.fe_eks_cluster.node_security_group_id
   circleci_region           = local.circleci_region
   target_domain             = module.regional_dns.r53_subdomain_zone_name
   r53_subdomain_zone_id     = module.regional_dns.r53_subdomain_zone_id
-  cluster_oidc_provider_arn = module.se_eks_cluster.oidc_provider_arn
-  depends_on                = [module.se_eks_cluster]
+  cluster_oidc_provider_arn = module.fe_eks_cluster.oidc_provider_arn
+  depends_on                = [module.fe_eks_cluster]
   #global_oidc_provider_arn  = data.terraform_remote_state.ceratf_deployment_global.outputs.oidc_provider_arn
 }
 
@@ -51,8 +51,8 @@ module "vault" {
 
   circleci_region           = local.circleci_region
   namespace                 = "vault"
-  cluster_name              = module.se_eks_cluster.cluster_name
-  cluster_oidc_provider_arn = module.se_eks_cluster.oidc_provider_arn
+  cluster_name              = module.fe_eks_cluster.cluster_name
+  cluster_oidc_provider_arn = module.fe_eks_cluster.oidc_provider_arn
 
-  depends_on = [module.se_eks_cluster, module.helm_istio, module.regional_dns]
+  depends_on = [module.fe_eks_cluster, module.helm_istio, module.regional_dns]
 }

@@ -4,7 +4,7 @@ provider "aws" {
     tags = {
       critical-resource = "critical-until-2024-02-01"
       owner             = "solutions@circleci.com"
-      purpose           = "CERA is a customer facing demo architecture used by Solutions Engineering team."
+      purpose           = "CERA is a customer facing demo architecture used by Field Engineering team."
     }
   }
 }

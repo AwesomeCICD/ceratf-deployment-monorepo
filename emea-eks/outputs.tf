@@ -1,5 +1,5 @@
 output "kubeconfig_update_command" {
-  value = module.se_eks_cluster.kubeconfig_update_command
+  value = module.fe_eks_cluster.kubeconfig_update_command
 }
 
 output "circleci_region" {
@@ -7,16 +7,16 @@ output "circleci_region" {
 }
 
 output "cluster_name" {
-  value = module.se_eks_cluster.cluster_name
+  value = module.fe_eks_cluster.cluster_name
 }
 
 output "cluster_endpoint" {
-  value     = module.se_eks_cluster.cluster_endpoint
+  value     = module.fe_eks_cluster.cluster_endpoint
   sensitive = true
 }
 
 output "cluster_ca_certificate" {
-  value     = module.se_eks_cluster.cluster_ca_certificate
+  value     = module.fe_eks_cluster.cluster_ca_certificate
   sensitive = true
 }
 
@@ -25,7 +25,7 @@ output "target_domain" {
 }
 
 output "cluster_oidc_provider_arn" {
-  value = module.se_eks_cluster.oidc_provider_arn
+  value = module.fe_eks_cluster.oidc_provider_arn
 }
 output "vault_namespace" {
   value = module.vault.namespace
@@ -34,15 +34,15 @@ output "vault_namespace" {
 /*
 #For Kubernetes custom resources
 output "cluster_endpoint" {
-  value = module.se_eks_cluster.cluster_endpoint
+  value = module.fe_eks_cluster.cluster_endpoint
 }
 
 output "cluster_name" {
-  value = module.se_eks_cluster.cluster_name
+  value = module.fe_eks_cluster.cluster_name
 }
 
 output "cluster_ca_certificate" {
-  value = module.se_eks_cluster.cluster_ca_certificate
+  value = module.fe_eks_cluster.cluster_ca_certificate
 }
 
 
