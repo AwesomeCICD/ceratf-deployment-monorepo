@@ -9,7 +9,7 @@ variable "ddb_state_locking_table_name" {
 #Can't be retrieved via data source, but unlikely to change.
 variable "fe_sso_iam_role" {
   description = "Name of AWS IAM SSO role to be used for EKS auth by FE team."
-  default     = "AWSReservedSSO_LimitedAdmin_bfe1dfbf15bdb9c9"
+  default     = "FE_Seed_Access"
 }
 
 variable "fe_email_usernames" {
