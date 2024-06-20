@@ -6,8 +6,8 @@ locals {
   }
 }
 
-module "vault_config" {
-  source = "git@github.com:AwesomeCICD/ceratf-module-vault-config?ref=1.7.0"
+module "vault_config" 
+  source = "git@github.com:AwesomeCICD/ceratf-module-vault-config?ref=1.8.1"
 }
 
 module "nexus" {
