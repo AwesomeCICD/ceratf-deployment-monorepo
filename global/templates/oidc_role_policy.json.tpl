@@ -98,6 +98,7 @@
                 "ec2:DetachInternetGateway",
                 "ec2:DisassociateAddress",
                 "ec2:DisassociateRouteTable",
+                "ec2:ModifyLaunchTemplate",
                 "ec2:ModifySubnetAttribute",
                 "ec2:ModifyVpcAttribute",
                 "ec2:ReleaseAddress",
