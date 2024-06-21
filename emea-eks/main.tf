@@ -28,7 +28,7 @@ module "regional_dns" {
 # A bit odd to see istio here, but it includes cert-manager whcih interacts with KMS and Istio creates ELBs 
 # that will prevent this plan from destorying cluster (AWS blocks delete since networkinterface is attached)
 module "helm_istio" {
-  source = "git@github.com:AwesomeCICD/ceratf-module-helm-istio.git?ref=1.4.2"
+  source = "git@github.com:AwesomeCICD/ceratf-module-helm-istio.git?ref=2.0.0"
 
   aws_region                = data.aws_region.current.name
   aws_account_no            = data.aws_caller_identity.current.account_id
@@ -36,6 +36,7 @@ module "helm_istio" {
   cluster_security_group_id = module.fe_eks_cluster.cluster_security_group_id
   node_security_group_id    = module.fe_eks_cluster.node_security_group_id
   circleci_region           = local.circleci_region
+  root_domain_zone_id       = module.regional_dns.r53_root_zone_id
   target_domain             = module.regional_dns.r53_subdomain_zone_name
   r53_subdomain_zone_id     = module.regional_dns.r53_subdomain_zone_id
   cluster_oidc_provider_arn = module.fe_eks_cluster.oidc_provider_arn
