@@ -9,10 +9,10 @@ locals {
 module "fe_eks_cluster" {
   source = "git@github.com:AwesomeCICD/ceratf-module-eks.git?ref=2.0.0"
 
-  cluster_version                 = "1.30"
-  cluster_suffix                  = local.circleci_region
-  node_instance_types             = ["m5a.xlarge"]
-  nodegroup_desired_capacity      = 2
+  cluster_version            = "1.30"
+  cluster_suffix             = local.circleci_region
+  node_instance_types        = ["m5a.xlarge"]
+  nodegroup_desired_capacity = 2
 }
 
 module "regional_dns" {
