@@ -7,15 +7,12 @@ locals {
 }
 
 module "fe_eks_cluster" {
-  source = "git@github.com:AwesomeCICD/ceratf-module-eks.git?ref=0.0.3"
+  source = "git@github.com:AwesomeCICD/ceratf-module-eks.git?ref=2.0.0"
 
   cluster_version                 = "1.30"
   cluster_suffix                  = local.circleci_region
-  node_instance_types             = ["m5.xlarge"]
-  nodegroup_desired_capacity      = "2"
-  eks_access_iam_role_name        = data.terraform_remote_state.ceratf_deployment_global.outputs.eks_access_iam_role_name
-  cluster_endpoint_public_access  = true
-  cluster_endpoint_private_access = false
+  node_instance_types             = ["m5a.xlarge"]
+  nodegroup_desired_capacity      = 2
 }
 
 module "regional_dns" {
