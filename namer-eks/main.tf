@@ -35,7 +35,7 @@ module "helm_istio" {
   cluster_security_group_id = module.fe_eks_cluster.cluster_security_group_id
   node_security_group_id    = module.fe_eks_cluster.node_security_group_id
   circleci_region           = local.circleci_region
-  root_domain_zone_id       = module.regional_dns.r53_root_zone_id
+  root_domain_zone_id       = data.terraform_remote_state.ceratf_deployment_global.outputs.r53_root_zone_id
   target_domain             = module.regional_dns.r53_subdomain_zone_name
   r53_subdomain_zone_id     = module.regional_dns.r53_subdomain_zone_id
   cluster_oidc_provider_arn = module.fe_eks_cluster.oidc_provider_arn
