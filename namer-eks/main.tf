@@ -7,7 +7,7 @@ locals {
 }
 
 module "fe_eks_cluster" {
-  source = "git@github.com:AwesomeCICD/ceratf-module-eks.git?ref=2.0.0"
+  source = "git@github.com:AwesomeCICD/ceratf-module-eks.git?ref=2.0.2"
 
   cluster_version                = "1.30"
   cluster_suffix                 = local.circleci_region
