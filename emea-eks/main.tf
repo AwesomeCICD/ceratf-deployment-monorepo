@@ -29,7 +29,7 @@ module "regional_dns" {
 # A bit odd to see istio here, but it includes cert-manager whcih interacts with KMS and Istio creates ELBs 
 # that will prevent this plan from destorying cluster (AWS blocks delete since networkinterface is attached)
 module "helm_istio" {
-  source = "git@github.com:AwesomeCICD/ceratf-module-helm-istio.git?ref=2.1.0"
+  source = "git@github.com:AwesomeCICD/ceratf-module-helm-istio.git?ref=2.1.1"
 
   aws_region                = data.aws_region.current.name
   aws_account_no            = data.aws_caller_identity.current.account_id
@@ -42,18 +42,20 @@ module "helm_istio" {
   target_domain             = module.regional_dns.r53_subdomain_zone_name
   r53_subdomain_zone_id     = module.regional_dns.r53_subdomain_zone_id
   cluster_oidc_provider_arn = module.fe_eks_cluster.oidc_provider_arn
+  
   depends_on                = [module.fe_eks_cluster]
   #global_oidc_provider_arn  = data.terraform_remote_state.ceratf_deployment_global.outputs.oidc_provider_arn
 }
 
 
 module "vault" {
-  source = "git@github.com:AwesomeCICD/ceratf-module-helm-vault?ref=1.0.4"
+  source = "git@github.com:AwesomeCICD/ceratf-module-helm-vault?ref=1.2.1"
 
   circleci_region           = local.circleci_region
   namespace                 = "vault"
   cluster_name              = module.fe_eks_cluster.cluster_name
   cluster_oidc_provider_arn = module.fe_eks_cluster.oidc_provider_arn
+  root_domain               = data.terraform_remote_state.ceratf_deployment_global.outputs.r53_root_zone_name
 
   depends_on = [module.fe_eks_cluster, module.helm_istio, module.regional_dns]
 }
