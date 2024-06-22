@@ -16,6 +16,7 @@ module "nexus" {
   source               = "git@github.com:AwesomeCICD/ceratf-module-helm-nexus?ref=4.0.4"
   nexus_admin_password = var.nexus_admin_password
   circleci_region      = local.circleci_region
+  depends_on = [ module.vault_config ]
 }
 
 module "nexus_config" {
