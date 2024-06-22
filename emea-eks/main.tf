@@ -42,8 +42,8 @@ module "helm_istio" {
   target_domain             = module.regional_dns.r53_subdomain_zone_name
   r53_subdomain_zone_id     = module.regional_dns.r53_subdomain_zone_id
   cluster_oidc_provider_arn = module.fe_eks_cluster.oidc_provider_arn
-  
-  depends_on                = [module.fe_eks_cluster]
+
+  depends_on = [module.fe_eks_cluster]
   #global_oidc_provider_arn  = data.terraform_remote_state.ceratf_deployment_global.outputs.oidc_provider_arn
 }
 
