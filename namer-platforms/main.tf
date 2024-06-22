@@ -21,7 +21,7 @@ module "nexus" {
 }
 
 module "nexus_config" {
-  source     = "git@github.com:AwesomeCICD/ceratf-module-nexus-config?ref=0.3.0"
+  source     = "git@github.com:AwesomeCICD/ceratf-module-nexus-config?ref=0.3.1"
   depends_on = [module.nexus]
 }
 
