@@ -12,13 +12,15 @@ module "vault_config" {
 }
 
 module "nexus" {
-  source               = "git@github.com:AwesomeCICD/ceratf-module-helm-nexus?ref=4.0.4"
+  source               = "git@github.com:AwesomeCICD/ceratf-module-helm-nexus?ref=5.0.4"
   nexus_admin_password = var.nexus_admin_password
   circleci_region      = local.circleci_region
+  target_domain        = data.terraform_remote_state.ceratf_regional.outputs.target_domain
+  depends_on           = [module.vault_config]
 }
 
 module "nexus_config" {
-  source     = "git@github.com:AwesomeCICD/ceratf-module-nexus-config?ref=0.2.0"
+  source     = "git@github.com:AwesomeCICD/ceratf-module-nexus-config?ref=0.3.1"
   depends_on = [module.nexus]
 }
 
@@ -37,7 +39,7 @@ module "argo_rollouts" {
 
 
 module "release_agent" {
-  source = "git@github.com:AwesomeCICD/ceratf-module-helm-cci-release-agent?ref=1.0.1"
+  source = "git@github.com:AwesomeCICD/ceratf-module-helm-cci-release-agent?ref=1.2.0"
 
   release_agent_token = var.rt_token
 
