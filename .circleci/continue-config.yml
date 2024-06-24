@@ -169,7 +169,7 @@ workflows:
             - namer-eks
           <<: *tf_job_defaults
           context:
-            - CERA-INIT-NAMER
+            - CERA-INIT-NAMER-NEW-NEW
       - emea-eks:
           requires:
             - global
@@ -179,7 +179,7 @@ workflows:
             - emea-eks
           <<: *tf_job_defaults
           context:
-            - CERA-INIT-EMEA
+            - CERA-INIT-EMEA-NEW
 
   
   eks_layer_namer:
@@ -205,7 +205,7 @@ workflows:
       - namer-platforms:
           <<: *tf_job_defaults
           context:
-            - CERA-INIT-NAMER
+            - CERA-INIT-NAMER-NEW
   
   eks_layer_emea:
     when: 
@@ -230,5 +230,5 @@ workflows:
       - emea-platforms:
           <<: *tf_job_defaults
           context:
-            - CERA-INIT-EMEA
+            - CERA-INIT-EMEA-NEW
   
