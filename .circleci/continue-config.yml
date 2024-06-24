@@ -169,7 +169,7 @@ workflows:
             - namer-eks
           <<: *tf_job_defaults
           context:
-            - CERA-INIT-NAMER-NEW-NEW
+            - CERA-INIT-NAMER-NEW
       - emea-eks:
           requires:
             - global
