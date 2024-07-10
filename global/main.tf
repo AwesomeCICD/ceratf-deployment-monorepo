@@ -4,7 +4,7 @@
 #-------------------------------------------------------------------------------
 
 resource "aws_route53_zone" "circleci_labs" {
-  name    = "circleci-fieldeng.com"
+  name    = "circleci-capitalone-demo.com"
   comment = "Please contact solutions@cirlceci.com with questions"
   tags = {
     "Owner" = "eddie@circleci.com"
@@ -47,7 +47,6 @@ resource "aws_iam_role" "fe_eks" {
   )
 
   tags       = var.common_tags
-  depends_on = [aws_s3_bucket.capitalone_s3_state_bucket]
 }
 
 #import {
