@@ -173,16 +173,16 @@ workflows:
           <<: *tf_job_defaults
           context:
             - CERA-INIT-NAMER-NEW
-      - emea-eks:
-          requires:
-            - global
-          <<: *tf_job_defaults
-      - emea-platforms:
-          requires:
-            - emea-eks
-          <<: *tf_job_defaults
-          context:
-            - CERA-INIT-EMEA-NEW
+      #- emea-eks:
+      #    requires:
+      #      - global
+      #    <<: *tf_job_defaults
+      #- emea-platforms:
+      #    requires:
+      #      - emea-eks
+      #    <<: *tf_job_defaults
+      #    context:
+      #      - CERA-INIT-EMEA-NEW
 
   
   eks_layer_namer:
