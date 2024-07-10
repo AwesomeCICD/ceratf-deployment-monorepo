@@ -3,9 +3,9 @@ data "terraform_remote_state" "ceratf_regional" {
   backend = "s3"
 
   config = {
-    bucket = "fe-cluster-tf-state"
+    bucket = "fe-tf-cluster-capitalone"
     region = "us-east-1"
-    key    = "fe-eks-cluster/namer/terraform.tfstate"
+    key    = "se-eks-cluster/namer/terraform.tfstate"
   }
 }
 

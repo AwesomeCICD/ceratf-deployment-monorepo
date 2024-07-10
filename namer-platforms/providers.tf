@@ -13,7 +13,7 @@ terraform {
   backend "s3" {
     bucket         = "fe-tf-cluster-capitalone"
     region         = "us-east-1"
-    key            = "fe-eks-cluster-tooling/namer/terraform.tfstate"
+    key            = "se-eks-cluster-tooling/namer/terraform.tfstate"
     dynamodb_table = "cera-tf-lock"
   }
 }
