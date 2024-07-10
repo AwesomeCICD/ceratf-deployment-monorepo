@@ -33,7 +33,7 @@ parameters:
 
 tf_job_defaults: &tf_job_defaults
   context:
-    - empty-context #to explicitly generate OIDC token
+    - empty-context #to explicitly generate OIDC tokens
   #tag: "1.5.1"
   pre-steps:
     - checkout
