@@ -32,12 +32,12 @@ output "r53_root_zone_id" {
   value = aws_route53_zone.circleci_labs.zone_id
 }
 
-output "kuma_fqdn" {
-  value = module.uptime_kuma.kuma_fqdn
-}
+#output "kuma_fqdn" {
+# value = module.uptime_kuma.kuma_fqdn
+#}
 
-output "kuma_admin_password" {
-  value       = var.kuma_admin_password
-  sensitive   = true
-  description = "Expose to regional modules"
-}
+#output "kuma_admin_password" {
+# value       = var.kuma_admin_password
+#sensitive   = true
+#description = "Expose to regional modules"
+#}
