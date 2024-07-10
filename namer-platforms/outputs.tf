@@ -6,15 +6,15 @@ output "circleci_region" {
 /*
 #For Kubernetes custom resources
 output "cluster_endpoint" {
-  value = module.se_eks_cluster.cluster_endpoint
+  value = module.fe_eks_cluster.cluster_endpoint
 }
 
 output "cluster_name" {
-  value = module.se_eks_cluster.cluster_name
+  value = module.fe_eks_cluster.cluster_name
 }
 
 output "cluster_ca_certificate" {
-  value = module.se_eks_cluster.cluster_ca_certificate
+  value = module.fe_eks_cluster.cluster_ca_certificate
 }
 
 

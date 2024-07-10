@@ -4,7 +4,7 @@
 #-------------------------------------------------------------------------------
 
 resource "aws_route53_zone" "circleci_labs" {
-  name    = "circleci-capitalone-demo.com"
+  name    = "circleci-fieldeng.com"
   comment = "Please contact solutions@cirlceci.com with questions"
   tags = {
     "Owner" = "eddie@circleci.com"
@@ -61,9 +61,9 @@ resource "aws_iam_policy" "se_eks" {
   tags = var.common_tags
 }
 
-resource "aws_iam_role_policy_attachment" "se_eks" {
-  role       = aws_iam_role.se_eks.name
-  policy_arn = aws_iam_policy.se_eks.arn
+resource "aws_iam_role_policy_attachment" "fe_eks" {
+  role       = aws_iam_role.fe_eks.name
+  policy_arn = aws_iam_policy.fe_eks.arn
 }
 
 

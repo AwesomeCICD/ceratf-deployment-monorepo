@@ -24,12 +24,7 @@ parameters:
   emea-platforms: 
     type: boolean
     default: false
-  japac-eks:  
-    type: boolean
-    default: false
-  japac-platforms: 
-    type: boolean
-    default: false
+ 
 
 tf_job_defaults: &tf_job_defaults
   context:
@@ -158,39 +153,6 @@ jobs:
           paths:
             - ./
   
-  japac-eks:
-    executor: terraform/default
-    steps:
-      - checkout
-      - attach_workspace:
-          at: /workspace
-      - terraform/fmt:
-          path: ./japac-eks
-      - terraform/validate:
-          path: ./japac-eks
-      - terraform/apply:
-          path: ./japac-eks
-      - persist_to_workspace:
-          root: /workspace
-          paths:
-            - ./
-            
-  japac-platforms:
-    executor: terraform/default
-    steps:
-      - checkout
-      - attach_workspace:
-          at: /workspace
-      - terraform/fmt:
-          path: ./japac-platforms
-      - terraform/validate:
-          path: ./japac-platforms
-      - terraform/apply:
-          path: ./japac-platforms
-      - persist_to_workspace:
-          root: /workspace
-          paths:
-            - ./
 
 workflows:
   global-workflow:
@@ -210,7 +172,7 @@ workflows:
             - namer-eks
           <<: *tf_job_defaults
           context:
-            - CERA-INIT-NAMER
+            - CERA-INIT-NAMER-NEW
       - emea-eks:
           requires:
             - global
@@ -220,17 +182,8 @@ workflows:
             - emea-eks
           <<: *tf_job_defaults
           context:
-            - CERA-INIT-EMEA
-      - japac-eks:
-          requires:
-            - global
-          <<: *tf_job_defaults
-      - japac-platforms:
-          requires:
-            - japac-eks
-          <<: *tf_job_defaults
-          context:
-            - CERA-INIT-JAPAC
+            - CERA-INIT-EMEA-NEW
+
   
   eks_layer_namer:
     when: 
@@ -259,7 +212,7 @@ workflows:
       - namer-platforms:
           <<: *tf_job_defaults
           context:
-            - CERA-INIT-NAMER
+            - CERA-INIT-NAMER-NEW
   
   eks_layer_emea:
     when: 
@@ -289,32 +242,5 @@ workflows:
           <<: *tf_job_defaults
           context:
             - CERA-INIT-EMEA
-  
-  eks_layer_japac:
-    when: 
-      and: 
-        - not: << pipeline.parameters.global >>
-        - equal: [ true, <<pipeline.parameters.japac-eks>> ]
-        - equal: ["capitaloneaccount", << pipeline.git.branch >>]
+            - CERA-INIT-EMEA-NEW
 
-    jobs:
-      - japac-eks:
-          <<: *tf_job_defaults
-      - japac-platforms:
-          requires:
-            - japac-eks
-          <<: *tf_job_defaults
-
-  platform_layer_japac:
-    when:
-      and: 
-       - not: << pipeline.parameters.global >>
-       - not: <<pipeline.parameters.japac-eks>>
-       - equal: [ true, <<pipeline.parameters.japac-platforms>> ]
-       - equal: ["capitaloneaccount", << pipeline.git.branch >>]
-
-    jobs:
-      - japac-platforms:
-          <<: *tf_job_defaults
-          context:
-            - CERA-INIT-JAPAC

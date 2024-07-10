@@ -9,19 +9,19 @@ output "circleci_org_id" {
 }
 
 output "eks_access_iam_role_arn" {
-  value = aws_iam_role.se_eks.arn
+  value = aws_iam_role.fe_eks.arn
 }
 
 output "eks_access_iam_role_name" {
-  value = aws_iam_role.se_eks.name
+  value = aws_iam_role.fe_eks.name
 }
 
 output "common_tags" {
   value = var.common_tags
 }
 
-output "se_email_usernames" {
-  value = var.se_email_usernames
+output "fe_email_usernames" {
+  value = var.fe_email_usernames
 }
 
 output "r53_root_zone_name" {
