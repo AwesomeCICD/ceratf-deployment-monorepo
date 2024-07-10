@@ -47,8 +47,7 @@ resource "aws_iam_role" "fe_eks" {
   )
 
   tags = var.common_tags
-  
-  depends_on [ aws_s3_bucket.capitalone_s3_state_bucket]
+  depends_on = [ aws_s3_bucket.capitalone_s3_state_bucket]
 }
 
 import {
