@@ -27,10 +27,11 @@ resource "aws_iam_openid_connect_provider" "awesomeci" {
 
   thumbprint_list = ["9e99a48a9960b14926bb7f3b02e22da2b0ab7280"]
 }
-import {
-  to = aws_iam_role.fe_eks
-  id = "CapitalOne-fe-eks-role"
-}
+
+#import {
+#  to = aws_iam_role.fe_eks
+#  id = "CapitalOne-fe-eks-role"
+#}
 
 resource "aws_iam_role" "fe_eks" {
   name        = "CapitalOne-fe-eks-role"
@@ -47,10 +48,12 @@ resource "aws_iam_role" "fe_eks" {
 
   tags = var.common_tags
 }
-import {
-  to = aws_iam_policy.fe_eks
-  id = "arn:aws:iam::992382483259:policy/fieldeng_awesomeci_policy"
-}
+
+#import {
+#  to = aws_iam_policy.fe_eks
+#  id = "arn:aws:iam::654654271298:policy/CapitalOne-fe-eks-policy"
+#}
+
 resource "aws_iam_policy" "fe_eks" {
   name = "CapitalOne-fe-eks-policy"
 
