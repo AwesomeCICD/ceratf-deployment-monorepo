@@ -29,7 +29,7 @@ resource "aws_iam_openid_connect_provider" "awesomeci" {
 }
 
 
-resource "aws_iam_role" "se_eks" {
+resource "aws_iam_role" "fe_eks" {
   name        = "CapitalOne-fe-eks-role"
   description = "Role to provision and manage EKS clusters for the capitalone fe team"
 
@@ -45,7 +45,7 @@ resource "aws_iam_role" "se_eks" {
   tags = var.common_tags
 }
 
-resource "aws_iam_policy" "se_eks" {
+resource "aws_iam_policy" "fe_eks" {
   name = "CapitalOne-fe-eks-policy"
 
   description = "Policy for the capitalone team for EKS clusters"
