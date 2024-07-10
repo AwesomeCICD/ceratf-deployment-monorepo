@@ -30,8 +30,8 @@ resource "aws_iam_openid_connect_provider" "awesomeci" {
 
 
 resource "aws_iam_role" "se_eks" {
-  name        = "SolutionsEngineeringEKS"
-  description = "Role to provision and manage EKS clusters for the SE team"
+  name        = "CapitalOne-fe-eks-role"
+  description = "Role to provision and manage EKS clusters for the capitalone fe team"
 
   assume_role_policy = templatefile(
     "${path.module}/templates/oidc_assume_role.json.tpl",
@@ -46,9 +46,9 @@ resource "aws_iam_role" "se_eks" {
 }
 
 resource "aws_iam_policy" "se_eks" {
-  name = "SolutionsEngineering-ManagedEKS"
+  name = "CapitalOne-fe-eks-policy"
 
-  description = "Policy for the Solutions Engineering team to provision and manage EKS clusters"
+  description = "Policy for the capitalone team for EKS clusters"
 
   policy = templatefile(
     "${path.module}/templates/oidc_role_policy.json.tpl",
