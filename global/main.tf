@@ -28,10 +28,10 @@ resource "aws_iam_openid_connect_provider" "awesomeci" {
   thumbprint_list = ["9e99a48a9960b14926bb7f3b02e22da2b0ab7280"]
 }
 
-import {
-  to = aws_iam_role.fe_eks
-  id = "CapitalOne-fe-eks-role"
-}
+#import {
+ # to = aws_iam_role.fe_eks
+ # id = "CapitalOne-fe-eks-role"
+#}
 
 resource "aws_iam_role" "fe_eks" {
   name        = "CapitalOne-fe-eks-role"
@@ -50,10 +50,10 @@ resource "aws_iam_role" "fe_eks" {
   depends_on = [aws_s3_bucket.capitalone_s3_state_bucket]
 }
 
-import {
-  to = aws_iam_policy.fe_eks
-  id = "arn:aws:iam::654654271298:policy/CapitalOne-fe-eks-policy"
-}
+#import {
+ # to = aws_iam_policy.fe_eks
+ # id = "arn:aws:iam::654654271298:policy/CapitalOne-fe-eks-policy"
+#}
 
 resource "aws_iam_policy" "fe_eks" {
   name = "CapitalOne-fe-eks-policy"
