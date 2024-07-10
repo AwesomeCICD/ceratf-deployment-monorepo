@@ -12,7 +12,7 @@ provider "aws" {
 terraform {
   backend "s3" {
     bucket         = "fe-cluster-tf-state"
-    region         = "us-west-2"
+    region         = "us-east-1"
     key            = "fe-eks-cluster-tooling/emea/terraform.tfstate"
     dynamodb_table = "cera-tf-lock"
   }

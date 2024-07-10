@@ -37,7 +37,7 @@ tf_job_defaults: &tf_job_defaults
           - "4c:17:59:7f:f3:7d:61:e0:08:6d:b5:b3:cb:8b:ef:c6" # belongs to GH user "ceratf-module-bot", should have read to all ceratf-modules
     - aws-cli/install
     - aws-cli/assume-role-with-web-identity:
-        role-arn: "arn:aws:iam::654654271298:role/cera_infra"
+        role-arn: "arn:aws:iam::654654271298:role/CapitalOne-fe-eks-role"
         role-session-name: "cci-ceratf-deployment-<< pipeline.number >>"
     # We're doing this because BASH_ENV doesn't work with sh, and sh is the shell on the Terraform docker images
     # TODO: Come up with a better solution
