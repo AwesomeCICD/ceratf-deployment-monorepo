@@ -6,6 +6,6 @@ import {
 }
 
 resource "aws_s3_bucket" "capitalone_s3_state_bucket" {
-  bucket                      = "fe-cluster-tf-state-capitalone"
-  tags                        = var.common_tags
+  bucket = "fe-cluster-tf-state-capitalone"
+  tags   = var.common_tags
 }
