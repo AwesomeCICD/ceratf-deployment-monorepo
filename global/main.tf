@@ -46,7 +46,7 @@ resource "aws_iam_role" "fe_eks" {
     }
   )
 
-  tags       = var.common_tags
+  tags = var.common_tags
 }
 
 #import {
