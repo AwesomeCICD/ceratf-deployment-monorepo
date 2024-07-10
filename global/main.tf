@@ -29,8 +29,8 @@ resource "aws_iam_openid_connect_provider" "awesomeci" {
 }
 
 #import {
- # to = aws_iam_role.fe_eks
- # id = "CapitalOne-fe-eks-role"
+# to = aws_iam_role.fe_eks
+# id = "CapitalOne-fe-eks-role"
 #}
 
 resource "aws_iam_role" "fe_eks" {
@@ -51,8 +51,8 @@ resource "aws_iam_role" "fe_eks" {
 }
 
 #import {
- # to = aws_iam_policy.fe_eks
- # id = "arn:aws:iam::654654271298:policy/CapitalOne-fe-eks-policy"
+# to = aws_iam_policy.fe_eks
+# id = "arn:aws:iam::654654271298:policy/CapitalOne-fe-eks-policy"
 #}
 
 resource "aws_iam_policy" "fe_eks" {
