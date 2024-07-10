@@ -1,8 +1,8 @@
 
 
 #import {
- # to = aws_s3_bucket.capitalone_s3_state_bucket
-  #id = "fe-tf-cluster-capitalone"
+# to = aws_s3_bucket.capitalone_s3_state_bucket
+#id = "fe-tf-cluster-capitalone"
 #}
 
 resource "aws_s3_bucket" "capitalone_s3_state_bucket" {
