@@ -52,6 +52,8 @@ tf_job_defaults: &tf_job_defaults
           aws_secret_access_key=${AWS_SECRET_ACCESS_KEY}
           aws_session_token=${AWS_SESSION_TOKEN}
           EOF
+          # Force us-east despite context env var
+          echo "export AWS_REGION=us-east-1" >> $BASH_ENV
     - run:
         name: Install Kubectl
         command: |
