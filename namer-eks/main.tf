@@ -7,14 +7,14 @@ locals {
 }
 
 module "fe_eks_cluster" {
-  source = "git@github.com:AwesomeCICD/ceratf-module-eks.git?ref=3.0.0"
+  source = "git@github.com:AwesomeCICD/ceratf-module-eks.git?ref=3.1.0"
 
   cluster_version                = "1.30"
   cluster_suffix                 = local.circleci_region
   node_instance_types            = ["m5a.xlarge"]
   nodegroup_desired_capacity     = 2
   cluster_endpoint_public_access = true
-  principal_arn                  = ""
+  principal_arn                  = "arn:aws:iam::654654271298:role/CapitalOne-fe-eks-role"
 }
 
 module "regional_dns" {
