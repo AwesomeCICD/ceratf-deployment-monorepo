@@ -5,7 +5,7 @@
 #-------------------------------------------------------------------------------
 
 data "aws_route53_zone" "demo_domain" {
-  name         = var.root_domain
+  name = var.root_domain
 }
 
 import {
