@@ -4,8 +4,8 @@
 #-------------------------------------------------------------------------------
 
 resource "aws_route53_zone" "circleci_labs" {
-  name    = "circleci-capitalone-demo.com"
-  comment = "Please contact solutions@cirlceci.com with questions"
+  name    = "circleci-demo-c1.com"
+  comment = "Please contact field@cirlceci.com with questions"
   tags = {
     "Owner" = "eddie@circleci.com"
   }

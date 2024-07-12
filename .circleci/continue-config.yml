@@ -64,8 +64,8 @@ tf_job_defaults: &tf_job_defaults
         name: Install Modern TF
         command: |
             cd ~
-            curl -LO "https://releases.hashicorp.com/terraform/1.7.0/terraform_1.7.0_linux_amd64.zip"
-            unzip terraform_1.7.0*
+            curl -LO "https://releases.hashicorp.com/terraform/1.9.2/terraform_1.9.2_linux_amd64.zip"
+            unzip terraform_1.9.2*
             chmod a+x terraform
             mv terraform /usr/local/bin
 
