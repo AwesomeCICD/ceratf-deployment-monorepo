@@ -25,11 +25,11 @@ output "fe_email_usernames" {
 }
 
 output "r53_root_zone_name" {
-  value = aws_route53_zone.circleci_labs.name
+  value = aws_route53_zone.demo_domain
 }
 
 output "r53_root_zone_id" {
-  value = aws_route53_zone.circleci_labs.zone_id
+  value = aws_route53_zone.demo_domain.zone_id
 }
 
 #output "kuma_fqdn" {

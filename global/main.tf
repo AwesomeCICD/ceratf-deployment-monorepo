@@ -4,17 +4,20 @@
 # lookup that zone,  use import it, set our values to it
 #-------------------------------------------------------------------------------
 
-data "aws_route53_zone" "demo_domain" {
-  name = var.root_domain
+locals {
+  root_domain_zone_id = "Z01748822T4PVCGJ86ASK"
 }
-
 import {
+  #despite docs this cant seem to use a var (like data or otherwise)
   to = aws_route53_zone.demo_domain
-  id = data.aws_route53_zone.selected.zone_id
+  id = local.root_domain_zone_id
+}
+data "aws_route53_zone" "selected" {
+  zone_id = local.root_domain_zone_id
 }
 
 resource "aws_route53_zone" "demo_domain" {
-  name    = var.root_domain
+  name    = data.aws_route53_zone.selected.name
   comment = "Please contact field@cirlceci.com with questions"
   tags = {
     "Owner" = "eddie@circleci.com"

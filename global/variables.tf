@@ -31,10 +31,6 @@ variable "common_tags" {
   }
 }
 
-variable "root_domain" {
-  type    = string
-  default = "circleci-demo-c1.com"
-}
 
 # variable "kuma_admin_password" {
 #   sensitive   = true
