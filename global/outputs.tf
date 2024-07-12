@@ -25,7 +25,7 @@ output "fe_email_usernames" {
 }
 
 output "r53_root_zone_name" {
-  value = aws_route53_zone.demo_domain
+  value = aws_route53_zone.demo_domain.name
 }
 
 output "r53_root_zone_id" {
