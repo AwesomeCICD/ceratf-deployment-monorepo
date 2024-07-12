@@ -1,10 +1,20 @@
 #-------------------------------------------------------------------------------
 # ROUTE 53 RESOURCES
-# Creates a root zone referenced by other modules
+# Registering a domain creates a zone for us. 
+# lookup that zone,  use import it, set our values to it
 #-------------------------------------------------------------------------------
 
-resource "aws_route53_zone" "circleci_labs" {
-  name    = "circleci-demo-c1.com"
+data "aws_route53_zone" "demo_domain" {
+  name         = var.root_domain
+}
+
+import {
+  to = aws_route53_zone.demo_domain
+  id = data.aws_route53_zone.selected.zone_id
+}
+
+resource "aws_route53_zone" "demo_domain" {
+  name    = var.root_domain
   comment = "Please contact field@cirlceci.com with questions"
   tags = {
     "Owner" = "eddie@circleci.com"
