@@ -22,6 +22,9 @@ resource "aws_route53_zone" "demo_domain" {
   tags = {
     "Owner" = var.common_tags.owner
   }
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 
