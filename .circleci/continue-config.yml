@@ -95,11 +95,11 @@ jobs:
     steps:
       - checkout
       - when: 
-          condition: <<parameter.first>>
+          condition: <<parameters.first>>
           steps:
           - run: mkdir workspace
       - when: 
-          condition: <<parameter.first>>
+          condition: <<parameters.first>>
           steps:
           - attach_workspace:
               at: /workspace
