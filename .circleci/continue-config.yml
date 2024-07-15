@@ -186,7 +186,6 @@ workflows:
   global-workflow:
     when: 
       and: 
-       - equal: ["capitaloneaccount", << pipeline.git.branch >>]
        - equal: [true,<<pipeline.parameters.global>>] 
     jobs:
       - global:
@@ -218,7 +217,6 @@ workflows:
       and: 
         - not: << pipeline.parameters.global >>
         - equal: [ true, <<pipeline.parameters.namer-eks>> ]
-        - equal: ["capitaloneaccount", << pipeline.git.branch >>]
 
     jobs:
       - namer-eks:
@@ -234,7 +232,6 @@ workflows:
        - not: << pipeline.parameters.global >>
        - not: <<pipeline.parameters.namer-eks>>
        - equal: [ true, <<pipeline.parameters.namer-platforms>> ]
-       - equal: ["capitaloneaccount", << pipeline.git.branch >>]
 
     jobs:
       - namer-platforms:
@@ -247,7 +244,6 @@ workflows:
       and: 
         - not: << pipeline.parameters.global >>
         - equal: [ true, <<pipeline.parameters.emea-eks>> ]
-        - equal: ["capitaloneaccount", << pipeline.git.branch >>]
 
     jobs:
       - emea-eks:
@@ -263,7 +259,6 @@ workflows:
        - not: << pipeline.parameters.global >>
        - not: <<pipeline.parameters.emea-eks>>
        - equal: [ true, <<pipeline.parameters.emea-platforms>> ]
-       - equal: ["capitaloneaccount", << pipeline.git.branch >>]
 
     jobs:
       - emea-platforms:

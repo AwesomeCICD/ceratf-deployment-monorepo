@@ -21,7 +21,5 @@ workflows:
           mapping: |
             global/.* global true
             namer-eks/.* namer-eks true
-            emea-eks/.* emea-eks true
             namer-platforms/.* namer-platforms true
-            emea-platforms/.* emea-platforms true
             
