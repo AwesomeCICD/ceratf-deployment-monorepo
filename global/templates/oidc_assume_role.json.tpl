@@ -25,7 +25,10 @@
             "Sid": "AllowIAMUsers",
             "Effect": "Allow",
             "Principal": { 
-                "AWS": "arn:aws:iam::654654271298:user/*_CERA_access"
+                "AWS": [
+                    "arn:aws:iam::${AWS_ACCOUNT_ID}:user/Eddies_CERA_access"
+                ]
+               
             },
             "Action": "sts:AssumeRole"
         }
