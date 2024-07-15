@@ -22,7 +22,7 @@ fe_iam_usernames = [
 
 fe_pipeline_iam_prefix = "cera-fe-pipeline"
 fe_operator_iam_prefix = "cera-fe-operator"
-r53_root_zone_id       = "Z06326731WV1FPMPPBESV"
+r53_root_zone_id       = "Z0734377QJ11U3QQYC55"
 fe_sso_iam_role        = "AWSReservedSSO_devops-ce-0034ed37_ea6f69cdd6bb1a5d"
 
 

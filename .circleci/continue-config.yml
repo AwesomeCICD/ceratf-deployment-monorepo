@@ -29,7 +29,7 @@ parameters:
     default: "992382483259"
   aws-r53-root-zone-id:
     type: string
-    default: Z06326731WV1FPMPPBESV
+    default: Z0734377QJ11U3QQYC55
   aws-pipeline-iam-prefix:
     #used by pipeline as role, used by tf as role and policy name
     type: string
