@@ -15,6 +15,26 @@ parameters:
   namer-platforms: 
     type: boolean
     default: false
+  aws-account-id:
+    type: string
+    default: "992382483259"
+  aws-pipeline-iam-prefix:
+    #used by pipeline as role, used by tf as role and policy name
+    type: string
+    default: cera-fe-pipeline
+  aws-operator-iam-prefix:
+    #used by humans for eks access
+    type: string
+    default: cera-fe-operator
+  aws-sso-assumed-role:
+    type: string
+    default: AWSReservedSSO_devops-ce-0034ed37_ea6f69cdd6bb1a5d 
+    description: The assigned role from IT when users login via SSO.
+  root_domain_name:
+    type: string
+    default: circleci-fieldeng.com
+
+
 
 tf_job_defaults: &tf_job_defaults
   context:
@@ -42,6 +62,11 @@ tf_job_defaults: &tf_job_defaults
           aws_secret_access_key=${AWS_SECRET_ACCESS_KEY}
           aws_session_token=${AWS_SESSION_TOKEN}
           EOF
+          echo "export TF_VAR_fe_pipeline_iam_prefix=<<pipeline.parameters.aws-pipeline-iam-prefix>>" >> $BASH_ENV
+          echo "export TF_VAR_fe_operator_iam_prefix=<<pipeline.parameters.aws-operator-iam-prefix>>" >> $BASH_ENV
+          echo "export TF_VAR_aws_account_id=<<pipeline.parameters.aws-account-id>>" >> $BASH_ENV
+          echo "export TF_VAR_root_domain_name=<<pipeline.parameters.root_domain_name>>" >> $BASH_ENV
+          echo "export TF_VAR_fe_sso_iam_role=<<pipeline.parameters.aws-sso-assumed-role>>" >> $BASH_ENV
           
     - run:
         name: Install Kubectl

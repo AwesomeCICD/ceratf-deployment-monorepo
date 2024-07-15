@@ -18,10 +18,11 @@ fe_email_usernames = [
 
 fe_iam_usernames = []
 
-fe_pipeline_iam_prefix = "cera-fe-pipeline"
-fe_operator_iam_prefix = "cera-fe-operator"
-root_domain_name       = "circleci-fieldeng.com"
-fe_sso_iam_role        = "AWSReservedSSO_devops-ce-0034ed37_ea6f69cdd6bb1a5d"
+# these come from config.yml env vars
+# fe_pipeline_iam_prefix = "cera-fe-pipeline"
+# fe_operator_iam_prefix = "cera-fe-operator"
+# root_domain_name       = "circleci-fieldeng.com"
+# fe_sso_iam_role        = "AWSReservedSSO_devops-ce-0034ed37_ea6f69cdd6bb1a5d"
 
 
 break_the_glass = true
