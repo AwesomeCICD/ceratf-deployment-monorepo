@@ -9,7 +9,8 @@
                 "AWS": ${SSO_USER_LIST}
             },
             "Action": "sts:AssumeRole"
-        },%{ endif }
+        }
+        %{ else }
         {
             "Sid": "AllowIAMUsers",
             "Effect": "Allow",
@@ -18,5 +19,6 @@
             },
             "Action": "sts:AssumeRole"
         }
+        %{ endif }
     ]
 }
