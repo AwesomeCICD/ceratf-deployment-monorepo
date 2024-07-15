@@ -43,7 +43,7 @@ resource "aws_iam_openid_connect_provider" "awesomeci" {
 
 import {
   to = aws_iam_role.fe_eks
-  id = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.fe_pipeline_iam_prefix}-role"
+  id = "${var.fe_pipeline_iam_prefix}-role"
 }
 
 resource "aws_iam_role" "fe_eks" {
