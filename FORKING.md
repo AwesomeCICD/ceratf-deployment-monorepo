@@ -4,24 +4,26 @@ This doc assumes knowledge in stack architecture and technologies.
 
 ## Prerequisites
 
-This runs in AWS.
+This runs in AWS. Manually (or have your IT team) create these resources.
 
-- DynamoDB  Table for TF lock
-- S3 Bucket for TF State
-- Registed Domain pointing to an empty R53 zone.
-- a Seed IAM role with rights to modify IAM
+- DynamoDB  Table for TF lock (see providers.tf for name)
+- S3 Bucket for TF State (see providers.tf for name)
+- Registed Domain pointing to an empty R53 zone. 
+- a Seed IAM role you can login with rights to modify IAM (so you can create role and oidc)
 
 ## Setup
 
 1) Determine Root Zone ID for Domain.
   1) When creating a new domain in AWS R53, a zone is automatically created.
   2) If existing domain, set a R53 record with those DNS servers and grab zone_id
-2) Import root dns from `global` module `terraform import aws_route53_zone.demo_domain ZONEIDZXXXX`
-3) Fill all values in `global/terraform.tfvars`
+3) Create initial seed Role and OIDC Provider (see `global/templates/README.md`)
+4) Import root dns from `global` module `terraform import aws_route53_zone.demo_domain ZONEIDZXXXX`
+5) Fill all values in `global/terraform.tfvars`
 
-### If adding multiple per region, or other advanced state changes
-3) Place bucket name in **all 3** root modules, `global`,`namer-eks`, and `namer-platforms` for **2 files** `providers.tf` and `data.tf`
-4) Place DyanmoDB Table path in **all 3** root modules, `global`,`namer-eks`, and `namer-platforms` for only `providers.tf` 
+### If changing region, or other advanced state changes that rename bucket 
+
+ Rename bucket, dyanmo, or region in **all 3** root modules, `global`,`namer-eks`,`namer-platforms`  in both of **2 files** `providers.tf` and `data.tf`
+
 
 ### Initial Import
 
