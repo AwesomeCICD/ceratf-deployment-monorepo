@@ -1,23 +1,12 @@
 #-------------------------------------------------------------------------------
 # ROUTE 53 RESOURCES
 # Registering a domain creates a zone for us. 
-# lookup that zone,  use import it, set our values to it
+# MANUALLY IMPORT ROOT 53 zone
 #-------------------------------------------------------------------------------
 
-locals {
-  root_domain_zone_id = var.r53_root_zone_id
-}
-import {
-  #despite docs this cant seem to use a var (like data or otherwise)
-  to = aws_route53_zone.demo_domain
-  id = local.root_domain_zone_id
-}
-data "aws_route53_zone" "selected" {
-  zone_id = local.root_domain_zone_id
-}
 
 resource "aws_route53_zone" "demo_domain" {
-  name    = data.aws_route53_zone.selected.name
+  name    = var.root_domain_name
   comment = "Please contact field@cirlceci.com with questions"
   tags = {
     "Owner" = var.common_tags.owner

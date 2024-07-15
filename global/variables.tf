@@ -46,7 +46,7 @@ variable "common_tags" {
   }
 }
 
-variable "r53_root_zone_id" {
+variable "root_domain_name" {
   type = string
 }
 
