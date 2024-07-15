@@ -10,7 +10,7 @@ variable "ddb_state_locking_table_name" {
 variable "fe_sso_iam_role" {
   description = "Name of AWS IAM SSO role to be used for EKS auth by SE team."
   #default     = "AWSReservedSSO_LimitedAdmin_bfe1dfbf15bdb9c9"
-  default = "cera_infra"
+  default = "" # empty is no SSO, use direct IAM usernames
 }
 
 variable "fe_email_usernames" {
@@ -32,6 +32,11 @@ variable "common_tags" {
     "critical_until" = "critical-until-2024-07-31"
     "purpose"        = "CERA is a customer facing demo architecture used by Field Engineering team."
   }
+}
+
+variable "r53_root_zone_id" {
+  type    = string
+  default = "Z01748822T4PVCGJ86ASK"
 }
 
 

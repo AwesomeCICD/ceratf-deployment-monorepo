@@ -5,7 +5,7 @@
 #-------------------------------------------------------------------------------
 
 locals {
-  root_domain_zone_id = "Z01748822T4PVCGJ86ASK"
+  root_domain_zone_id = var.r53_root_zone_id
 }
 import {
   #despite docs this cant seem to use a var (like data or otherwise)
@@ -20,7 +20,7 @@ resource "aws_route53_zone" "demo_domain" {
   name    = data.aws_route53_zone.selected.name
   comment = "Please contact field@cirlceci.com with questions"
   tags = {
-    "Owner" = "eddie@circleci.com"
+    "Owner" = var.common_tags.owner
   }
 }
 
@@ -57,7 +57,7 @@ resource "aws_iam_role" "fe_eks" {
       CIRCLECI_ORG_ID = var.circleci_org_id
       SSO_USER_LIST   = tostring(jsonencode(local.sso_user_list))
       IAM_USER_LIST   = tostring(jsonencode(local.iam_user_list))
-      FE_TEAM_ROLE    = var.fe_sso_iam_role
+      SSO_TEAM_ROLE   = var.fe_sso_iam_role
     }
   )
 
