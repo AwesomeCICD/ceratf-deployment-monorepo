@@ -26,7 +26,7 @@ parameters:
     default: false
   aws-account-id:
     type: string
-    default: 992382483259
+    default: "992382483259"
   aws-r53-root-zone-id:
     type: string
     default: Z06326731WV1FPMPPBESV
