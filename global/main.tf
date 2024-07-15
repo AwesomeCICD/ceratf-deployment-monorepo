@@ -56,6 +56,7 @@ resource "aws_iam_role" "fe_eks" {
       AWS_ACCOUNT_ID  = data.aws_caller_identity.current.id,
       CIRCLECI_ORG_ID = var.circleci_org_id
       SSO_USER_LIST   = tostring(jsonencode(local.sso_user_list))
+      FE_TEAM_ROLE    = var.fe_sso_iam_role
     }
   )
 

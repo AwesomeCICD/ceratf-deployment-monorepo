@@ -25,7 +25,7 @@
             "Sid": "AllowIAMUsers",
             "Effect": "Allow",
             "Principal": { 
-                "AWS": "arn:aws:sts::${data.aws_caller_identity.current.account_id}:role/${var.fe_sso_iam_role}" 
+                "AWS": "arn:aws:sts::${AWS_ACCOUNT_ID}:role/${FE_TEAM_ROLE}" 
             },
             "Condition": {
                 "StringLike": {
