@@ -29,7 +29,8 @@ As operators/debuggers, we can assume same role.
 2) Set the **Assumed** role users get when login via SSO as `fe_sso_iam_role` (`../../terraform.tfvars`)
 3) Setup Role-Assuming profile and supporting SSO profile (if not already used for login)
 
-** AWS Profiles for SSO Role Assumption **
+##### AWS Profiles for SSO Role Assumption **
+
 ```
 [profile ElevatedRole]
 # The FE specific role grants elevated rights and owns CERA stack
@@ -76,4 +77,18 @@ source_profile = capitalone
 aws_access_key_id = XXXXXXXXX
 aws_secret_access_key = XXXXXXXXXXX
 region = us-east-1
+```
+
+
+
+## Cluster Access
+
+The overloaded policy above is also given to the EKS modules as as those with cluster admin rights.
+
+the `region-eks` job `apply` step will output something like this allowing `kubectl` to connect:
+
+```
+      aws eks update-kubeconfig --name cera-use1-namer --region us-east-1 --profile pipeline
+      kubectl config rename-context arn:aws:eks:us-east-1:ACCOUNT:cluster/cera-use1-namer cera-use1-namer
+      kubectl config set-context cera-use1-namer
 ```
