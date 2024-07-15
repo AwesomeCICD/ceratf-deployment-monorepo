@@ -24,6 +24,9 @@
         {
             "Sid": "AllowIAMUsers",
             "Effect": "Allow",
+            "Principal": { 
+                "AWS": "arn:aws:sts::${data.aws_caller_identity.current.account_id}:role/${var.fe_sso_iam_role}" 
+            },
             "Condition": {
                 "StringLike": {
                 "aws:PrincipalArn": "arn:aws:iam::${AWS_ACCOUNT_ID}:role/*_CERA_access"
