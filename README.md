@@ -122,4 +122,14 @@ Services & configuration deployed at the platform layer include:
 3. JAPAC-Platforms
 
 
+## Trooubleshooting
 
+### Teardown Stuck Istio Namespace
+
+If deleting istio-system namespace hangs, try this to force;fully remove Kiali finalizers.
+
+```
+kubectl get kialis.kiali.io kiali "istio-system" -o json \\n  | tr -d "\n" | sed "s/\"finalizers\": \[[^]]\+\]/\"finalizers\": []/" \\n  | kubectl replace --raw /api/spaces/istio-system/finalize -f -
+```
+
+Or print the `kialis.kiali.io kiali` to yaml and manually remove finalizers, and apply.
