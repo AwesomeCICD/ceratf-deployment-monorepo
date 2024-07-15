@@ -2,6 +2,16 @@
     "Version": "2012-10-17",
     "Statement": [
         {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:PutItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:GetItem"
+            ],
+            "Resource": "arn:aws:dynamodb:us-west-2:${AWS_ACCOUNT_ID}:table/${DDB_TABLE_NAME}"
+        },
+        {
             "Sid": "VisualEditor1",
             "Effect": "Allow",
             "Action": [
