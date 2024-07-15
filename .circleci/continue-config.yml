@@ -94,15 +94,8 @@ jobs:
     executor: terraform/default
     steps:
       - checkout
-      - when: 
-          condition: <<parameters.first>>
-          steps:
-          - run: mkdir workspace
-      - when: 
-          condition: <<parameters.first>>
-          steps:
-          - attach_workspace:
-              at: /workspace
+      - attach_workspace:
+          at: /workspace
       - terraform/fmt:
           path: << parameters.path >>
       - terraform/validate:
