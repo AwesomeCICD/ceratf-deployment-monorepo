@@ -32,10 +32,6 @@ output "r53_root_zone_id" {
   value = aws_route53_zone.demo_domain.zone_id
 }
 
-output "fe_eks_role" {
-  value = aws_iam_role.fe_eks.arn
-}
-
 #output "kuma_fqdn" {
 # value = module.uptime_kuma.kuma_fqdn
 #}
