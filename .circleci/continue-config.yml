@@ -174,7 +174,7 @@ workflows:
             - namer-eks
           <<: *tf_job_defaults
           context:
-            - CERA-INIT-NAMER-NEW
+            - CERA-INIT-NAMER-C1
       #- emea-eks:
       #    requires:
       #      - global
@@ -214,7 +214,7 @@ workflows:
       - namer-platforms:
           <<: *tf_job_defaults
           context:
-            - CERA-INIT-NAMER-NEW
+            - CERA-INIT-NAMER-C1
   
   eks_layer_emea:
     when: 
