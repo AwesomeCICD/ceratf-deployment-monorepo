@@ -24,3 +24,6 @@ fe_pipeline_iam_prefix = "cera-fe-pipeline-role"
 fe_operator_iam_prefix = "cera-fe-operator-role"
 r53_root_zone_id       = "Z06326731WV1FPMPPBESV"
 fe_sso_iam_role        = "AWSReservedSSO_devops-ce-0034ed37_ea6f69cdd6bb1a5d"
+
+
+break_the_glass = true
