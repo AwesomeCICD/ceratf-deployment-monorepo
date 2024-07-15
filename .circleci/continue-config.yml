@@ -94,18 +94,12 @@ jobs:
     executor: terraform/default
     steps:
       - checkout
-      - attach_workspace:
-          at: /workspace
       - terraform/fmt:
           path: << parameters.path >>
       - terraform/validate:
           path: << parameters.path >>
       - terraform/apply:
           path: << parameters.path >>
-      - persist_to_workspace:
-          root: workspace
-          paths: 
-            - ./
   
   
   
