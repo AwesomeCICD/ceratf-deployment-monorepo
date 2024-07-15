@@ -41,10 +41,10 @@ resource "aws_iam_openid_connect_provider" "awesomeci" {
   thumbprint_list = ["9e99a48a9960b14926bb7f3b02e22da2b0ab7280"]
 }
 
-#import {
-# to = aws_iam_role.fe_eks
-# id = "CapitalOne-fe-eks-role"
-#}
+import {
+  to = aws_iam_role.fe_eks
+  id = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/${var.fe_pipeline_iam_prefix}-role"
+}
 
 resource "aws_iam_role" "fe_eks" {
   name        = "${var.fe_pipeline_iam_prefix}-role"
@@ -63,12 +63,15 @@ resource "aws_iam_role" "fe_eks" {
   )
 
   tags = var.common_tags
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
-import {
-  to = aws_iam_policy.fe_eks
-  id = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/${var.fe_pipeline_iam_prefix}-policy"
-}
+# import {
+#   to = aws_iam_policy.fe_eks
+#   id = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/${var.fe_pipeline_iam_prefix}-policy"
+# }
 
 resource "aws_iam_policy" "fe_eks" {
   name = "${var.fe_pipeline_iam_prefix}-policy"
@@ -84,6 +87,10 @@ resource "aws_iam_policy" "fe_eks" {
   )
 
   tags = var.common_tags
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "fe_eks" {

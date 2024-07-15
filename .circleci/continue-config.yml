@@ -33,11 +33,11 @@ parameters:
   aws-pipeline-iam-prefix:
     #used by pipeline as role, used by tf as role and policy name
     type: string
-    default: cera-fe-pipeline-role
+    default: cera-fe-pipeline
   aws-operator-iam-prefix:
     #used by humans for eks access
     type: string
-    default: cera-fe-operator-role
+    default: cera-fe-operator
   aws-sso-assumed-role:
     type: string
     default: AWSReservedSSO_devops-ce-0034ed37_ea6f69cdd6bb1a5d 
