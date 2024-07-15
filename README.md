@@ -79,7 +79,7 @@ Services deployed at the global layers include:
 Our EKS layer and modules will handle the deployment of our EKS clusters in each of the regions above. If this path is triggerd, an apply will trigger the following jobs (EKS -> Platform)
 
 Services deployed at the EKS layer include: 
-- EKS cluster to eu-west-2, us-west-2 or ap-northeast-1, depending on what region is triggered
+- EKS cluster to eu-west-2, us-east-1 or ap-northeast-1, depending on what region is triggered
 - Istio service mesh
 - Vault
 

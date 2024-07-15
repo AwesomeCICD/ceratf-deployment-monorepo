@@ -7,13 +7,15 @@ locals {
 }
 
 module "fe_eks_cluster" {
-  source = "git@github.com:AwesomeCICD/ceratf-module-eks.git?ref=3.0.1"
+  source = "git@github.com:AwesomeCICD/ceratf-module-eks.git?ref=4.0.0"
 
   cluster_version                = "1.30"
   cluster_suffix                 = local.circleci_region
   node_instance_types            = ["m5a.xlarge"]
   nodegroup_desired_capacity     = 2
   cluster_endpoint_public_access = true
+  # this should be replaced with a cluster_admin speciic role outide aws role used by pipeline.
+  principal_arn = data.terraform_remote_state.ceratf_deployment_global.outputs.eks_access_iam_role_arn
 }
 
 module "regional_dns" {
@@ -28,7 +30,7 @@ module "regional_dns" {
 # A bit odd to see istio here, but it includes cert-manager whcih interacts with KMS and Istio creates ELBs 
 # that will prevent this plan from destorying cluster (AWS blocks delete since networkinterface is attached)
 module "helm_istio" {
-  source = "git@github.com:AwesomeCICD/ceratf-module-helm-istio.git?ref=2.2.1"
+  source = "git@github.com:AwesomeCICD/ceratf-module-helm-istio.git?ref=2.3.0"
 
   aws_region                = data.aws_region.current.name
   aws_account_no            = data.aws_caller_identity.current.account_id

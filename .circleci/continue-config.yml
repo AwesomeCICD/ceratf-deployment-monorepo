@@ -28,7 +28,7 @@ parameters:
 
 tf_job_defaults: &tf_job_defaults
   context:
-    - empty-context #to explicitly generate OIDC token
+    - empty-context #to explicitly generate OIDC tokens
   #tag: "1.5.1"
   pre-steps:
     - checkout
@@ -37,7 +37,7 @@ tf_job_defaults: &tf_job_defaults
           - "4c:17:59:7f:f3:7d:61:e0:08:6d:b5:b3:cb:8b:ef:c6" # belongs to GH user "ceratf-module-bot", should have read to all ceratf-modules
     - aws-cli/install
     - aws-cli/assume-role-with-web-identity:
-        role-arn: "arn:aws:iam::992382483259:role/FieldEngineeringEKS"
+        role-arn: "arn:aws:iam::654654271298:role/CapitalOne-fe-eks-role"
         role-session-name: "cci-ceratf-deployment-<< pipeline.number >>"
     # We're doing this because BASH_ENV doesn't work with sh, and sh is the shell on the Terraform docker images
     # TODO: Come up with a better solution
@@ -52,6 +52,8 @@ tf_job_defaults: &tf_job_defaults
           aws_secret_access_key=${AWS_SECRET_ACCESS_KEY}
           aws_session_token=${AWS_SESSION_TOKEN}
           EOF
+          # Force us-east despite context env var
+          echo "export AWS_REGION=us-east-1" >> $BASH_ENV
     - run:
         name: Install Kubectl
         command: |
@@ -62,8 +64,8 @@ tf_job_defaults: &tf_job_defaults
         name: Install Modern TF
         command: |
             cd ~
-            curl -LO "https://releases.hashicorp.com/terraform/1.7.0/terraform_1.7.0_linux_amd64.zip"
-            unzip terraform_1.7.0*
+            curl -LO "https://releases.hashicorp.com/terraform/1.9.2/terraform_1.9.2_linux_amd64.zip"
+            unzip terraform_1.9.2*
             chmod a+x terraform
             mv terraform /usr/local/bin
 
@@ -156,7 +158,10 @@ jobs:
 
 workflows:
   global-workflow:
-    when: << pipeline.parameters.global >>
+    when: 
+      and: 
+       - equal: ["capitaloneaccount", << pipeline.git.branch >>]
+       - equal: [true,<<pipeline.parameters.global>>] 
     jobs:
       - global:
           <<: *tf_job_defaults
@@ -170,16 +175,16 @@ workflows:
           <<: *tf_job_defaults
           context:
             - CERA-INIT-NAMER-NEW
-      - emea-eks:
-          requires:
-            - global
-          <<: *tf_job_defaults
-      - emea-platforms:
-          requires:
-            - emea-eks
-          <<: *tf_job_defaults
-          context:
-            - CERA-INIT-EMEA-NEW
+      #- emea-eks:
+      #    requires:
+      #      - global
+      #    <<: *tf_job_defaults
+      #- emea-platforms:
+      #    requires:
+      #      - emea-eks
+      #    <<: *tf_job_defaults
+      #    context:
+      #      - CERA-INIT-EMEA-NEW
 
   
   eks_layer_namer:
@@ -187,6 +192,8 @@ workflows:
       and: 
         - not: << pipeline.parameters.global >>
         - equal: [ true, <<pipeline.parameters.namer-eks>> ]
+        - equal: ["capitaloneaccount", << pipeline.git.branch >>]
+
     jobs:
       - namer-eks:
           <<: *tf_job_defaults
@@ -201,6 +208,8 @@ workflows:
        - not: << pipeline.parameters.global >>
        - not: <<pipeline.parameters.namer-eks>>
        - equal: [ true, <<pipeline.parameters.namer-platforms>> ]
+       - equal: ["capitaloneaccount", << pipeline.git.branch >>]
+
     jobs:
       - namer-platforms:
           <<: *tf_job_defaults
@@ -212,6 +221,8 @@ workflows:
       and: 
         - not: << pipeline.parameters.global >>
         - equal: [ true, <<pipeline.parameters.emea-eks>> ]
+        - equal: ["capitaloneaccount", << pipeline.git.branch >>]
+
     jobs:
       - emea-eks:
           <<: *tf_job_defaults
@@ -226,9 +237,12 @@ workflows:
        - not: << pipeline.parameters.global >>
        - not: <<pipeline.parameters.emea-eks>>
        - equal: [ true, <<pipeline.parameters.emea-platforms>> ]
+       - equal: ["capitaloneaccount", << pipeline.git.branch >>]
+
     jobs:
       - emea-platforms:
           <<: *tf_job_defaults
           context:
+            - CERA-INIT-EMEA
             - CERA-INIT-EMEA-NEW
-  
+

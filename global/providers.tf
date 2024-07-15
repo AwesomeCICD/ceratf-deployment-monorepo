@@ -7,8 +7,9 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket         = "fe-cluster-tf-state"
-    region         = "us-west-2"
+    #profile        = "jennings-dev-ccidev"
+    bucket         = "fe-tf-cluster-capitalone"
+    region         = "us-east-1"
     key            = "fe-eks-cluster/global/terraform.tfstate"
     dynamodb_table = "cera-tf-lock"
   }

@@ -15,3 +15,6 @@ fe_email_usernames = [
   "nick.okeefe",
   "vijay",
 ]
+fe_iam_usernames = [
+  "Eddies_CERA_access"
+]

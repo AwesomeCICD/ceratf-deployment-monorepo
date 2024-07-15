@@ -1,13 +1,26 @@
 #-------------------------------------------------------------------------------
 # ROUTE 53 RESOURCES
-# Creates a root zone referenced by other modules
+# Registering a domain creates a zone for us. 
+# lookup that zone,  use import it, set our values to it
 #-------------------------------------------------------------------------------
 
-resource "aws_route53_zone" "circleci_labs" {
-  name    = "circleci-fieldeng.com"
-  comment = "Please contact solutions@cirlceci.com with questions"
+locals {
+  root_domain_zone_id = var.r53_root_zone_id
+}
+import {
+  #despite docs this cant seem to use a var (like data or otherwise)
+  to = aws_route53_zone.demo_domain
+  id = local.root_domain_zone_id
+}
+data "aws_route53_zone" "selected" {
+  zone_id = local.root_domain_zone_id
+}
+
+resource "aws_route53_zone" "demo_domain" {
+  name    = data.aws_route53_zone.selected.name
+  comment = "Please contact field@cirlceci.com with questions"
   tags = {
-    "Owner" = "eddie@circleci.com"
+    "Owner" = var.common_tags.owner
   }
 }
 
@@ -28,10 +41,14 @@ resource "aws_iam_openid_connect_provider" "awesomeci" {
   thumbprint_list = ["9e99a48a9960b14926bb7f3b02e22da2b0ab7280"]
 }
 
+#import {
+# to = aws_iam_role.fe_eks
+# id = "CapitalOne-fe-eks-role"
+#}
 
 resource "aws_iam_role" "fe_eks" {
-  name        = "FieldEngineeringEKS"
-  description = "Role to provision and manage EKS clusters for the FE team"
+  name        = "CapitalOne-fe-eks-role"
+  description = "Role to provision and manage EKS clusters for the capitalone fe team"
 
   assume_role_policy = templatefile(
     "${path.module}/templates/oidc_assume_role.json.tpl",
@@ -39,16 +56,23 @@ resource "aws_iam_role" "fe_eks" {
       AWS_ACCOUNT_ID  = data.aws_caller_identity.current.id,
       CIRCLECI_ORG_ID = var.circleci_org_id
       SSO_USER_LIST   = tostring(jsonencode(local.sso_user_list))
+      IAM_USER_LIST   = tostring(jsonencode(local.iam_user_list))
+      SSO_TEAM_ROLE   = var.fe_sso_iam_role
     }
   )
 
   tags = var.common_tags
 }
 
-resource "aws_iam_policy" "fe_eks" {
-  name = "FieldEngineering-ManagedEKS"
+#import {
+# to = aws_iam_policy.fe_eks
+# id = "arn:aws:iam::654654271298:policy/CapitalOne-fe-eks-policy"
+#}
 
-  description = "Policy for the Field Engineering team to provision and manage EKS clusters"
+resource "aws_iam_policy" "fe_eks" {
+  name = "CapitalOne-fe-eks-policy"
+
+  description = "Policy for the capitalone team for EKS clusters"
 
   policy = templatefile(
     "${path.module}/templates/oidc_role_policy.json.tpl",
@@ -67,11 +91,11 @@ resource "aws_iam_role_policy_attachment" "fe_eks" {
 }
 
 
-# module "uptime_kuma" {
-#   source = "git@github.com:AwesomeCICD/ceratf-module-uptime-kuma?ref=1.1.0"
+#module "uptime_kuma" {
+# source = "git@github.com:AwesomeCICD/ceratf-module-uptime-kuma?ref=1.1.0"
 
-#   subdomain = "status"
-#   #target admin password from 1password, set as envvar
-#   kuma_admin_password = var.kuma_admin_password
+#  subdomain = "status"
+#target admin password from 1password, set as envvar
+# kuma_admin_password = var.kuma_admin_password
 
-# }
+#}

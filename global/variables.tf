@@ -8,12 +8,16 @@ variable "ddb_state_locking_table_name" {
 
 #Can't be retrieved via data source, but unlikely to change.
 variable "fe_sso_iam_role" {
-  description = "Name of AWS IAM SSO role to be used for EKS auth by FE team."
-  default     = "AWSReservedSSO_devops-ce-0034ed37_ea6f69cdd6bb1a5d"
+  description = "Name of AWS IAM SSO role to be used for EKS auth by SE team."
+  #default     = "AWSReservedSSO_LimitedAdmin_bfe1dfbf15bdb9c9"
+  default = "" # empty is no SSO, use direct IAM usernames
 }
 
 variable "fe_email_usernames" {
   description = "List of FE team members' email usernames."
+}
+variable "fe_iam_usernames" {
+  description = "List of externally created/manual IAM usernames."
 }
 
 variable "common_tags" {
@@ -29,6 +33,12 @@ variable "common_tags" {
     "purpose"        = "CERA is a customer facing demo architecture used by Field Engineering team."
   }
 }
+
+variable "r53_root_zone_id" {
+  type    = string
+  default = "Z01748822T4PVCGJ86ASK"
+}
+
 
 # variable "kuma_admin_password" {
 #   sensitive   = true
