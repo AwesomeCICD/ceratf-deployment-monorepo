@@ -18,6 +18,34 @@ The trust relationship allows the OIDC provider we create and link to CCI organi
 
 See `../../.circleci/config.yml` for more.
 
+
+#### Initial Pipeline seed
+bit of a chicken and egg, pipeline manages the policy it uses.  
+
+Fortunately it will import a seed you can manually create.  Easiest to give it admin rights (or highest you can) and then it will apply whats in this template immediated.
+
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Federated": "arn:aws:iam::AWS_ACCOUNT_ID:oidc-provider/oidc.circleci.com/org/CCI_ORG_ID"
+            },
+            "Action": "sts:AssumeRoleWithWebIdentity",
+            "Condition": {
+                "StringEquals": {
+                    "oidc.circleci.com/org/CCI_ORG_ID:aud": "CCI_ORG_ID"
+                }
+            }
+        }
+    ]
+}
+```
+
+
+
 ### Humans
 
 As operators/debuggers, we can assume same role.  

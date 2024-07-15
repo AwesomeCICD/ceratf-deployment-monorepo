@@ -65,10 +65,10 @@ resource "aws_iam_role" "fe_eks" {
   tags = var.common_tags
 }
 
-#import {
-# to = aws_iam_policy.fe_eks
-# id = "arn:aws:iam::654654271298:policy/CapitalOne-fe-eks-policy"
-#}
+import {
+  to = aws_iam_policy.fe_eks
+  id = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/${var.fe_pipeline_iam_prefix}-policy"
+}
 
 resource "aws_iam_policy" "fe_eks" {
   name = "${var.fe_pipeline_iam_prefix}-policy"
