@@ -85,6 +85,8 @@ tf_job_defaults: &tf_job_defaults
 
 jobs:
   apply_module:
+    environment:
+      TF_VAR_fe_operator_iam_prefix: <<pipeline.parameters.aws-operator-iam-prefix>>
     parameters:
       path:
         type: string
