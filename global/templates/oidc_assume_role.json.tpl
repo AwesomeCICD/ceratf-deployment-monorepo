@@ -20,6 +20,16 @@
                 "AWS": ${SSO_USER_LIST}
             },
             "Action": "sts:AssumeRole"
+        },
+        {
+            "Sid": "AllowIAMUsers",
+            "Effect": "Allow",
+            "Condition": {
+                "StringLike": {
+                "aws:PrincipalArn": "arn:aws:iam::${AWS_ACCOUNT_ID}:role/*_CERA_access"
+                }
+            },
+            "Action": "sts:AssumeRole"
         }
     ]
 }
