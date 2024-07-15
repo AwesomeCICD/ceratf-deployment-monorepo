@@ -16,6 +16,9 @@ variable "fe_sso_iam_role" {
 variable "fe_email_usernames" {
   description = "List of FE team members' email usernames."
 }
+variable "fe_iam_usernames" {
+  description = "List of externally created/manual IAM usernames."
+}
 
 variable "common_tags" {
   description = "Tags to be applied to all resources."
