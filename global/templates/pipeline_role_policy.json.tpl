@@ -9,7 +9,7 @@
                 "dynamodb:DeleteItem",
                 "dynamodb:GetItem"
             ],
-            "Resource": "arn:aws:dynamodb:us-east-1:${AWS_ACCOUNT_ID}:table/${DDB_TABLE_NAME}"
+            "Resource": "arn:aws:dynamodb:us-west-2:${AWS_ACCOUNT_ID}:table/${DDB_TABLE_NAME}"
         },
         {
             "Sid": "VisualEditor1",

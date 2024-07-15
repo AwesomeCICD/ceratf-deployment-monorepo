@@ -15,7 +15,7 @@ module "fe_eks_cluster" {
   nodegroup_desired_capacity     = 2
   cluster_endpoint_public_access = true
   # this should be replaced with a cluster_admin speciic role outide aws role used by pipeline.
-  principal_arn = data.terraform_remote_state.ceratf_deployment_global.outputs.eks_access_iam_role_arn
+  principal_arn = data.terraform_remote_state.ceratf_deployment_global.outputs.operator_access_iam_role_arn
 }
 
 module "regional_dns" {

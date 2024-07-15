@@ -72,7 +72,7 @@ tf_job_defaults: &tf_job_defaults
           aws_session_token=${AWS_SESSION_TOKEN}
           EOF
           # Force us-east despite context env var
-          echo "export AWS_REGION=us-east-1" >> $BASH_ENV
+          echo "export AWS_REGION=us-west-2" >> $BASH_ENV
           # Values from pipeline to TF.
           echo "export TF_VAR_fe_pipeline_iam_prefix=<<pipeline.parameters.aws-pipeline-iam-prefix>>" >> $BASH_ENV
           echo "export TF_VAR_fe_operator_iam_prefix=<<pipeline.parameters.aws-operator-iam-prefix>>" >> $BASH_ENV

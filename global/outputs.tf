@@ -8,12 +8,20 @@ output "circleci_org_id" {
   value = var.circleci_org_id
 }
 
-output "eks_access_iam_role_arn" {
+output "pipeline_access_iam_role_arn" {
   value = aws_iam_role.fe_eks.arn
 }
 
-output "eks_access_iam_role_name" {
+output "pipeline_access_iam_role_name" {
   value = aws_iam_role.fe_eks.name
+}
+
+output "operator_access_iam_role_arn" {
+  value = aws_iam_role.operator_access_role.arn
+}
+
+output "operator_access_iam_role_name" {
+  value = aws_iam_role.operator_access_role.name
 }
 
 output "common_tags" {
