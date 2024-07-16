@@ -11,6 +11,12 @@ This runs in AWS. Manually (or have your IT team) create these resources.
 - Registed Domain pointing to an empty R53 zone. 
 - a Seed IAM role you can login with rights to modify IAM (so you can create role and oidc)
 
+THis uses a CCI Release Agent and Policy enforcement
+
+- Note your CCI Org ID (neeed later to for OIDC provider and vault policies )
+- Create a _CCI Release Agent_
+- Add Token to a _NEW CONTEXT_ as `TF_VAR_rt_token` (more details in release agent module repo)
+
 ## Setup
 
 1) Determine Root Zone ID for Domain.
@@ -24,6 +30,9 @@ This runs in AWS. Manually (or have your IT team) create these resources.
 
  Rename bucket, dyanmo, or region in **all 3** root modules, `global`,`namer-eks`,`namer-platforms`  in both of **2 files** `providers.tf` and `data.tf`
 
+## Deploying Apps
+
+TODO: See guide in `dr-demo` repo 
 
 ### Initial Import
 

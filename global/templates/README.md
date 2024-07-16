@@ -87,8 +87,9 @@ credential_process = aws-vault exec --json
 #### Manually created / IAM Users (Customer)
 
 
-1) Provide IAM Usernames in `../../terraform.tfvars` as `fe_iam_usernames`
-2) Setup Role-Assuming profile and supporting SSO profile (if not already used for login)
+1) Create IAM Users via console,basic rights needed
+2) Provide IAM Usernames in `../../terraform.tfvars` as `fe_iam_usernames`
+3) Setup Role-Assuming profile and supporting SSO profile (if not already used for login)
 
 ##### AWS Config for Manual IAM Users
 

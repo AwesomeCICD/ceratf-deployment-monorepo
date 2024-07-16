@@ -23,11 +23,14 @@ CERA, CircleCI Enterprise Reference Architecture, is a full scale enterprise env
 [comment]: <> (- CircleCI Runners deployed on VMs and Kubernetes)
 - Full Stack Logging Solution
 - Re-deployable infrastructure using infrastructure as code
-- A production like application - Bank of Aoin
+- A production like application - Circle Banking App (cba)
 - CircleCI's Fieldguide
 [comment]: <> (- On Prem VCS)
 - Artifact Repository
 - Container Registry
+- Argo Rollouts
+- CCI Release Agent
+- Kiali, Grafana, Prometheus, Istio & Cert-Manager
 - `TODO: Add more services`
 
 
