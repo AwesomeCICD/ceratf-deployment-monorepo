@@ -36,12 +36,13 @@ variable "common_tags" {
   description = "Tags to be applied to all resources."
   type        = map(string)
   default = {
-    "cost_center"    = "mixed"
+    "cost_center"    = "sm"
     "owner"          = "field@circleci.com"
     "team"           = "Field Engineering"
     "iac"            = "true"
     "opt_in"         = "true"
-    "critical_until" = "critical-until-2024-07-31"
+    "critical_until" = "2024-12-31"
+    "data_classification" = "low"
     "purpose"        = "CERA is a customer facing demo architecture used by Field Engineering team."
   }
 }

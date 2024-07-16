@@ -14,6 +14,7 @@ module "fe_eks_cluster" {
   node_instance_types            = ["m5a.xlarge"]
   nodegroup_desired_capacity     = 2
   cluster_endpoint_public_access = true
+  default_fieldeng_tags          = data.terraform_remote_state.ceratf_deployment_global.outputs.common_tags
   # this should be replaced with a cluster_admin speciic role outide aws role used by pipeline.
   principal_arn = data.terraform_remote_state.ceratf_deployment_global.outputs.operator_access_iam_role_arn
 }
