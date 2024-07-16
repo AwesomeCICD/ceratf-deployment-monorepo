@@ -16,5 +16,6 @@ fe_email_usernames = [
   "vijay",
 ]
 fe_iam_usernames = [
-  "Eddies_CERA_access"
+  "Eddies_CERA_access",
+  "Jim-Debugging-Access"
 ]
