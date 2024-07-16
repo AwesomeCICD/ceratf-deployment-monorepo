@@ -97,9 +97,9 @@ credential_process = aws-vault exec --json
 
 [profile ElevatedCERAuser]
 region = us-east-1
-role_arn = arn:aws:iam::{THIS_ACOUNT}:role/CapitalOne-fe-eks-role  # matches role we create in  `main.tf` from this template!
+role_arn = arn:aws:iam::{THIS_ACOUNT}:role/Customer-fe-eks-role  # matches role we create in  `main.tf` from this template!
 role_session_name = Eddie_Pipeline_Session
-source_profile = capitalone
+source_profile = ConsoleDefinedIAMUser
 
 [profile ConsoleDefinedIAMUser]
 # Can login directly to this role provided by IT/CCI Team.
@@ -117,7 +117,7 @@ The overloaded policy above is also given to the EKS modules as as those with cl
 the `region-eks` job `apply` step will output something like this allowing `kubectl` to connect:
 
 ```
-      aws eks update-kubeconfig --name cera-use1-namer --region us-east-1 --profile pipeline
+      aws eks update-kubeconfig --name cera-use1-namer --region us-east-1  # Confirm Region and Name
       kubectl config rename-context arn:aws:eks:us-east-1:ACCOUNT:cluster/cera-use1-namer cera-use1-namer
       kubectl config set-context cera-use1-namer
 ```
