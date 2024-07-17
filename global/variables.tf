@@ -38,7 +38,7 @@ variable "common_tags" {
   default = {
     "cost_center"         = "sm"
     "owner"               = "field@circleci.com"
-    "team"                = "Field Engineering"
+    "Team"                = "Field Engineering"
     "iac"                 = "true"
     "opt_in"              = "true"
     "critical_until"      = "2024-12-31"
