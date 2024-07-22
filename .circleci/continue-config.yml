@@ -6,9 +6,6 @@ orbs:
 
 
 parameters:
-  run-orb-tests:
-    type: boolean
-    default: false
   global:
     type: boolean
     default: false
@@ -18,22 +15,30 @@ parameters:
   namer-platforms: 
     type: boolean
     default: false
-  emea-eks:  
-    type: boolean
-    default: false
-  emea-platforms: 
-    type: boolean
-    default: false
-  japac-eks:  
-    type: boolean
-    default: false
-  japac-platforms: 
-    type: boolean
-    default: false
+  aws-account-id:
+    type: string
+    default: "992382483259"
+  aws-pipeline-iam-prefix:
+    #used by pipeline as role, used by tf as role and policy name
+    type: string
+    default: cera-fe-pipeline
+  aws-operator-iam-prefix:
+    #used by humans for eks access
+    type: string
+    default: cera-fe-operator
+  aws-sso-assumed-role:
+    type: string
+    default: AWSReservedSSO_devops-ce-0034ed37_ea6f69cdd6bb1a5d 
+    description: The assigned role from IT when users login via SSO.
+  root-domain-name:
+    type: string
+    default: circleci-fieldeng.com
+
+
 
 tf_job_defaults: &tf_job_defaults
   context:
-    - empty-context #to explicitly generate OIDC token
+    - empty-context #to explicitly generate OIDC tokens
   #tag: "1.5.1"
   pre-steps:
     - checkout
@@ -42,7 +47,7 @@ tf_job_defaults: &tf_job_defaults
           - "4c:17:59:7f:f3:7d:61:e0:08:6d:b5:b3:cb:8b:ef:c6" # belongs to GH user "ceratf-module-bot", should have read to all ceratf-modules
     - aws-cli/install
     - aws-cli/assume-role-with-web-identity:
-        role-arn: "arn:aws:iam::483285841698:role/SolutionsEngineeringEKS"
+        role-arn: "arn:aws:iam::<<pipeline.parameters.aws-account-id>>:role/<<pipeline.parameters.aws-pipeline-iam-prefix>>-role"
         role-session-name: "cci-ceratf-deployment-<< pipeline.number >>"
     # We're doing this because BASH_ENV doesn't work with sh, and sh is the shell on the Terraform docker images
     # TODO: Come up with a better solution
@@ -57,6 +62,7 @@ tf_job_defaults: &tf_job_defaults
           aws_secret_access_key=${AWS_SECRET_ACCESS_KEY}
           aws_session_token=${AWS_SESSION_TOKEN}
           EOF
+          
     - run:
         name: Install Kubectl
         command: |
@@ -67,239 +73,98 @@ tf_job_defaults: &tf_job_defaults
         name: Install Modern TF
         command: |
             cd ~
-            curl -LO "https://releases.hashicorp.com/terraform/1.7.0/terraform_1.7.0_linux_amd64.zip"
-            unzip terraform_1.7.0*
+            curl -LO "https://releases.hashicorp.com/terraform/1.9.2/terraform_1.9.2_linux_amd64.zip"
+            unzip terraform_1.9.2*
             chmod a+x terraform
             mv terraform /usr/local/bin
 
 jobs:
-  global:
+  apply_module:
+    environment:
+      TF_VAR_fe_operator_iam_prefix: <<pipeline.parameters.aws-operator-iam-prefix>>
+      TF_VAR_fe_pipeline_iam_prefix: <<pipeline.parameters.aws-pipeline-iam-prefix>>
+      TF_VAR_root_domain_name: <<pipeline.parameters.root-domain-name>>
+      TF_VAR_fe_sso_iam_role: <<pipeline.parameters.aws-sso-assumed-role>>
+    parameters:
+      path:
+        type: string
+      first:
+        type: boolean
+        default: false
     executor: terraform/default
     steps:
       - checkout
-      - run: mkdir workspace
       - terraform/fmt:
-          path: ./global
+          path: << parameters.path >>
       - terraform/validate:
-          path: ./global
+          path: << parameters.path >>
       - terraform/apply:
-          path: ./global
-      - persist_to_workspace:
-          root: workspace
-          paths: 
-            - ./
-    
-  namer-eks:
-    executor: terraform/default
-    steps:
-      - checkout
-      - attach_workspace:
-          at: /workspace
-      - terraform/fmt:
-          path: ./namer-eks
-      - terraform/validate:
-          path: ./namer-eks
-      - terraform/apply:
-          path: ./namer-eks
-      - persist_to_workspace:
-          root: /workspace
-          paths:
-            - ./
-            
-  namer-platforms:
-    executor: terraform/default
-    steps:
-      - checkout
-      - attach_workspace:
-          at: /workspace
-      - terraform/fmt:
-          path: ./namer-platforms
-      - terraform/validate:
-          path: ./namer-platforms
-      - terraform/apply:
-          path: ./namer-platforms
-      - persist_to_workspace:
-          root: /workspace
-          paths:
-            - ./
+          path: << parameters.path >>
   
-  emea-eks:
-    executor: terraform/default
-    steps:
-      - checkout
-      - attach_workspace:
-          at: /workspace
-      - terraform/fmt:
-          path: ./emea-eks
-      - terraform/validate:
-          path: ./emea-eks
-      - terraform/apply:
-          path: ./emea-eks
-      - persist_to_workspace:
-          root: /workspace
-          paths:
-            - ./ 
-
-            
-  emea-platforms:
-    executor: terraform/default
-    steps:
-      - checkout
-      - attach_workspace:
-          at: /workspace
-      - terraform/fmt:
-          path: ./emea-platforms
-      - terraform/validate:
-          path: ./emea-platforms
-      - terraform/apply:
-          path: ./emea-platforms
-      - persist_to_workspace:
-          root: /workspace
-          paths:
-            - ./
   
-  japac-eks:
-    executor: terraform/default
-    steps:
-      - checkout
-      - attach_workspace:
-          at: /workspace
-      - terraform/fmt:
-          path: ./japac-eks
-      - terraform/validate:
-          path: ./japac-eks
-      - terraform/apply:
-          path: ./japac-eks
-      - persist_to_workspace:
-          root: /workspace
-          paths:
-            - ./
-            
-  japac-platforms:
-    executor: terraform/default
-    steps:
-      - checkout
-      - attach_workspace:
-          at: /workspace
-      - terraform/fmt:
-          path: ./japac-platforms
-      - terraform/validate:
-          path: ./japac-platforms
-      - terraform/apply:
-          path: ./japac-platforms
-      - persist_to_workspace:
-          root: /workspace
-          paths:
-            - ./
+  
 
 workflows:
   global-workflow:
-    when: << pipeline.parameters.global >>
+    when: 
+      and: 
+       - equal: [true,<<pipeline.parameters.global>>] 
     jobs:
-      - global:
+      - apply_module:
+          name: Global IaC
+          path: ./global
+          first: true
           <<: *tf_job_defaults
-      - namer-eks:
+      - apply_module:
+          name: Region EKS IaC
+          path: ./namer-eks
+          <<: *tf_job_defaults
           requires:
-            - global
+            - Global IaC
+      - apply_module:
+          name: Region Platform IaC
+          path: ./namer-platforms
           <<: *tf_job_defaults
-      - namer-platforms:
           requires:
-            - namer-eks
-          <<: *tf_job_defaults
+            - Region EKS IaC
           context:
-            - CERA-INIT-NAMER
-      - emea-eks:
-          requires:
-            - global
-          <<: *tf_job_defaults
-      - emea-platforms:
-          requires:
-            - emea-eks
-          <<: *tf_job_defaults
-          context:
-            - CERA-INIT-EMEA
-      - japac-eks:
-          requires:
-            - global
-          <<: *tf_job_defaults
-      - japac-platforms:
-          requires:
-            - japac-eks
-          <<: *tf_job_defaults
-          context:
-            - CERA-INIT-JAPAC
+            - CERA-INIT-NAMER-NEW
+     
+
   
-  eks_layer_namer:
+  include_eks:
     when: 
       and: 
         - not: << pipeline.parameters.global >>
         - equal: [ true, <<pipeline.parameters.namer-eks>> ]
-    jobs:
-      - namer-eks:
-          <<: *tf_job_defaults
-      - namer-platforms:
-          requires:
-            - namer-eks
-          <<: *tf_job_defaults
 
-  platform_layer_namer:
+    jobs:
+      - apply_module:
+          name: Region EKS IaC
+          path: ./namer-eks
+          <<: *tf_job_defaults
+      - apply_module:
+          name: Region Platform IaC
+          path: ./namer-platforms
+          <<: *tf_job_defaults
+          requires:
+            - Region EKS IaC
+          context:
+            - CERA-INIT-NAMER-NEW
+
+  include_platform_layer:
     when:
       and: 
        - not: << pipeline.parameters.global >>
        - not: <<pipeline.parameters.namer-eks>>
        - equal: [ true, <<pipeline.parameters.namer-platforms>> ]
-    jobs:
-      - namer-platforms:
-          <<: *tf_job_defaults
-          context:
-            - CERA-INIT-NAMER
-  
-  eks_layer_emea:
-    when: 
-      and: 
-        - not: << pipeline.parameters.global >>
-        - equal: [ true, <<pipeline.parameters.emea-eks>> ]
-    jobs:
-      - emea-eks:
-          <<: *tf_job_defaults
-      - emea-platforms:
-          requires:
-            - emea-eks
-          <<: *tf_job_defaults
 
-  platform_layer_emea:
-    when:
-      and: 
-       - not: << pipeline.parameters.global >>
-       - not: <<pipeline.parameters.emea-eks>>
-       - equal: [ true, <<pipeline.parameters.emea-platforms>> ]
     jobs:
-      - emea-platforms:
+      - apply_module:
+          name: Region Platform IaC
+          path: ./namer-platforms
           <<: *tf_job_defaults
           context:
-            - CERA-INIT-EMEA
+            - CERA-INIT-NAMER-NEW
   
-  eks_layer_japac:
-    when: 
-      and: 
-        - not: << pipeline.parameters.global >>
-        - equal: [ true, <<pipeline.parameters.japac-eks>> ]
-    jobs:
-      - japac-eks:
-          <<: *tf_job_defaults
-      - japac-platforms:
-          requires:
-            - japac-eks
-          <<: *tf_job_defaults
 
-  platform_layer_japac:
-    when:
-      and: 
-       - not: << pipeline.parameters.global >>
-       - not: <<pipeline.parameters.japac-eks>>
-       - equal: [ true, <<pipeline.parameters.japac-platforms>> ]
-    jobs:
-      - japac-platforms:
-          <<: *tf_job_defaults
-          context:
-            - CERA-INIT-JAPAC

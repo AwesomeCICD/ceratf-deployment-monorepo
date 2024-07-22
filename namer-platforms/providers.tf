@@ -4,16 +4,16 @@ provider "aws" {
     tags = {
       critical-resource = "critical-until-2024-02-01"
       owner             = "solutions@circleci.com"
-      purpose           = "CERA is a customer facing demo architecture used by Solutions Engineering team."
+      purpose           = "CERA is a customer facing demo architecture used by Field Engineering team."
     }
   }
 }
 
 terraform {
   backend "s3" {
-    bucket         = "se-cluster-tf"
+    bucket         = "fe-cluster-tf-state"
     region         = "us-west-2"
-    key            = "se-eks-cluster-tooling/namer/terraform.tfstate"
+    key            = "fe-eks-cluster-tooling/namer/terraform.tfstate"
     dynamodb_table = "cera-tf-lock"
   }
 }

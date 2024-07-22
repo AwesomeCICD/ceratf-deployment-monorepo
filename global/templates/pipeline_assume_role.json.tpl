@@ -12,7 +12,8 @@
                     "oidc.circleci.com/org/${CIRCLECI_ORG_ID}:aud": "${CIRCLECI_ORG_ID}"
                 }
             }
-        },
+        }%{ if BREAK_THE_GLASS != "" }
+        ,%{ if SSO_TEAM_ROLE != "" }
         {
             "Sid": "AllowSETeam",
             "Effect": "Allow",
@@ -21,5 +22,15 @@
             },
             "Action": "sts:AssumeRole"
         }
+        %{ else }
+        {
+            "Sid": "AllowIAMUsers",
+            "Effect": "Allow",
+            "Principal": { 
+                "AWS": ${IAM_USER_LIST}               
+            },
+            "Action": "sts:AssumeRole"
+        }%{ endif }
+        %{ endif }
     ]
 }

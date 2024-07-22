@@ -23,11 +23,14 @@ CERA, CircleCI Enterprise Reference Architecture, is a full scale enterprise env
 [comment]: <> (- CircleCI Runners deployed on VMs and Kubernetes)
 - Full Stack Logging Solution
 - Re-deployable infrastructure using infrastructure as code
-- A production like application - Bank of Aoin
+- A production like application - Circle Banking App (cba)
 - CircleCI's Fieldguide
 [comment]: <> (- On Prem VCS)
 - Artifact Repository
 - Container Registry
+- Argo Rollouts
+- CCI Release Agent
+- Kiali, Grafana, Prometheus, Istio & Cert-Manager
 - `TODO: Add more services`
 
 
@@ -37,7 +40,7 @@ and what technologies are in an enterprise like environment.
 
 
 ## Goals of CERA
-Focusing our talented Solutions Engineering team's effort on supporting CircleCI's Enterprise Reference Architecture, the goals are as follows:
+Focusing our talented Field Engineering team's effort on supporting CircleCI's Enterprise Reference Architecture, the goals are as follows:
 
 - Have an effective environment to showcase CircleCI's enterprise level features
 - Show off more complex use cases of CircleCI's platform
@@ -47,12 +50,12 @@ Focusing our talented Solutions Engineering team's effort on supporting CircleCI
 - Easily Maintainable
 - `TODO: Define and solidify goals with team`
 
-At the end of the day CircleCI needs an environment that Solutions Engineering can utilize for demos.
+At the end of the day CircleCI needs an environment that Field Engineering can utilize for demos.
 
 
 ## Wall of Work and Organization
-CERA has a lot of moving parts and will require collaboration to be complex. In order to stay organized this project will be utilizing [JIRA](https://circleci.atlassian.net/jira/software/projects/SE/boards/392).
-JIRA will act as a wall of work where individuals can look and be assigned tasks. By utilizing JIRA the Solutions Engineering team can effectively collaborate on multiple tasks across different time zones.
+CERA has a lot of moving parts and will require collaboration to be complex. In order to stay organized this project will be utilizing [JIRA](https://circleci.atlassian.net/jira/software/projects/FE/boards/392).
+JIRA will act as a wall of work where individuals can look and be assigned tasks. By utilizing JIRA the Field Engineering team can effectively collaborate on multiple tasks across different time zones.
 
 **How we work**
 #### TODO
@@ -122,4 +125,14 @@ Services & configuration deployed at the platform layer include:
 3. JAPAC-Platforms
 
 
+## Trooubleshooting
 
+### Teardown Stuck Istio Namespace
+
+If deleting istio-system namespace hangs, try this to force;fully remove Kiali finalizers.
+
+```
+kubectl get kialis.kiali.io kiali "istio-system" -o json \\n  | tr -d "\n" | sed "s/\"finalizers\": \[[^]]\+\]/\"finalizers\": []/" \\n  | kubectl replace --raw /api/spaces/istio-system/finalize -f -
+```
+
+Or print the `kialis.kiali.io kiali` to yaml and manually remove finalizers, and apply.
