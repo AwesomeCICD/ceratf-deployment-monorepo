@@ -40,7 +40,7 @@ import {
 
 resource "aws_iam_role" "fe_eks" {
   name        = "${var.fe_pipeline_iam_prefix}-role"
-  description = "Role to provision and manage EKS clusters for the capitalone fe team"
+  description = "Role to provision and manage EKS clusters for the fe team"
 
   assume_role_policy = templatefile(
     "${path.module}/templates/pipeline_assume_role.json.tpl",
@@ -68,7 +68,7 @@ resource "aws_iam_role" "fe_eks" {
 resource "aws_iam_policy" "fe_eks" {
   name = "${var.fe_pipeline_iam_prefix}-policy"
 
-  description = "Policy for the capitalone team for EKS clusters"
+  description = "Policy for the admin team for EKS clusters"
 
   policy = templatefile(
     "${path.module}/templates/pipeline_role_policy.json.tpl",
@@ -92,7 +92,7 @@ resource "aws_iam_role_policy_attachment" "fe_eks" {
 
 
 #
-# Separate user login from pipeline stuff abgove
+# Separate user login from pipeline role above
 
 resource "aws_iam_role" "operator_access_role" {
   name        = "${var.fe_operator_iam_prefix}-role"
