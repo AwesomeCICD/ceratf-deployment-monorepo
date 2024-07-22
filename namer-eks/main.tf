@@ -57,7 +57,7 @@ module "vault" {
   cluster_name              = module.fe_eks_cluster.cluster_name
   cluster_oidc_provider_arn = module.fe_eks_cluster.oidc_provider_arn
   root_domain               = data.terraform_remote_state.ceratf_deployment_global.outputs.r53_root_zone_name
-  storage_az                = "${data.aws_region.current}a"
+  storage_az                = "${data.aws_region.current.name}a"
 
   depends_on = [module.fe_eks_cluster, module.helm_istio, module.regional_dns]
 }
