@@ -40,7 +40,7 @@ variable "common_tags" {
     "owner"               = "field@circleci.com"
     "Team"                = "Field Engineering"
     "iac"                 = "true"
-    "opt_in"              = "true"
+    "optimization_opt_in" = "true"
     "critical_until"      = "2024-12-31"
     "data_classification" = "low"
     "purpose"             = "CERA is a customer facing demo architecture used by Field Engineering team."
