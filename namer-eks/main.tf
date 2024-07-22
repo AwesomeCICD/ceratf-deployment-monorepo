@@ -50,7 +50,7 @@ module "helm_istio" {
 
 
 module "vault" {
-  source = "git@github.com:AwesomeCICD/ceratf-module-helm-vault?ref=vault-gp2"
+  source = "git@github.com:AwesomeCICD/ceratf-module-helm-vault?ref=2.0.0"
 
   circleci_region           = local.circleci_region
   namespace                 = "vault"
