@@ -80,9 +80,6 @@ resource "aws_iam_policy" "fe_eks" {
 
   tags = var.common_tags
 
-  lifecycle {
-    create_before_destroy = true
-  }
 }
 
 resource "aws_iam_role_policy_attachment" "fe_eks" {
