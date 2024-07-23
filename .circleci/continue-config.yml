@@ -135,7 +135,7 @@ workflows:
           name: Region EKS IaC <<matrix.context-suffix>>
           matrix:
             parameters:
-              context-suffix: ["NAMER"]
+              context-suffix: ["NAMER","EMEA"]
           path: ./namer-eks
           <<: *tf_job_defaults
           requires:
@@ -147,7 +147,7 @@ workflows:
           path: ./namer-platforms
           matrix:
             parameters:
-              context-suffix: ["NAMER"]
+              context-suffix: ["NAMER","EMEA"]
           <<: *tf_job_defaults
           requires:
             - Region EKS IaC <<matrix.context-suffix>>
@@ -168,7 +168,7 @@ workflows:
           <<: *tf_job_defaults
           matrix:
             parameters:
-              context-suffix: ["NAMER"]
+              context-suffix: ["NAMER","EMEA"]
           context:
             - CERA-INIT-NAMER-NEW
       - apply_module:
@@ -177,7 +177,7 @@ workflows:
           <<: *tf_job_defaults
           matrix:
             parameters:
-              context-suffix: ["NAMER"]
+              context-suffix: ["NAMER","EMEA"]
           requires:
             - Region EKS IaC
           context:
@@ -197,7 +197,7 @@ workflows:
           <<: *tf_job_defaults
           matrix:
             parameters:
-              context-suffix: ["NAMER"]
+              context-suffix: ["NAMER","EMEA"]
           context:
             - CERA-INIT-<<matrix.context-suffix>>-NEW
   
@@ -214,11 +214,11 @@ commands:
       - run: 
           name: Set TF Provider Region
           command: |
-            pwd && ls
+            echo "Reworking << parameters.path >>/<< parameters.filename >> for ${TF_VAR_fe_aws_region}"
             mv "<< parameters.path >>/<< parameters.filename >>" "<< parameters.path >>/<< parameters.filename >>.bak1"
             sed "s/us-west-2/${TF_VAR_fe_aws_region}/g" "<< parameters.path >>/<< parameters.filename >>.bak1" > "<< parameters.path >>/<< parameters.filename >>.bak2"
             sed "s/namer/${TF_VAR_fe_domain_region}/g" "<< parameters.path >>/<< parameters.filename >>.bak2" > "<< parameters.path >>/<< parameters.filename >>"
-            ls "<< parameters.path >>"
             rm "<< parameters.path >>/<< parameters.filename >>.bak1" "<< parameters.path >>/<< parameters.filename >>.bak2"
+            cat "<< parameters.path >>/<< parameters.filename >>"
 
 
