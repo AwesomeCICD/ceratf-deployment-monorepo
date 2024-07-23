@@ -5,7 +5,7 @@ data "terraform_remote_state" "ceratf_regional" {
   config = {
     bucket = "fe-cluster-tf-state"
     region = "us-west-2"
-    key    = "fe-eks-cluster/xxxxx/terraform.tfstate"
+    key    = "fe-eks-cluster/REPLACEME-sub-domain/terraform.tfstate"
   }
 }
 

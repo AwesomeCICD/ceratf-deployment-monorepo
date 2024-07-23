@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "xx-xxxx-nn"
+  region = "xx-REPLACEME-nn"
   default_tags {
     tags = {
       critical-resource = "critical-until-2024-02-01"
@@ -13,7 +13,7 @@ terraform {
   backend "s3" {
     bucket         = "fe-cluster-tf-state"
     region         = "us-west-2"
-    key            = "fe-eks-cluster/nnnnn/terraform.tfstate"
+    key            = "fe-eks-cluster/REPLACEME-sub-domain/terraform.tfstate"
     dynamodb_table = "cera-tf-lock"
   }
 }
