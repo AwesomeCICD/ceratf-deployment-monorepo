@@ -100,7 +100,7 @@ jobs:
             equal: ['./global',<<parameters.path>>]
           steps: 
             - regionalize-providers:
-                path: ./<<parameters.path>>
+                path: <<parameters.path>>
       - when:
           condition: 
           # some files might have a data.tf to regionalize (currently only plaform lwevel)
@@ -108,7 +108,7 @@ jobs:
               - equal: ['./namer-platforms',<<parameters.path>>]
           steps: 
             - regionalize-providers:
-                path: ./<<parameters.path>>
+                path: <<parameters.path>>
                 filename: data.tf
       - terraform/fmt:
           path: << parameters.path >>
