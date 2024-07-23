@@ -5,7 +5,7 @@ data "terraform_remote_state" "ceratf_regional" {
   config = {
     bucket = "fe-cluster-tf-state"
     region = data.aws_region.current.name
-    key    = "fe-eks-cluster/${var.fe_domain_region}/terraform.tfstate"
+    key    = "fe-eks-cluster/namer/terraform.tfstate"
   }
 }
 

@@ -127,6 +127,9 @@ workflows:
             - Global IaC
           context:
             - CERA-INIT-<<matrix.context-suffix>>-NEW
+          pre-steps:
+            - regionalize-providers:
+                path: ./namer-eks
       - apply_module:
           name: Region Platform IaC <<matrix.context-suffix>>
           path: ./namer-platforms
@@ -138,6 +141,9 @@ workflows:
             - Region EKS IaC <<matrix.context-suffix>>
           context:
             - CERA-INIT-<<matrix.context-suffix>>-NEW
+          pre-steps:
+            - regionalize-providers:
+                path: ./namer-platforms
   
   include_eks:
     when: 
@@ -150,14 +156,28 @@ workflows:
           name: Region EKS IaC
           path: ./namer-eks
           <<: *tf_job_defaults
+          matrix:
+            parameters:
+              context-suffix: ["NAMER"]
+          context:
+            - CERA-INIT-NAMER-NEW
+          pre-steps:
+            - regionalize-providers:
+                path: ./namer-eks
       - apply_module:
           name: Region Platform IaC
           path: ./namer-platforms
           <<: *tf_job_defaults
+          matrix:
+            parameters:
+              context-suffix: ["NAMER"]
           requires:
             - Region EKS IaC
           context:
-            - CERA-INIT-NAMER-NEW
+            - CERA-INIT-<<matrix.context-suffix>>-NEW
+          pre-steps:
+            - regionalize-providers:
+                path: ./namer-platforms
 
   include_platform_layer:
     when:
@@ -171,7 +191,30 @@ workflows:
           name: Region Platform IaC
           path: ./namer-platforms
           <<: *tf_job_defaults
+          matrix:
+            parameters:
+              context-suffix: ["NAMER"]
           context:
-            - CERA-INIT-NAMER-NEW
+            - CERA-INIT-<<matrix.context-suffix>>-NEW
+          pre-steps:
+            - regionalize-providers:
+                path: ./namer-platforms
   
+
+commands:
+  regionalize-providers:
+    parameters:
+      path:
+        type: string
+      filename:
+        type: string
+    steps:
+      - run: 
+          name: Set TF Provider Region
+          command: |
+            mv "<< parameters.path >>/<< parameters.filename >>.tf" "<< parameters.path >>/temp.tf"
+            sed "s/us-west-2/${TF_VAR_fe_aws_region}/g" "<< parameters.path >>/temp.tf" > "<< parameters.path >>/temp2.tf"
+            sed "s/namer/${TF_VAR_fe_domain_region}/g" "<< parameters.path >>/temp2.tf" > "<< parameters.path >>/<< parameters.filename >>.tf"
+            rm "<< parameters.path >>/temp*.tf"
+
 
