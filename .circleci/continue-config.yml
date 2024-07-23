@@ -129,7 +129,7 @@ workflows:
           path: ./namer-eks
           <<: *tf_job_defaults
           requires:
-            - Global IaC <<matrix.region>>
+            - Global IaC
       - apply_module:
           name: Region Platform IaC <<matrix.region>>
           path: ./namer-platforms
