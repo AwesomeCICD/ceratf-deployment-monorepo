@@ -88,9 +88,6 @@ jobs:
     parameters:
       path:
         type: string
-      first:
-        type: boolean
-        default: false
       context-suffix:
         type: enum
         enum: [ NAMER, EMEA, JAPAC ]
@@ -118,7 +115,6 @@ workflows:
       - apply_module:
           name: Global IaC
           path: ./global
-          first: true
           <<: *tf_job_defaults
       - apply_module:
           name: Region EKS IaC <<matrix.context-suffix>>

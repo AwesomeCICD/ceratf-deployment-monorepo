@@ -4,7 +4,7 @@ data "terraform_remote_state" "ceratf_deployment_global" {
 
   config = {
     bucket = "fe-cluster-tf-state"
-    region = var.fe_aws_region
+    region = data.aws_region.current.name
     key    = "fe-eks-cluster/global/terraform.tfstate"
   }
 }

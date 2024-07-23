@@ -4,11 +4,12 @@ data "terraform_remote_state" "ceratf_regional" {
 
   config = {
     bucket = "fe-cluster-tf-state"
-    region = var.fe_aws_region
+    region = data.aws_region.current.name
     key    = "fe-eks-cluster/${var.fe_domain_region}/terraform.tfstate"
   }
 }
 
+data "aws_region" "current" {}
 data "kubernetes_secret" "vault_token" {
   metadata {
     name      = "vault-token"
