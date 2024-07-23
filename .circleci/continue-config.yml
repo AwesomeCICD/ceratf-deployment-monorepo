@@ -94,7 +94,22 @@ jobs:
         default: NAMER
     executor: terraform/default
     steps:
-      - checkout
+      - unless:
+          condition: 
+            # non global modules get provider regionalized
+            equal: ['./global',<<parameters.path>>]
+          steps: 
+            - regionalize-providers:
+                path: ./<<parameters.path>>
+      - when:
+          condition: 
+          # some files might have a data.tf to regionalize (currently only plaform lwevel)
+            or:
+              - equal: ['./namer-platforms',<<parameters.path>>]
+          steps: 
+            - regionalize-providers:
+                path: ./<<parameters.path>>
+                filename: data.tf
       - terraform/fmt:
           path: << parameters.path >>
       - terraform/validate:
@@ -127,9 +142,6 @@ workflows:
             - Global IaC
           context:
             - CERA-INIT-<<matrix.context-suffix>>-NEW
-          pre-steps:
-            - regionalize-providers:
-                path: ./namer-eks
       - apply_module:
           name: Region Platform IaC <<matrix.context-suffix>>
           path: ./namer-platforms
@@ -141,13 +153,6 @@ workflows:
             - Region EKS IaC <<matrix.context-suffix>>
           context:
             - CERA-INIT-<<matrix.context-suffix>>-NEW
-          pre-steps:
-            - regionalize-providers:
-                path: ./namer-platforms
-                filename: data.tf
-            - regionalize-providers:
-                path: ./namer-platforms
-                filename: providers.tf
 
   
   include_eks:
@@ -166,9 +171,6 @@ workflows:
               context-suffix: ["NAMER"]
           context:
             - CERA-INIT-NAMER-NEW
-          pre-steps:
-            - regionalize-providers:
-                path: ./namer-eks
       - apply_module:
           name: Region Platform IaC
           path: ./namer-platforms
@@ -180,13 +182,6 @@ workflows:
             - Region EKS IaC
           context:
             - CERA-INIT-<<matrix.context-suffix>>-NEW
-          pre-steps:
-            - regionalize-providers:
-                path: ./namer-platforms
-                filename: data.tf
-            - regionalize-providers:
-                path: ./namer-platforms
-                filename: providers.tf
 
   include_platform_layer:
     when:
@@ -205,13 +200,6 @@ workflows:
               context-suffix: ["NAMER"]
           context:
             - CERA-INIT-<<matrix.context-suffix>>-NEW
-          pre-steps:
-            - regionalize-providers:
-                path: ./namer-platforms
-                filename: data.tf
-            - regionalize-providers:
-                path: ./namer-platforms
-                filename: providers.tf
   
 
 commands:
