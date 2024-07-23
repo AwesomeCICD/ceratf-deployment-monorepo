@@ -144,6 +144,11 @@ workflows:
           pre-steps:
             - regionalize-providers:
                 path: ./namer-platforms
+                filename: data.tf
+            - regionalize-providers:
+                path: ./namer-platforms
+                filename: providers.tf
+
   
   include_eks:
     when: 
@@ -221,9 +226,10 @@ commands:
       - run: 
           name: Set TF Provider Region
           command: |
+            pwd && ls
             mv "<< parameters.path >>/<< parameters.filename >>" "<< parameters.path >>/<< parameters.filename >>.bak1"
             sed "s/us-west-2/${TF_VAR_fe_aws_region}/g" "<< parameters.path >>/<< parameters.filename >>.bak1" > "<< parameters.path >>/<< parameters.filename >>.bak2"
-            sed "s/namer/${TF_VAR_fe_domain_region}/g" "<< parameters.path >>/<< parameters.filename >>.bak2" > "<< parameters.path >>/<< parameters.filename >>.tf"
+            sed "s/namer/${TF_VAR_fe_domain_region}/g" "<< parameters.path >>/<< parameters.filename >>.bak2" > "<< parameters.path >>/<< parameters.filename >>"
             rm "<< parameters.path >>/<< parameters.filename >>.bak*"
 
 
