@@ -19,7 +19,7 @@ workflows:
           base-revision: main
           config-path: .circleci/continue-config.yml
           mapping: |
-            global/.* global true
-            namer-eks/.* namer-eks true
-            namer-platforms/.* namer-platforms true
+            global/.* global-changed true
+            namer-eks/.* iaas-changed true
+            namer-platforms/.* platforms-changed true
             

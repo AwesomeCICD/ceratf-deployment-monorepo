@@ -6,13 +6,13 @@ orbs:
 
 
 parameters:
-  global:
+  global-changed:
     type: boolean
     default: false
-  namer-eks:  
+  iaas-changed:  
     type: boolean
     default: false
-  namer-platforms: 
+  platforms-changed: 
     type: boolean
     default: false
   aws-account-id:
@@ -85,12 +85,17 @@ jobs:
       TF_VAR_fe_pipeline_iam_prefix: <<pipeline.parameters.aws-pipeline-iam-prefix>>
       TF_VAR_root_domain_name: <<pipeline.parameters.root-domain-name>>
       TF_VAR_fe_sso_iam_role: <<pipeline.parameters.aws-sso-assumed-role>>
+      TF_VAR_fe_region: <<parameters.region>>
     parameters:
       path:
         type: string
       first:
         type: boolean
         default: false
+      region:
+        type: enum
+        enum: [ namer, emea ]
+        default: namer
     executor: terraform/default
     steps:
       - checkout
@@ -105,10 +110,11 @@ jobs:
   
 
 workflows:
-  global-workflow:
+
+  global-changed-workflow:
     when: 
       and: 
-       - equal: [true,<<pipeline.parameters.global>>] 
+       - equal: [true,<<pipeline.parameters.global-changed>>] 
     jobs:
       - apply_module:
           name: Global IaC
@@ -116,27 +122,31 @@ workflows:
           first: true
           <<: *tf_job_defaults
       - apply_module:
-          name: Region EKS IaC
+          name: Region EKS IaC <<matrix.region>>
+          matrix:
+            parameters:
+              region: ['namer']
           path: ./namer-eks
           <<: *tf_job_defaults
           requires:
-            - Global IaC
+            - Global IaC <<matrix.region>>
       - apply_module:
-          name: Region Platform IaC
+          name: Region Platform IaC <<matrix.region>>
           path: ./namer-platforms
+          matrix:
+            parameters:
+              region: ['namer']
           <<: *tf_job_defaults
           requires:
-            - Region EKS IaC
+            - Region EKS IaC <<matrix.region>>
           context:
-            - CERA-INIT-NAMER-NEW
-     
-
+            - CERA-INIT-<<matrix.region>>-NEW
   
   include_eks:
     when: 
       and: 
-        - not: << pipeline.parameters.global >>
-        - equal: [ true, <<pipeline.parameters.namer-eks>> ]
+        - not: << pipeline.parameters.global-changed >>
+        - equal: [ true, <<pipeline.parameters.iaas-changed>> ]
 
     jobs:
       - apply_module:
@@ -155,9 +165,9 @@ workflows:
   include_platform_layer:
     when:
       and: 
-       - not: << pipeline.parameters.global >>
-       - not: <<pipeline.parameters.namer-eks>>
-       - equal: [ true, <<pipeline.parameters.namer-platforms>> ]
+       - not: << pipeline.parameters.global-changed >>
+       - not: <<pipeline.parameters.iaas-changed>>
+       - equal: [ true, <<pipeline.parameters.platforms-changed>> ]
 
     jobs:
       - apply_module:
