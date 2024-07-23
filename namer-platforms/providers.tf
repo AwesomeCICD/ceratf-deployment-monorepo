@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "us-west-2"
+  region = "xx-xxxx-nn"
   default_tags {
     tags = {
       critical-resource = "critical-until-2024-02-01"

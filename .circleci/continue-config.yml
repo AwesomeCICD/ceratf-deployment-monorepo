@@ -204,14 +204,14 @@ commands:
           command: |
             echo "Reworking << parameters.path >>/providers.tf for ${TF_VAR_fe_aws_region}"
             mv "<< parameters.path >>/providers.tf" "<< parameters.path >>/providers.tf.bak1"
-            sed "s/us-west-2/${TF_VAR_fe_aws_region}/" "<< parameters.path >>/providers.tf.bak1" > "<< parameters.path >>/providers.tf.bak2"
-            sed "s/namer/${TF_VAR_fe_domain_region}/" "<< parameters.path >>/providers.tf.bak2" > "<< parameters.path >>/providers.tf"
+            sed "s/xx-xxxx-nn/${TF_VAR_fe_aws_region}/" "<< parameters.path >>/providers.tf.bak1" > "<< parameters.path >>/providers.tf.bak2"
+            sed "s/xxxxx/${TF_VAR_fe_domain_region}/" "<< parameters.path >>/providers.tf.bak2" > "<< parameters.path >>/providers.tf"
             rm "<< parameters.path >>/providers.tf.bak1" "<< parameters.path >>/providers.tf.bak2"
             cat "<< parameters.path >>/providers.tf"
 
             echo "Reworking << parameters.path >>/data.tf for ${TF_VAR_fe_aws_region}"
             mv "<< parameters.path >>/data.tf" "<< parameters.path >>/data.tf.bak1"
-            sed "s/namer/${TF_VAR_fe_domain_region}/" "<< parameters.path >>/data.tf.bak1" > "<< parameters.path >>/data.tf"
+            sed "s/xxxxx/${TF_VAR_fe_domain_region}/" "<< parameters.path >>/data.tf.bak1" > "<< parameters.path >>/data.tf"
             rm "<< parameters.path >>/data.tf.bak1"
             cat "<< parameters.path >>/data.tf"
 
