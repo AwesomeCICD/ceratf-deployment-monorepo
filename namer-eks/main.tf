@@ -6,7 +6,7 @@ locals {
 }
 
 module "fe_eks_cluster" {
-  source = "git@github.com:AwesomeCICD/ceratf-module-eks.git?ref=6.0.0"
+  source = "git@github.com:AwesomeCICD/ceratf-module-eks.git?ref=7.0.0"
 
   cluster_version                = "1.30"
   cluster_suffix                 = var.fe_domain_region
@@ -16,6 +16,7 @@ module "fe_eks_cluster" {
   default_fieldeng_tags          = data.terraform_remote_state.ceratf_deployment_global.outputs.common_tags
   # this should be replaced with a cluster_admin speciic role outide aws role used by pipeline.
   principal_arn = data.terraform_remote_state.ceratf_deployment_global.outputs.operator_access_iam_role_arn
+  pipeline_arn  = data.terraform_remote_state.ceratf_deployment_global.outputs.pipeline_access_iam_role_arn
 }
 
 module "regional_dns" {
