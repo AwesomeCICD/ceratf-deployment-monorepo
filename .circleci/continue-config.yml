@@ -85,17 +85,16 @@ jobs:
       TF_VAR_fe_pipeline_iam_prefix: <<pipeline.parameters.aws-pipeline-iam-prefix>>
       TF_VAR_root_domain_name: <<pipeline.parameters.root-domain-name>>
       TF_VAR_fe_sso_iam_role: <<pipeline.parameters.aws-sso-assumed-role>>
-      TF_VAR_fe_region: <<parameters.region>>
     parameters:
       path:
         type: string
       first:
         type: boolean
         default: false
-      region:
+      context-suffix:
         type: enum
-        enum: [ namer, emea ]
-        default: namer
+        enum: [ NAMER, EMEA, JAPAC ]
+        default: NAMER
     executor: terraform/default
     steps:
       - checkout
@@ -122,25 +121,27 @@ workflows:
           first: true
           <<: *tf_job_defaults
       - apply_module:
-          name: Region EKS IaC <<matrix.region>>
+          name: Region EKS IaC <<matrix.context-suffix>>
           matrix:
             parameters:
-              region: ['namer']
+              context-suffix: ["NAMER"]
           path: ./namer-eks
           <<: *tf_job_defaults
           requires:
             - Global IaC
+          context:
+            - CERA-INIT-<<matrix.context-suffix>>-NEW
       - apply_module:
-          name: Region Platform IaC <<matrix.region>>
+          name: Region Platform IaC <<matrix.context-suffix>>
           path: ./namer-platforms
           matrix:
             parameters:
-              region: ['namer']
+              context-suffix: ["NAMER"]
           <<: *tf_job_defaults
           requires:
-            - Region EKS IaC <<matrix.region>>
+            - Region EKS IaC <<matrix.context-suffix>>
           context:
-            - CERA-INIT-<<matrix.region>>-NEW
+            - CERA-INIT-<<matrix.context-suffix>>-NEW
   
   include_eks:
     when: 

@@ -12,3 +12,13 @@ variable "nexus_admin_password" {
   type        = string
   sensitive   = true
 }
+
+
+variable "fe_aws_region" {
+  type        = string
+  description = "AWS region like 'us-west-1"
+}
+variable "fe_domain_region" {
+  type        = string
+  description = "FE region like 'namer"
+}

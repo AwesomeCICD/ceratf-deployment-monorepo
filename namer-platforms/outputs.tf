@@ -1,6 +1,6 @@
 
 output "circleci_region" {
-  value = local.circleci_region
+  value = data.terraform_remote_state.ceratf_regional.outputs.circleci_region
 }
 
 /*

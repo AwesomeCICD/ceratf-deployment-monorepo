@@ -1,6 +1,5 @@
 # Putting this here for visibility
 locals {
-  circleci_region = "namer"
   common_namespace_labels = {
     istio-injection = "enabled"
   }
@@ -10,7 +9,7 @@ module "fe_eks_cluster" {
   source = "git@github.com:AwesomeCICD/ceratf-module-eks.git?ref=5.0.0"
 
   cluster_version                = "1.30"
-  cluster_suffix                 = local.circleci_region
+  cluster_suffix                 = var.fe_domain_region
   node_instance_types            = ["m5a.xlarge"]
   nodegroup_desired_capacity     = 2
   cluster_endpoint_public_access = true
@@ -24,7 +23,7 @@ module "regional_dns" {
 
   root_zone_name  = data.terraform_remote_state.ceratf_deployment_global.outputs.r53_root_zone_name
   root_zone_id    = data.terraform_remote_state.ceratf_deployment_global.outputs.r53_root_zone_id
-  circleci_region = local.circleci_region
+  circleci_region = var.fe_domain_region
 }
 
 
@@ -38,7 +37,7 @@ module "helm_istio" {
   namespace_labels          = local.common_namespace_labels
   cluster_security_group_id = module.fe_eks_cluster.cluster_security_group_id
   node_security_group_id    = module.fe_eks_cluster.node_security_group_id
-  circleci_region           = local.circleci_region
+  circleci_region           = var.fe_domain_region
   root_domain_zone_id       = data.terraform_remote_state.ceratf_deployment_global.outputs.r53_root_zone_id
   root_domain_zone_name     = data.terraform_remote_state.ceratf_deployment_global.outputs.r53_root_zone_name
   target_domain             = module.regional_dns.r53_subdomain_zone_name
@@ -52,7 +51,7 @@ module "helm_istio" {
 module "vault" {
   source = "git@github.com:AwesomeCICD/ceratf-module-helm-vault?ref=2.0.0"
 
-  circleci_region           = local.circleci_region
+  circleci_region           = var.fe_domain_region
   namespace                 = "vault"
   cluster_name              = module.fe_eks_cluster.cluster_name
   cluster_oidc_provider_arn = module.fe_eks_cluster.oidc_provider_arn

@@ -3,7 +3,7 @@ output "kubeconfig_update_command" {
 }
 
 output "circleci_region" {
-  value = local.circleci_region
+  value = var.fe_domain_region
 }
 
 output "cluster_name" {

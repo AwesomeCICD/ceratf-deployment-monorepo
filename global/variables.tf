@@ -57,6 +57,12 @@ variable "break_the_glass" {
   default     = false
 }
 
+variable "fe_aws_region" {
+  type        = string
+  description = "AWS region like 'us-west-1"
+  default     = "us-west-2"
+}
+
 # variable "kuma_admin_password" {
 #   sensitive   = true
 #   description = "Set TF_VAR_kuma_admin_password in root module execution."
