@@ -178,6 +178,10 @@ workflows:
           pre-steps:
             - regionalize-providers:
                 path: ./namer-platforms
+                filename: data.tf
+            - regionalize-providers:
+                path: ./namer-platforms
+                filename: providers.tf
 
   include_platform_layer:
     when:
@@ -199,6 +203,10 @@ workflows:
           pre-steps:
             - regionalize-providers:
                 path: ./namer-platforms
+                filename: data.tf
+            - regionalize-providers:
+                path: ./namer-platforms
+                filename: providers.tf
   
 
 commands:
@@ -208,6 +216,7 @@ commands:
         type: string
       filename:
         type: string
+        default: providers.tf
     steps:
       - run: 
           name: Set TF Provider Region
