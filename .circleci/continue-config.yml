@@ -101,15 +101,6 @@ jobs:
           steps: 
             - regionalize-providers:
                 path: <<parameters.path>>
-      - when:
-          condition: 
-          # some files might have a data.tf to regionalize (currently only plaform lwevel)
-            or:
-              - equal: ['./namer-platforms',<<parameters.path>>]
-          steps: 
-            - regionalize-providers:
-                path: <<parameters.path>>
-                filename: data.tf
       - terraform/fmt:
           path: << parameters.path >>
       - terraform/validate:
@@ -207,18 +198,21 @@ commands:
     parameters:
       path:
         type: string
-      filename:
-        type: string
-        default: providers.tf
     steps:
       - run: 
           name: Set TF Provider Region
           command: |
-            echo "Reworking << parameters.path >>/<< parameters.filename >> for ${TF_VAR_fe_aws_region}"
-            mv "<< parameters.path >>/<< parameters.filename >>" "<< parameters.path >>/<< parameters.filename >>.bak1"
-            sed "s/us-west-2/${TF_VAR_fe_aws_region}/g" "<< parameters.path >>/<< parameters.filename >>.bak1" > "<< parameters.path >>/<< parameters.filename >>.bak2"
-            sed "s/namer/${TF_VAR_fe_domain_region}/g" "<< parameters.path >>/<< parameters.filename >>.bak2" > "<< parameters.path >>/<< parameters.filename >>"
-            rm "<< parameters.path >>/<< parameters.filename >>.bak1" "<< parameters.path >>/<< parameters.filename >>.bak2"
-            cat "<< parameters.path >>/<< parameters.filename >>"
+            echo "Reworking << parameters.path >>/providers.tf for ${TF_VAR_fe_aws_region}"
+            mv "<< parameters.path >>/providers.tf" "<< parameters.path >>/providers.tf.bak1"
+            sed "s/us-west-2/${TF_VAR_fe_aws_region}/" "<< parameters.path >>/providers.tf.bak1" > "<< parameters.path >>/providers.tf.bak2"
+            sed "s/namer/${TF_VAR_fe_domain_region}/" "<< parameters.path >>/providers.tf.bak2" > "<< parameters.path >>/providers.tf"
+            rm "<< parameters.path >>/providers.tf.bak1" "<< parameters.path >>/providers.tf.bak2"
+            cat "<< parameters.path >>/providers.tf"
+
+            echo "Reworking << parameters.path >>/data.tf for ${TF_VAR_fe_aws_region}"
+            mv "<< parameters.path >>/data.tf" "<< parameters.path >>/data.tf.bak1"
+            sed "s/namer/${TF_VAR_fe_domain_region}/" "<< parameters.path >>/data.tf.bak2" > "<< parameters.path >>/data.tf"
+            rm "<< parameters.path >>/data.tf.bak1" "<< parameters.path >>/data.tf.bak2"
+            cat "<< parameters.path >>/data.tf"
 
 
