@@ -221,9 +221,9 @@ commands:
       - run: 
           name: Set TF Provider Region
           command: |
-            mv "<< parameters.path >>/<< parameters.filename >>.tf" "<< parameters.path >>/temp.tf"
-            sed "s/us-west-2/${TF_VAR_fe_aws_region}/g" "<< parameters.path >>/temp.tf" > "<< parameters.path >>/temp2.tf"
-            sed "s/namer/${TF_VAR_fe_domain_region}/g" "<< parameters.path >>/temp2.tf" > "<< parameters.path >>/<< parameters.filename >>.tf"
-            rm "<< parameters.path >>/temp*.tf"
+            mv "<< parameters.path >>/<< parameters.filename >>" "<< parameters.path >>/<< parameters.filename >>.bak1"
+            sed "s/us-west-2/${TF_VAR_fe_aws_region}/g" "<< parameters.path >>/<< parameters.filename >>.bak1" > "<< parameters.path >>/<< parameters.filename >>.bak2"
+            sed "s/namer/${TF_VAR_fe_domain_region}/g" "<< parameters.path >>/<< parameters.filename >>.bak2" > "<< parameters.path >>/<< parameters.filename >>.tf"
+            rm "<< parameters.path >>/<< parameters.filename >>.bak*"
 
 
