@@ -211,8 +211,8 @@ commands:
 
             echo "Reworking << parameters.path >>/data.tf for ${TF_VAR_fe_aws_region}"
             mv "<< parameters.path >>/data.tf" "<< parameters.path >>/data.tf.bak1"
-            sed "s/namer/${TF_VAR_fe_domain_region}/" "<< parameters.path >>/data.tf.bak2" > "<< parameters.path >>/data.tf"
-            rm "<< parameters.path >>/data.tf.bak1" "<< parameters.path >>/data.tf.bak2"
+            sed "s/namer/${TF_VAR_fe_domain_region}/" "<< parameters.path >>/data.tf.bak1" > "<< parameters.path >>/data.tf"
+            rm "<< parameters.path >>/data.tf.bak1"
             cat "<< parameters.path >>/data.tf"
 
 
