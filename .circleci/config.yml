@@ -3,9 +3,7 @@ version: 2.1
 setup: << pipeline.parameters.run-setup-workflow >>
 
 orbs:
-  continuation: circleci/continuation@1.0.0
-  path-filtering: circleci/path-filtering@0.1.7
-  terraform: circleci/terraform@3.2.1
+  path-filtering: circleci/path-filtering@1.1.0
 
 parameters:
   run-setup-workflow:
@@ -19,7 +17,10 @@ workflows:
           base-revision: main
           config-path: .circleci/continue-config.yml
           mapping: |
-            global/.* global true
-            namer-eks/.* namer-eks true
-            namer-platforms/.* namer-platforms true
+            global/.* global-changed true
+            .circleci/.* global-changed true
+            namer-eks/.* iaas-changed true
+            namer-platforms/.* platforms-changed true
+
+        
             

@@ -6,13 +6,13 @@ orbs:
 
 
 parameters:
-  global:
+  global-changed:
     type: boolean
     default: false
-  namer-eks:  
+  iaas-changed:  
     type: boolean
     default: false
-  namer-platforms: 
+  platforms-changed: 
     type: boolean
     default: false
   aws-account-id:
@@ -88,12 +88,19 @@ jobs:
     parameters:
       path:
         type: string
-      first:
-        type: boolean
-        default: false
+      context-suffix:
+        type: enum
+        enum: [ NAMER, EMEA, JAPAC ]
+        default: NAMER
     executor: terraform/default
     steps:
-      - checkout
+      - unless:
+          condition: 
+            # non global modules get provider regionalized
+            equal: ['./global',<<parameters.path>>]
+          steps: 
+            - regionalize-providers:
+                path: <<parameters.path>>
       - terraform/fmt:
           path: << parameters.path >>
       - terraform/validate:
@@ -105,66 +112,108 @@ jobs:
   
 
 workflows:
-  global-workflow:
+
+  global-changed-workflow:
     when: 
       and: 
-       - equal: [true,<<pipeline.parameters.global>>] 
+       - equal: [true,<<pipeline.parameters.global-changed>>] 
     jobs:
       - apply_module:
           name: Global IaC
           path: ./global
-          first: true
           <<: *tf_job_defaults
       - apply_module:
-          name: Region EKS IaC
+          name: Region EKS IaC <<matrix.context-suffix>>
+          matrix:
+            parameters:
+              context-suffix: ["NAMER","EMEA"]
           path: ./namer-eks
           <<: *tf_job_defaults
           requires:
             - Global IaC
+          context:
+            - CERA-INIT-<<matrix.context-suffix>>-NEW
       - apply_module:
-          name: Region Platform IaC
+          name: Region Platform IaC <<matrix.context-suffix>>
           path: ./namer-platforms
+          matrix:
+            parameters:
+              context-suffix: ["NAMER","EMEA"]
           <<: *tf_job_defaults
           requires:
-            - Region EKS IaC
+            - Region EKS IaC <<matrix.context-suffix>>
           context:
-            - CERA-INIT-NAMER-NEW
-     
+            - CERA-INIT-<<matrix.context-suffix>>-NEW
 
   
   include_eks:
     when: 
       and: 
-        - not: << pipeline.parameters.global >>
-        - equal: [ true, <<pipeline.parameters.namer-eks>> ]
+        - not: << pipeline.parameters.global-changed >>
+        - equal: [ true, <<pipeline.parameters.iaas-changed>> ]
 
     jobs:
       - apply_module:
           name: Region EKS IaC
           path: ./namer-eks
           <<: *tf_job_defaults
+          matrix:
+            parameters:
+              context-suffix: ["NAMER","EMEA"]
+          context:
+            - CERA-INIT-NAMER-NEW
       - apply_module:
           name: Region Platform IaC
           path: ./namer-platforms
           <<: *tf_job_defaults
+          matrix:
+            parameters:
+              context-suffix: ["NAMER","EMEA"]
           requires:
             - Region EKS IaC
           context:
-            - CERA-INIT-NAMER-NEW
+            - CERA-INIT-<<matrix.context-suffix>>-NEW
 
   include_platform_layer:
     when:
       and: 
-       - not: << pipeline.parameters.global >>
-       - not: <<pipeline.parameters.namer-eks>>
-       - equal: [ true, <<pipeline.parameters.namer-platforms>> ]
+       - not: << pipeline.parameters.global-changed >>
+       - not: <<pipeline.parameters.iaas-changed>>
+       - equal: [ true, <<pipeline.parameters.platforms-changed>> ]
 
     jobs:
       - apply_module:
           name: Region Platform IaC
           path: ./namer-platforms
           <<: *tf_job_defaults
+          matrix:
+            parameters:
+              context-suffix: ["NAMER","EMEA"]
           context:
-            - CERA-INIT-NAMER-NEW
+            - CERA-INIT-<<matrix.context-suffix>>-NEW
   
+
+commands:
+  regionalize-providers:
+    parameters:
+      path:
+        type: string
+    steps:
+      - run: 
+          name: Set TF Provider Region
+          command: |
+            echo "Reworking << parameters.path >>/providers.tf for ${TF_VAR_fe_aws_region}"
+            mv "<< parameters.path >>/providers.tf" "<< parameters.path >>/providers.tf.bak1"
+            sed "s/xx-REPLACEME-nn/${TF_VAR_fe_aws_region}/" "<< parameters.path >>/providers.tf.bak1" > "<< parameters.path >>/providers.tf.bak2"
+            sed "s/REPLACEME-sub-domain/${TF_VAR_fe_domain_region}/" "<< parameters.path >>/providers.tf.bak2" > "<< parameters.path >>/providers.tf"
+            rm "<< parameters.path >>/providers.tf.bak1" "<< parameters.path >>/providers.tf.bak2"
+            cat "<< parameters.path >>/providers.tf"
+
+            echo "Reworking << parameters.path >>/data.tf for ${TF_VAR_fe_aws_region}"
+            mv "<< parameters.path >>/data.tf" "<< parameters.path >>/data.tf.bak1"
+            sed "s/REPLACEME-sub-domain/${TF_VAR_fe_domain_region}/" "<< parameters.path >>/data.tf.bak1" > "<< parameters.path >>/data.tf"
+            rm "<< parameters.path >>/data.tf.bak1"
+            cat "<< parameters.path >>/data.tf"
+            
+
 

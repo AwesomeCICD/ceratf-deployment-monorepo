@@ -12,3 +12,9 @@ variable "nexus_admin_password" {
   type        = string
   sensitive   = true
 }
+
+
+variable "fe_domain_region" {
+  type        = string
+  description = "FE region like 'namer"
+}

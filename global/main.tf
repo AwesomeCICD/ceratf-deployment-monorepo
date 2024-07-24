@@ -75,6 +75,7 @@ resource "aws_iam_policy" "fe_eks" {
     {
       AWS_ACCOUNT_ID = data.aws_caller_identity.current.account_id,
       DDB_TABLE_NAME = var.ddb_state_locking_table_name
+      AWS_REGION     = data.aws_region.current.name
     }
   )
 
@@ -120,6 +121,7 @@ resource "aws_iam_policy" "operator_access_policy" {
     {
       AWS_ACCOUNT_ID = data.aws_caller_identity.current.account_id,
       DDB_TABLE_NAME = var.ddb_state_locking_table_name
+      AWS_REGION     = data.aws_region.current.name
     }
   )
 
