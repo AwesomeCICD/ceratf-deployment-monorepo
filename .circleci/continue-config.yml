@@ -126,7 +126,7 @@ workflows:
           name: Region EKS IaC <<matrix.context-suffix>>
           matrix:
             parameters:
-              context-suffix: ["NAMER","EMEA"]
+              context-suffix: ["EMEA"]
           path: ./namer-eks
           <<: *tf_job_defaults
           requires:
@@ -138,7 +138,7 @@ workflows:
           path: ./namer-platforms
           matrix:
             parameters:
-              context-suffix: ["NAMER","EMEA"]
+              context-suffix: ["EMEA"]
           <<: *tf_job_defaults
           requires:
             - Region EKS IaC <<matrix.context-suffix>>
@@ -159,7 +159,7 @@ workflows:
           <<: *tf_job_defaults
           matrix:
             parameters:
-              context-suffix: ["NAMER","EMEA"]
+              context-suffix: ["EMEA"]
           context:
             - CERA-INIT-NAMER-NEW
       - apply_module:
@@ -168,7 +168,7 @@ workflows:
           <<: *tf_job_defaults
           matrix:
             parameters:
-              context-suffix: ["NAMER","EMEA"]
+              context-suffix: ["EMEA"]
           requires:
             - Region EKS IaC
           context:
@@ -188,7 +188,7 @@ workflows:
           <<: *tf_job_defaults
           matrix:
             parameters:
-              context-suffix: ["NAMER","EMEA"]
+              context-suffix: ["EMEA"]
           context:
             - CERA-INIT-<<matrix.context-suffix>>-NEW
   
