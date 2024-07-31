@@ -12,7 +12,7 @@ module "vault_config" {
 }
 
 module "nexus" {
-  source               = "git@github.com:AwesomeCICD/ceratf-module-helm-nexus?ref=8.0.1"
+  source               = "git@github.com:AwesomeCICD/ceratf-module-helm-nexus?ref=9.0.0"
   nexus_admin_password = var.nexus_admin_password
   circleci_region      = data.terraform_remote_state.ceratf_regional.outputs.circleci_region
   target_domain        = data.terraform_remote_state.ceratf_regional.outputs.target_domain
