@@ -161,7 +161,7 @@ workflows:
             parameters:
               context-suffix: ["EMEA"]
           context:
-            - CERA-INIT-NAMER-NEW
+            - CERA-INIT-<<matrix.context-suffix>>-NEW
       - apply_module:
           name: Region Platform IaC
           path: ./namer-platforms
