@@ -123,10 +123,10 @@ workflows:
           path: ./global
           <<: *tf_job_defaults
       - apply_module:
-          name: Region EKS IaC <<matrix.context-suffix>>
+          name: <<matrix.context-suffix>> EKS IaC <<matrix.context-suffix>>
           matrix:
             parameters:
-              context-suffix: ["EMEA"]
+              context-suffix: ["NAMER","EMEA"]
           path: ./namer-eks
           <<: *tf_job_defaults
           requires:
@@ -134,14 +134,14 @@ workflows:
           context:
             - CERA-INIT-<<matrix.context-suffix>>-NEW
       - apply_module:
-          name: Region Platform IaC <<matrix.context-suffix>>
+          name: <<matrix.context-suffix>> Platform IaC <<matrix.context-suffix>>
           path: ./namer-platforms
           matrix:
             parameters:
-              context-suffix: ["EMEA"]
+              context-suffix: ["NAMER","EMEA"]
           <<: *tf_job_defaults
           requires:
-            - Region EKS IaC <<matrix.context-suffix>>
+            - <<matrix.context-suffix>> EKS IaC <<matrix.context-suffix>>
           context:
             - CERA-INIT-<<matrix.context-suffix>>-NEW
 
@@ -154,23 +154,23 @@ workflows:
 
     jobs:
       - apply_module:
-          name: Region EKS IaC
+          name: <<matrix.context-suffix>> EKS IaC
           path: ./namer-eks
           <<: *tf_job_defaults
           matrix:
             parameters:
-              context-suffix: ["EMEA"]
+              context-suffix: ["NAMER","EMEA"]
           context:
             - CERA-INIT-<<matrix.context-suffix>>-NEW
       - apply_module:
-          name: Region Platform IaC
+          name: <<matrix.context-suffix>> Platform IaC
           path: ./namer-platforms
           <<: *tf_job_defaults
           matrix:
             parameters:
-              context-suffix: ["EMEA"]
+              context-suffix: ["NAMER","EMEA"]
           requires:
-            - Region EKS IaC
+            - <<matrix.context-suffix>> EKS IaC
           context:
             - CERA-INIT-<<matrix.context-suffix>>-NEW
 
@@ -183,12 +183,12 @@ workflows:
 
     jobs:
       - apply_module:
-          name: Region Platform IaC
+          name: <<matrix.context-suffix>> Platform IaC
           path: ./namer-platforms
           <<: *tf_job_defaults
           matrix:
             parameters:
-              context-suffix: ["EMEA"]
+              context-suffix: ["NAMER","EMEA"]
           context:
             - CERA-INIT-<<matrix.context-suffix>>-NEW
   
