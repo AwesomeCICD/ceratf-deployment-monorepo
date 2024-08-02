@@ -40,6 +40,14 @@ output "r53_root_zone_id" {
   value = aws_route53_zone.demo_domain.zone_id
 }
 
+output "r53_aux_zone_name" {
+  value = aws_route53_zone.aux_domain.name
+}
+
+output "r53_aux_zone_id" {
+  value = aws_route53_zone.aux_domain.zone_id
+}
+
 #output "kuma_fqdn" {
 # value = module.uptime_kuma.kuma_fqdn
 #}

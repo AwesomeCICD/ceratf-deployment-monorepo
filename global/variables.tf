@@ -51,6 +51,11 @@ variable "root_domain_name" {
   type = string
 }
 
+variable "aux_domain_name" {
+  type = string
+  description = "Can be used for migrations or alternate domains access."
+}
+
 variable "break_the_glass" {
   type        = bool
   description = "Allows FE team to assume FULL RIGHTS OF PIPLEINE ROLE"

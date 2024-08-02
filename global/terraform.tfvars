@@ -1,6 +1,7 @@
 circleci_org_id              = "efc130dc-284f-4533-964e-844f5c173860" #AwesomeCICD
 ddb_state_locking_table_name = "cera-tf-lock"
 
+aux_domain_name = "circleci-labs.com"
 
 fe_email_usernames = [
   "derry",
