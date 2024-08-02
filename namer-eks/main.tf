@@ -20,7 +20,7 @@ module "fe_eks_cluster" {
 }
 
 module "regional_dns" {
-  source = "git@github.com:AwesomeCICD/ceratf-module-dns.git?ref=1.0.1"
+  source = "git@github.com:AwesomeCICD/ceratf-module-dns.git?ref=1.0.2"
 
   root_zone_name  = data.terraform_remote_state.ceratf_deployment_global.outputs.r53_root_zone_name
   root_zone_id    = data.terraform_remote_state.ceratf_deployment_global.outputs.r53_root_zone_id
@@ -33,7 +33,7 @@ module "regional_dns" {
 # A bit odd to see istio here, but it includes cert-manager whcih interacts with KMS and Istio creates ELBs 
 # that will prevent this plan from destorying cluster (AWS blocks delete since networkinterface is attached)
 module "helm_istio" {
-  source = "git@github.com:AwesomeCICD/ceratf-module-helm-istio.git?ref=6.1.0"
+  source = "git@github.com:AwesomeCICD/ceratf-module-helm-istio.git?ref=6.1.1"
 
   aws_region                = data.aws_region.current.name
   aws_account_no            = data.aws_caller_identity.current.account_id
