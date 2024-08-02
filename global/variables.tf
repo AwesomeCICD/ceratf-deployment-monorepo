@@ -52,7 +52,7 @@ variable "root_domain_name" {
 }
 
 variable "aux_domain_name" {
-  type = string
+  type        = string
   description = "Can be used for migrations or alternate domains access."
 }
 
