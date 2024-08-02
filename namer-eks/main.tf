@@ -24,8 +24,8 @@ module "regional_dns" {
 
   root_zone_name  = data.terraform_remote_state.ceratf_deployment_global.outputs.r53_root_zone_name
   root_zone_id    = data.terraform_remote_state.ceratf_deployment_global.outputs.r53_root_zone_id
-  aux_zone_name  = data.terraform_remote_state.ceratf_deployment_global.outputs.r53_aux_zone_name
-  aux_zone_id    = data.terraform_remote_state.ceratf_deployment_global.outputs.r53_aux_zone_id
+  aux_zone_name   = data.terraform_remote_state.ceratf_deployment_global.outputs.r53_aux_zone_name
+  aux_zone_id     = data.terraform_remote_state.ceratf_deployment_global.outputs.r53_aux_zone_id
   circleci_region = var.fe_domain_region
 }
 
