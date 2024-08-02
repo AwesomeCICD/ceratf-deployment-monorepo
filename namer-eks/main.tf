@@ -20,7 +20,7 @@ module "fe_eks_cluster" {
 }
 
 module "regional_dns" {
-  source = "git@github.com:AwesomeCICD/ceratf-module-dns.git?ref=1.0.0"
+  source = "git@github.com:AwesomeCICD/ceratf-module-dns.git?ref=1.0.1"
 
   root_zone_name  = data.terraform_remote_state.ceratf_deployment_global.outputs.r53_root_zone_name
   root_zone_id    = data.terraform_remote_state.ceratf_deployment_global.outputs.r53_root_zone_id
@@ -47,6 +47,8 @@ module "helm_istio" {
   aux_domain_zone_name      = data.terraform_remote_state.ceratf_deployment_global.outputs.r53_aux_zone_name
   target_domain             = module.regional_dns.r53_subdomain_zone_name
   r53_subdomain_zone_id     = module.regional_dns.r53_subdomain_zone_id
+  target_domain_aux         = module.regional_dns.r53_subdomain_zone_name_aux
+  r53_subdomain_zone_id_aux = module.regional_dns.r53_subdomain_zone_id_aux
   cluster_oidc_provider_arn = module.fe_eks_cluster.oidc_provider_arn
   depends_on                = [module.fe_eks_cluster]
   #global_oidc_provider_arn  = data.terraform_remote_state.ceratf_deployment_global.outputs.oidc_provider_arn
