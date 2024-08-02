@@ -18,7 +18,7 @@ resource "aws_route53_zone" "demo_domain" {
 
 resource "aws_route53_zone" "aux_domain" {
 
-  count   = (var.aux_domain_name ? 1 : 0)
+  count   = (var.aux_domain_name != "" ? 1 : 0)
   name    = var.aux_domain_name
   comment = "Please contact field@cirlceci.com with questions"
   tags = {
