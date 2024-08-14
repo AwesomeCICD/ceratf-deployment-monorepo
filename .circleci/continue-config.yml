@@ -28,7 +28,7 @@ parameters:
     default: cera-fe-operator
   aws-sso-assumed-role:
     type: string
-    default: AWSReservedSSO_devops-ce-0034ed37_ea6f69cdd6bb1a5d 
+    default: AWSReservedSSO_field-engineering-0034ed37_2554f11f982db0cc
     description: The assigned role from IT when users login via SSO.
   root-domain-name:
     type: string
