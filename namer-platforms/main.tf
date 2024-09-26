@@ -39,7 +39,7 @@ module "argo_rollouts" {
 
 
 module "release_agent" {
-  source = "git@github.com:AwesomeCICD/ceratf-module-helm-cci-release-agent?ref=1.2.0"
+  source = "git@github.com:AwesomeCICD/ceratf-module-helm-cci-release-agent?ref=1.3.0"
 
   release_agent_token = var.rt_token
 
@@ -50,13 +50,13 @@ module "release_agent" {
 
 
 module "release_agent_dev" {
-  source = "git@github.com:AwesomeCICD/ceratf-module-helm-cci-release-agent?ref=1.2.0"
+  source = "git@github.com:AwesomeCICD/ceratf-module-helm-cci-release-agent?ref=1.3.0"
 
   release_agent_token = var.rt_token_dev
 
   managed_namespaces = ["guidebook-dev", "boa-dev", ]
 
-  namespace = "circleci-release-agent-system-dev"
+  environment_suffix = "-dev"
 
   depends_on = [module.argo_rollouts]
 }
