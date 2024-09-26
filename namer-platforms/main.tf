@@ -43,7 +43,18 @@ module "release_agent" {
 
   release_agent_token = var.rt_token
 
-  managed_namespaces = ["default", "guidebook", "guidebook-dev", "boa", "boa-dev", "circleci-release-agent-system", "dr-demo", "eddies-demo"]
+  managed_namespaces = ["default", "guidebook",  "boa", "circleci-release-agent-system", "dr-demo", "eddies-demo"]
+
+  depends_on = [module.argo_rollouts]
+}
+
+
+module "release_agent" {
+  source = "git@github.com:AwesomeCICD/ceratf-module-helm-cci-release-agent?ref=1.2.0"
+
+  release_agent_token = var.rt_token
+
+  managed_namespaces = [ "guidebook-dev",  "boa-dev", ]
 
   depends_on = [module.argo_rollouts]
 }
