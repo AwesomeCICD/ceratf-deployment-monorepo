@@ -56,5 +56,7 @@ module "release_agent_dev" {
 
   managed_namespaces = ["guidebook-dev", "boa-dev", ]
 
+  namespace = "circleci-release-agent-system-dev"
+
   depends_on = [module.argo_rollouts]
 }
