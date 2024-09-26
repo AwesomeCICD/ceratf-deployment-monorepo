@@ -49,10 +49,10 @@ module "release_agent" {
 }
 
 
-module "release_agent" {
+module "release_agent_dev" {
   source = "git@github.com:AwesomeCICD/ceratf-module-helm-cci-release-agent?ref=1.2.0"
 
-  release_agent_token = var.rt_token
+  release_agent_token = var.rt_token_dev
 
   managed_namespaces = [ "guidebook-dev",  "boa-dev", ]
 
