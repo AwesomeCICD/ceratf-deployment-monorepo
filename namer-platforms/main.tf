@@ -43,7 +43,7 @@ module "release_agent" {
 
   release_agent_token = var.rt_token
 
-  managed_namespaces = ["default", "guidebook",  "boa", "circleci-release-agent-system", "dr-demo", "eddies-demo"]
+  managed_namespaces = ["default", "guidebook", "boa", "circleci-release-agent-system", "dr-demo", "eddies-demo"]
 
   depends_on = [module.argo_rollouts]
 }
@@ -54,7 +54,7 @@ module "release_agent_dev" {
 
   release_agent_token = var.rt_token_dev
 
-  managed_namespaces = [ "guidebook-dev",  "boa-dev", ]
+  managed_namespaces = ["guidebook-dev", "boa-dev", ]
 
   depends_on = [module.argo_rollouts]
 }
