@@ -8,7 +8,7 @@ locals {
 
 
 module "vault_config" {
-  source = "git@github.com:AwesomeCICD/ceratf-module-vault-config?ref=1.9.0"
+  source = "git@github.com:AwesomeCICD/ceratf-module-vault-config?ref=1.11.0"
 }
 
 module "nexus" {
@@ -26,7 +26,7 @@ module "nexus_config" {
 }
 
 module "app_spaces" {
-  source           = "git@github.com:AwesomeCICD/ceratf-module-appspaces?ref=3.0.0"
+  source           = "git@github.com:AwesomeCICD/ceratf-module-appspaces?ref=3.2.1"
   cluster_endpoint = data.terraform_remote_state.ceratf_regional.outputs.cluster_endpoint
   cluster_name     = data.terraform_remote_state.ceratf_regional.outputs.cluster_name
 }
@@ -54,7 +54,7 @@ module "release_agent_dev" {
 
   release_agent_token = var.rt_token_dev
 
-  managed_namespaces = ["guidebook-dev", "boa-dev", ]
+  managed_namespaces = ["guidebook-dev", "boa-dev", "dr-demo-dev"]
 
   environment_suffix = "-dev"
 
