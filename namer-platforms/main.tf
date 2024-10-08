@@ -54,7 +54,7 @@ module "release_agent_dev" {
 
   release_agent_token = var.rt_token_dev
 
-  managed_namespaces = ["guidebook-dev", "boa-dev", ]
+  managed_namespaces = ["guidebook-dev", "boa-dev", "dr-demo-dev"]
 
   environment_suffix = "-dev"
 
