@@ -143,7 +143,7 @@ workflows:
             - <<matrix.context-suffix>> EKS IaC <<matrix.context-suffix>>
           context:
             - CERA-INIT-<<matrix.context-suffix>>-NEW
-          filters: pipeline.parameters.paltforms-changed
+          filters: pipeline.parameters.platforms-changed
 
 commands:
   regionalize-providers:
