@@ -79,6 +79,14 @@ tf_job_defaults: &tf_job_defaults
             mv terraform /usr/local/bin
 
 jobs:
+  do_nothing:
+  #a quirk in our rules only allow downstream jobs to run if at least 1 upstream requires is present.
+    resource_class: small
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run: echo "Nothing to see here, move along."
+       
   apply_module:
     environment:
       TF_VAR_fe_operator_iam_prefix: <<pipeline.parameters.aws-operator-iam-prefix>>
@@ -107,19 +115,26 @@ jobs:
           path: << parameters.path >>
       - terraform/apply:
           path: << parameters.path >>
-  
-  
-  
+
+
 
 workflows:
-
   primary:
     jobs:
+      - do_nothing:
+          name: No Op Placeholder Global
+          filters: pipeline.parameters.global-changed
       - apply_module:
           name: Global IaC
           path: ./global
           <<: *tf_job_defaults
           filters: pipeline.parameters.global-changed
+
+      - do_nothing:
+          name: No Op Placeholder EKS
+          requires:
+            - No Op Placeholder Global
+          filters: pipeline.parameters.iaas-changed or pipeline.parameters.global-changed
       - apply_module:
           name: <<matrix.context-suffix>> EKS IaC
           matrix:
@@ -129,9 +144,11 @@ workflows:
           <<: *tf_job_defaults
           requires:
             - Global IaC
+            - No Op Placeholder Global
           context:
             - CERA-INIT-<<matrix.context-suffix>>-NEW
           filters: pipeline.parameters.iaas-changed or pipeline.parameters.global-changed
+
       - apply_module:
           name: <<matrix.context-suffix>> Platform IaC
           path: ./namer-platforms
@@ -141,6 +158,7 @@ workflows:
           <<: *tf_job_defaults
           requires:
             - <<matrix.context-suffix>> EKS IaC
+            - No Op Placeholder EKS
           context:
             - CERA-INIT-<<matrix.context-suffix>>-NEW
           filters: pipeline.parameters.platforms-changed or pipeline.parameters.global-changed or pipeline.parameters.iaas-changed
