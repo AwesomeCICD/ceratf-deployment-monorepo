@@ -5,6 +5,7 @@ locals {
   }
 }
 
+
 module "fe_eks_cluster" {
   source = "git@github.com:AwesomeCICD/ceratf-module-eks.git?ref=7.2.0"
 
