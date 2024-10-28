@@ -131,7 +131,7 @@ workflows:
             - Global IaC
           context:
             - CERA-INIT-<<matrix.context-suffix>>-NEW
-          filters: pipeline.parameters.iaas-changed
+          filters: pipeline.parameters.iaas-changed or pipeline.parameters.global-changed
       - apply_module:
           name: <<matrix.context-suffix>> Platform IaC <<matrix.context-suffix>>
           path: ./namer-platforms
@@ -143,7 +143,7 @@ workflows:
             - <<matrix.context-suffix>> EKS IaC <<matrix.context-suffix>>
           context:
             - CERA-INIT-<<matrix.context-suffix>>-NEW
-          filters: pipeline.parameters.platforms-changed
+          filters: pipeline.parameters.platforms-changed or pipeline.parameters.global-changed or pipeline.parameters.iaas-changed
 
 commands:
   regionalize-providers:
