@@ -121,7 +121,7 @@ workflows:
           <<: *tf_job_defaults
           filters: pipeline.parameters.global-changed
       - apply_module:
-          name: <<matrix.context-suffix>> EKS IaC <<matrix.context-suffix>>
+          name: <<matrix.context-suffix>> EKS IaC
           matrix:
             parameters:
               context-suffix: ["NAMER","EMEA"]
@@ -133,14 +133,14 @@ workflows:
             - CERA-INIT-<<matrix.context-suffix>>-NEW
           filters: pipeline.parameters.iaas-changed or pipeline.parameters.global-changed
       - apply_module:
-          name: <<matrix.context-suffix>> Platform IaC <<matrix.context-suffix>>
+          name: <<matrix.context-suffix>> Platform IaC
           path: ./namer-platforms
           matrix:
             parameters:
               context-suffix: ["NAMER","EMEA"]
           <<: *tf_job_defaults
           requires:
-            - <<matrix.context-suffix>> EKS IaC <<matrix.context-suffix>>
+            - <<matrix.context-suffix>> EKS IaC
           context:
             - CERA-INIT-<<matrix.context-suffix>>-NEW
           filters: pipeline.parameters.platforms-changed or pipeline.parameters.global-changed or pipeline.parameters.iaas-changed
