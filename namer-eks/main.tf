@@ -19,6 +19,7 @@ module "fe_eks_cluster" {
   pipeline_arn  = data.terraform_remote_state.ceratf_deployment_global.outputs.pipeline_access_iam_role_arn
 }
 
+
 module "regional_dns" {
   source = "git@github.com:AwesomeCICD/ceratf-module-dns.git?ref=1.0.3"
 
