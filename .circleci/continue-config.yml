@@ -123,7 +123,6 @@ workflows:
     jobs:
       - do_nothing:
           name: No Op Placeholder Global
-          filters: pipeline.parameters.global-changed
       - apply_module:
           name: Global IaC
           path: ./global
@@ -134,7 +133,6 @@ workflows:
           name: No Op Placeholder EKS
           requires:
             - No Op Placeholder Global
-          filters: pipeline.parameters.iaas-changed or pipeline.parameters.global-changed
       - apply_module:
           name: <<matrix.context-suffix>> EKS IaC
           matrix:
