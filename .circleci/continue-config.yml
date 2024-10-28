@@ -113,15 +113,13 @@ jobs:
 
 workflows:
 
-  global-changed-workflow:
-    when: 
-      and: 
-       - equal: [true,<<pipeline.parameters.global-changed>>] 
+  primary:
     jobs:
       - apply_module:
           name: Global IaC
           path: ./global
           <<: *tf_job_defaults
+          filters: pipeline.parameters.global-changed
       - apply_module:
           name: <<matrix.context-suffix>> EKS IaC <<matrix.context-suffix>>
           matrix:
@@ -133,6 +131,7 @@ workflows:
             - Global IaC
           context:
             - CERA-INIT-<<matrix.context-suffix>>-NEW
+          filters: pipeline.parameters.iaas-changed
       - apply_module:
           name: <<matrix.context-suffix>> Platform IaC <<matrix.context-suffix>>
           path: ./namer-platforms
@@ -144,54 +143,7 @@ workflows:
             - <<matrix.context-suffix>> EKS IaC <<matrix.context-suffix>>
           context:
             - CERA-INIT-<<matrix.context-suffix>>-NEW
-
-  
-  include_eks:
-    when: 
-      and: 
-        - not: << pipeline.parameters.global-changed >>
-        - equal: [ true, <<pipeline.parameters.iaas-changed>> ]
-
-    jobs:
-      - apply_module:
-          name: <<matrix.context-suffix>> EKS IaC
-          path: ./namer-eks
-          <<: *tf_job_defaults
-          matrix:
-            parameters:
-              context-suffix: ["NAMER","EMEA"]
-          context:
-            - CERA-INIT-<<matrix.context-suffix>>-NEW
-      - apply_module:
-          name: <<matrix.context-suffix>> Platform IaC
-          path: ./namer-platforms
-          <<: *tf_job_defaults
-          matrix:
-            parameters:
-              context-suffix: ["NAMER","EMEA"]
-          requires:
-            - <<matrix.context-suffix>> EKS IaC
-          context:
-            - CERA-INIT-<<matrix.context-suffix>>-NEW
-
-  include_platform_layer:
-    when:
-      and: 
-       - not: << pipeline.parameters.global-changed >>
-       - not: <<pipeline.parameters.iaas-changed>>
-       - equal: [ true, <<pipeline.parameters.platforms-changed>> ]
-
-    jobs:
-      - apply_module:
-          name: <<matrix.context-suffix>> Platform IaC
-          path: ./namer-platforms
-          <<: *tf_job_defaults
-          matrix:
-            parameters:
-              context-suffix: ["NAMER","EMEA"]
-          context:
-            - CERA-INIT-<<matrix.context-suffix>>-NEW
-  
+          filters: pipeline.parameters.paltforms-changed
 
 commands:
   regionalize-providers:
