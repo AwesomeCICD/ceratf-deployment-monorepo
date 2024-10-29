@@ -5,6 +5,7 @@ locals {
   }
 }
 
+
 module "fe_eks_cluster" {
   source = "git@github.com:AwesomeCICD/ceratf-module-eks.git?ref=7.2.0"
 
@@ -18,6 +19,7 @@ module "fe_eks_cluster" {
   principal_arn = data.terraform_remote_state.ceratf_deployment_global.outputs.operator_access_iam_role_arn
   pipeline_arn  = data.terraform_remote_state.ceratf_deployment_global.outputs.pipeline_access_iam_role_arn
 }
+
 
 module "regional_dns" {
   source = "git@github.com:AwesomeCICD/ceratf-module-dns.git?ref=1.0.3"

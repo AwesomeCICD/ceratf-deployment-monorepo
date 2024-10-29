@@ -79,6 +79,14 @@ tf_job_defaults: &tf_job_defaults
             mv terraform /usr/local/bin
 
 jobs:
+  do_nothing:
+  #a quirk in our rules only allow downstream jobs to run if at least 1 upstream requires is present.
+    resource_class: small
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run: echo "Nothing to see here, move along."
+       
   apply_module:
     environment:
       TF_VAR_fe_operator_iam_prefix: <<pipeline.parameters.aws-operator-iam-prefix>>
@@ -107,23 +115,26 @@ jobs:
           path: << parameters.path >>
       - terraform/apply:
           path: << parameters.path >>
-  
-  
-  
+
+
 
 workflows:
-
-  global-changed-workflow:
-    when: 
-      and: 
-       - equal: [true,<<pipeline.parameters.global-changed>>] 
+  primary:
     jobs:
+      - do_nothing:
+          name: No Op Placeholder Global
       - apply_module:
           name: Global IaC
           path: ./global
           <<: *tf_job_defaults
+          filters: pipeline.parameters.global-changed
+
+      - do_nothing:
+          name: No Op Placeholder EKS
+          requires:
+            - No Op Placeholder Global
       - apply_module:
-          name: <<matrix.context-suffix>> EKS IaC <<matrix.context-suffix>>
+          name: <<matrix.context-suffix>> EKS IaC
           matrix:
             parameters:
               context-suffix: ["NAMER","EMEA"]
@@ -131,67 +142,24 @@ workflows:
           <<: *tf_job_defaults
           requires:
             - Global IaC
+            - No Op Placeholder Global
           context:
             - CERA-INIT-<<matrix.context-suffix>>-NEW
-      - apply_module:
-          name: <<matrix.context-suffix>> Platform IaC <<matrix.context-suffix>>
-          path: ./namer-platforms
-          matrix:
-            parameters:
-              context-suffix: ["NAMER","EMEA"]
-          <<: *tf_job_defaults
-          requires:
-            - <<matrix.context-suffix>> EKS IaC <<matrix.context-suffix>>
-          context:
-            - CERA-INIT-<<matrix.context-suffix>>-NEW
+          filters: pipeline.parameters.iaas-changed or pipeline.parameters.global-changed
 
-  
-  include_eks:
-    when: 
-      and: 
-        - not: << pipeline.parameters.global-changed >>
-        - equal: [ true, <<pipeline.parameters.iaas-changed>> ]
-
-    jobs:
-      - apply_module:
-          name: <<matrix.context-suffix>> EKS IaC
-          path: ./namer-eks
-          <<: *tf_job_defaults
-          matrix:
-            parameters:
-              context-suffix: ["NAMER","EMEA"]
-          context:
-            - CERA-INIT-<<matrix.context-suffix>>-NEW
       - apply_module:
           name: <<matrix.context-suffix>> Platform IaC
           path: ./namer-platforms
-          <<: *tf_job_defaults
           matrix:
             parameters:
               context-suffix: ["NAMER","EMEA"]
+          <<: *tf_job_defaults
           requires:
             - <<matrix.context-suffix>> EKS IaC
+            - No Op Placeholder EKS
           context:
             - CERA-INIT-<<matrix.context-suffix>>-NEW
-
-  include_platform_layer:
-    when:
-      and: 
-       - not: << pipeline.parameters.global-changed >>
-       - not: <<pipeline.parameters.iaas-changed>>
-       - equal: [ true, <<pipeline.parameters.platforms-changed>> ]
-
-    jobs:
-      - apply_module:
-          name: <<matrix.context-suffix>> Platform IaC
-          path: ./namer-platforms
-          <<: *tf_job_defaults
-          matrix:
-            parameters:
-              context-suffix: ["NAMER","EMEA"]
-          context:
-            - CERA-INIT-<<matrix.context-suffix>>-NEW
-  
+          filters: pipeline.parameters.platforms-changed or pipeline.parameters.global-changed or pipeline.parameters.iaas-changed
 
 commands:
   regionalize-providers:
