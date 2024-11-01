@@ -11,6 +11,7 @@ module "vault_config" {
   source = "git@github.com:AwesomeCICD/ceratf-module-vault-config?ref=1.11.0"
 }
 
+
 module "nexus" {
   source               = "git@github.com:AwesomeCICD/ceratf-module-helm-nexus?ref=9.0.2"
   nexus_admin_password = var.nexus_admin_password
