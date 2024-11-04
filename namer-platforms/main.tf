@@ -65,6 +65,6 @@ module "release_agent_dev" {
 
 
 module "authentik" {
-  source                        = "git@github.com:AwesomeCICD/ceratf-module-helm-authentik.git?ref=main"
-  target_domain                 = data.terraform_remote_state.ceratf_regional.outputs.target_domain
+  source        = "git@github.com:AwesomeCICD/ceratf-module-helm-authentik.git?ref=main"
+  target_domain = data.terraform_remote_state.ceratf_regional.outputs.target_domain
 }
