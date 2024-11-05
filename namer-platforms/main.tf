@@ -67,5 +67,5 @@ module "release_agent_dev" {
 module "authentik" {
   count         = var.fe_domain_region == "namer" ? 1 : 0
   source        = "git@github.com:AwesomeCICD/ceratf-module-helm-authentik.git?ref=main"
-  target_domain = data.terraform_remote_state.ceratf_regional.outputs.target_domain
+  target_domain = data.terraform_remote_state.ceratf_deployment_global.outputs.r53_root_zone_name
 }
