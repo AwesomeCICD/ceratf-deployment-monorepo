@@ -52,7 +52,7 @@ module "release_agent" {
 
 
 module "release_agent_dev" {
-  source = "git@github.com:AwesomeCICD/ceratf-module-helm-cci-release-agent?ref=1.3.1"
+  source = "git@github.com:AwesomeCICD/ceratf-module-helm-cci-release-agent?ref=1.4.0"
 
   release_agent_token = var.rt_token_dev
 
