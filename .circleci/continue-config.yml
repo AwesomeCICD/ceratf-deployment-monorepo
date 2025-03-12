@@ -42,9 +42,9 @@ tf_job_defaults: &tf_job_defaults
   #tag: "1.5.1"
   pre-steps:
     - checkout
-    - add_ssh_keys:
-        fingerprints:
-          - "4c:17:59:7f:f3:7d:61:e0:08:6d:b5:b3:cb:8b:ef:c6" # belongs to GH user "ceratf-module-bot", should have read to all ceratf-modules
+    - add_ssh_keys
+        # this project has key for awesomecicd-deploybot which can be found in 1passord
+        # all private modules must authorize that user for read access.
     - aws-cli/install
     - aws-cli/assume-role-with-web-identity:
         role-arn: "arn:aws:iam::<<pipeline.parameters.aws-account-id>>:role/<<pipeline.parameters.aws-pipeline-iam-prefix>>-role"
