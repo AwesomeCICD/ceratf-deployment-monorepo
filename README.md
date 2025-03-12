@@ -127,6 +127,14 @@ Services & configuration deployed at the platform layer include:
 
 ## Trooubleshooting
 
+### Error pulling custom TF Modules
+
+TF modules in AwesomeCI like appspaces/authentik are 'internal' and need a known user. 
+- Make sure `awesomecicd-deploybot` has read access to the module repo in GH
+- Make sure CCI _this_ CCI Project has an SSH key with fingerprint `SHA256:my8A4x55NA6jxEifZbkvp6xf9t1riiCRvWCyF9sX2ys` (belongs to above machine user)
+- If still fails, login as `awesomecicd-deploybot` and make sure they have the key in their settings.
+User info is in our team 1password.
+
 ### Teardown Stuck Istio Namespace
 
 If deleting istio-system namespace hangs, try this to force;fully remove Kiali finalizers.
