@@ -42,8 +42,7 @@ tf_job_defaults: &tf_job_defaults
   #tag: "1.5.1"
   pre-steps:
     - checkout
-    - add_ssh_keys:
-        fingerprints
+    - add_ssh_keys
         # this project has key for awesomecicd-deploybot which can be found in 1passord
         # all private modules must authorize that user for read access.
     - aws-cli/install
