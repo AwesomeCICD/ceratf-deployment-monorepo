@@ -139,7 +139,7 @@ workflows:
           name: <<matrix.context-suffix>> EKS IaC
           matrix:
             parameters:
-              context-suffix: ["NAMER","EMEA"]
+              context-suffix: ["NAMER", "EMEA"]
           path: ./namer-eks
           <<: *tf_job_defaults
           requires:
@@ -154,7 +154,7 @@ workflows:
           path: ./namer-platforms
           matrix:
             parameters:
-              context-suffix: ["NAMER","EMEA"]
+              context-suffix: ["NAMER", "EMEA"]
           <<: *tf_job_defaults
           requires:
             - <<matrix.context-suffix>> EKS IaC
