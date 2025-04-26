@@ -16,7 +16,7 @@ workflows:
       - path-filtering/filter:
           base-revision: << pipeline.git.branch >>
           config-path: .circleci/continue-config.yml
-          tag: 3.9
+          tag: "3.9"
           mapping: |
             global/.* global-changed true
             .circleci/.* global-changed true
