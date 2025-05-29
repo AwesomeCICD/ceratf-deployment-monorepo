@@ -84,6 +84,7 @@ Our EKS layer and modules will handle the deployment of our EKS clusters in each
 Services deployed at the EKS layer include: 
 - EKS cluster to eu-west-2, us-west-2 or ap-northeast-1, depending on what region is triggered
 - Istio service mesh
+- Kiali, monitoring & visualization for Istio
 - Vault
 
 ### (namer/emea/japac-platforms)
