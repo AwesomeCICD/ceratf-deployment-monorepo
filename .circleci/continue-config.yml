@@ -1,18 +1,17 @@
 version: 2.1
 
 orbs:
-  terraform: circleci/terraform@3.2.1
-  aws-cli: circleci/aws-cli@3.1.3
-
+  terraform: circleci/terraform@3.6.0
+  aws-cli: circleci/aws-cli@5.4.0
 
 parameters:
   global-changed:
     type: boolean
     default: false
-  iaas-changed:  
+  iaas-changed:
     type: boolean
     default: false
-  platforms-changed: 
+  platforms-changed:
     type: boolean
     default: false
   aws-account-id:
@@ -34,8 +33,6 @@ parameters:
     type: string
     default: circleci-fieldeng.com
 
-
-
 tf_job_defaults: &tf_job_defaults
   context:
     - empty-context #to explicitly generate OIDC tokens
@@ -43,8 +40,8 @@ tf_job_defaults: &tf_job_defaults
   pre-steps:
     - checkout
     - add_ssh_keys
-        # this project has key for awesomecicd-deploybot which can be found in 1passord
-        # all private modules must authorize that user for read access.
+      # this project has key for awesomecicd-deploybot which can be found in 1passord
+      # all private modules must authorize that user for read access.
     - aws-cli/install
     - aws-cli/assume-role-with-web-identity:
         role-arn: "arn:aws:iam::<<pipeline.parameters.aws-account-id>>:role/<<pipeline.parameters.aws-pipeline-iam-prefix>>-role"
@@ -53,7 +50,7 @@ tf_job_defaults: &tf_job_defaults
     # TODO: Come up with a better solution
     - run:
         name: Create AWS credentials file
-        command: |  
+        command: |
           mkdir -p ~/.aws && \
           source $BASH_ENV && \
           cat > ~/.aws/credentials \<<EOF
@@ -62,31 +59,31 @@ tf_job_defaults: &tf_job_defaults
           aws_secret_access_key=${AWS_SECRET_ACCESS_KEY}
           aws_session_token=${AWS_SESSION_TOKEN}
           EOF
-          
+
     - run:
         name: Install Kubectl
         command: |
-            curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-            chmod a+x kubectl
-            mv kubectl /usr/local/bin
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          chmod a+x kubectl
+          mv kubectl /usr/local/bin
     - run:
         name: Install Modern TF
         command: |
-            cd ~
-            curl -LO "https://releases.hashicorp.com/terraform/1.9.2/terraform_1.9.2_linux_amd64.zip"
-            unzip terraform_1.9.2*
-            chmod a+x terraform
-            mv terraform /usr/local/bin
+          cd ~
+          curl -LO "https://releases.hashicorp.com/terraform/1.9.2/terraform_1.9.2_linux_amd64.zip"
+          unzip terraform_1.9.2*
+          chmod a+x terraform
+          mv terraform /usr/local/bin
 
 jobs:
   do_nothing:
-  #a quirk in our rules only allow downstream jobs to run if at least 1 upstream requires is present.
+    #a quirk in our rules only allow downstream jobs to run if at least 1 upstream requires is present.
     resource_class: small
     docker:
       - image: cimg/base:stable
     steps:
       - run: echo "Nothing to see here, move along."
-       
+
   apply_module:
     environment:
       TF_VAR_fe_operator_iam_prefix: <<pipeline.parameters.aws-operator-iam-prefix>>
@@ -98,15 +95,15 @@ jobs:
         type: string
       context-suffix:
         type: enum
-        enum: [ NAMER, EMEA, JAPAC ]
+        enum: [NAMER, EMEA, JAPAC]
         default: NAMER
     executor: terraform/default
     steps:
       - unless:
-          condition: 
+          condition:
             # non global modules get provider regionalized
-            equal: ['./global',<<parameters.path>>]
-          steps: 
+            equal: ["./global", <<parameters.path>>]
+          steps:
             - regionalize-providers:
                 path: <<parameters.path>>
       - terraform/fmt:
@@ -115,8 +112,6 @@ jobs:
           path: << parameters.path >>
       - terraform/apply:
           path: << parameters.path >>
-
-
 
 workflows:
   primary:
@@ -169,7 +164,7 @@ commands:
       path:
         type: string
     steps:
-      - run: 
+      - run:
           name: Set TF Provider Region
           command: |
             echo "Reworking << parameters.path >>/providers.tf for ${TF_VAR_fe_aws_region}"
@@ -184,6 +179,3 @@ commands:
             sed "s/REPLACEME-sub-domain/${TF_VAR_fe_domain_region}/" "<< parameters.path >>/data.tf.bak1" > "<< parameters.path >>/data.tf"
             rm "<< parameters.path >>/data.tf.bak1"
             cat "<< parameters.path >>/data.tf"
-            
-
-
