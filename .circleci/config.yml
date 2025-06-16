@@ -22,5 +22,3 @@ workflows:
             .circleci/.* global-changed true
             namer-eks/.* iaas-changed true
             namer-platforms/.* platforms-changed true
-
-        
