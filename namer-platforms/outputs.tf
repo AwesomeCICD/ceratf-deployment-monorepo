@@ -3,6 +3,16 @@ output "circleci_region" {
   value = data.terraform_remote_state.ceratf_regional.outputs.circleci_region
 }
 
+output "grafana_url" {
+  value       = module.grafana.grafana_internal_url
+  description = "Internal URL to access Grafana within the cluster"
+}
+
+output "grafana_ingress_hosts" {
+  value       = module.grafana.grafana_ingress_hosts
+  description = "Ingress hosts for external Grafana access"
+}
+
 /*
 #For Kubernetes custom resources
 output "cluster_endpoint" {
