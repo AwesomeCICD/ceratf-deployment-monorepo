@@ -68,3 +68,21 @@ module "authentik" {
   source        = "git@github.com:AwesomeCICD/ceratf-module-helm-authentik.git?ref=1.3.0"
   target_domain = data.terraform_remote_state.ceratf_deployment_global.outputs.r53_root_zone_name
 }
+
+
+module "grafana" {
+  source = "git@github.com:AwesomeCICD/ceratf-module-helm-grafana.git?ref=1.0.0"
+
+  namespace    = "monitoring"
+  release_name = "grafana"
+
+  ingress_enabled         = true
+  ingress_hosts           = ["grafana.${data.terraform_remote_state.ceratf_regional.outputs.target_domain}"]
+  ingress_tls_enabled     = true
+  ingress_tls_secret_name = "grafana-tls"
+
+  common_tags = {
+    Environment = "production"
+    Team        = "platform"
+  }
+}
