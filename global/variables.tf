@@ -62,6 +62,13 @@ variable "break_the_glass" {
   default     = false
 }
 
+variable "aws_partner_product_id" {
+  description = "AWS Partner Revenue Measurement Product ID for resource tagging."
+  type        = string
+  default     = ""
+  sensitive   = true
+}
+
 
 # variable "kuma_admin_password" {
 #   sensitive   = true
