@@ -44,7 +44,7 @@ module "release_agent" {
 
   release_agent_token = var.rt_token
 
-  managed_namespaces = ["default", "guidebook", "boa", "circleci-release-agent-system", "dr-demo", "eddies-demo", "training", "circle-shop"]
+  managed_namespaces = ["default", "guidebook", "boa", "circleci-release-agent-system", "dr-demo", "eddies-demo", "training", "circle-shop", "cargurus-demo"]
 
   depends_on = [module.argo_rollouts]
 }
@@ -55,7 +55,7 @@ module "release_agent_dev" {
 
   release_agent_token = var.rt_token_dev
 
-  managed_namespaces = ["guidebook-dev", "boa-dev", "dr-demo-dev", "training-dev", "circle-shop-dev"]
+  managed_namespaces = ["guidebook-dev", "boa-dev", "dr-demo-dev", "training-dev", "circle-shop-dev", "cargurus-demo-dev"]
 
   environment_suffix = "-dev"
 
@@ -67,4 +67,19 @@ module "authentik" {
   count         = var.fe_domain_region == "namer" ? 1 : 0
   source        = "git@github.com:AwesomeCICD/ceratf-module-helm-authentik.git?ref=1.3.0"
   target_domain = data.terraform_remote_state.ceratf_deployment_global.outputs.r53_root_zone_name
+}
+
+
+resource "kubernetes_namespace" "cargurus_demo" {
+  metadata {
+    name   = "cargurus-demo"
+    labels = local.common_namespace_labels
+  }
+}
+
+resource "kubernetes_namespace" "cargurus_demo_dev" {
+  metadata {
+    name   = "cargurus-demo-dev"
+    labels = local.common_namespace_labels
+  }
 }
