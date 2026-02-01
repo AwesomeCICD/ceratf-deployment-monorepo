@@ -3,6 +3,11 @@ locals {
   common_namespace_labels = {
     istio-injection = "enabled"
   }
+  
+  cluster_tags = merge(
+    data.terraform_remote_state.ceratf_deployment_global.outputs.common_tags,
+    var.aws_partner_product_id != "" ? { "aws:partner:product" = var.aws_partner_product_id } : {}
+  )
 }
 
 
@@ -14,7 +19,7 @@ module "fe_eks_cluster" {
   node_instance_types            = ["m5a.xlarge"]
   nodegroup_desired_capacity     = 2
   cluster_endpoint_public_access = true
-  default_fieldeng_tags          = data.terraform_remote_state.ceratf_deployment_global.outputs.common_tags
+  default_fieldeng_tags          = local.cluster_tags
   # this should be replaced with a cluster_admin speciic role outide aws role used by pipeline.
   principal_arn = data.terraform_remote_state.ceratf_deployment_global.outputs.operator_access_iam_role_arn
   pipeline_arn  = data.terraform_remote_state.ceratf_deployment_global.outputs.pipeline_access_iam_role_arn
