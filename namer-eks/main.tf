@@ -3,7 +3,7 @@ locals {
   common_namespace_labels = {
     istio-injection = "enabled"
   }
-  
+
   cluster_tags = merge(
     data.terraform_remote_state.ceratf_deployment_global.outputs.common_tags,
     var.aws_partner_product_id != "" ? { "aws:partner:product" = var.aws_partner_product_id } : {}
