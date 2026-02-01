@@ -55,7 +55,7 @@ module "release_agent_dev" {
 
   release_agent_token = var.rt_token_dev
 
-  managed_namespaces = ["guidebook-dev", "boa-dev", "dr-demo-dev", "training-dev", "circle-shop-dev", "cargurus-demo-dev"]
+  managed_namespaces = ["guidebook-dev", "boa-dev", "dr-demo-dev", "training-dev", "circle-shop-dev", "cargurus-prod"]
 
   environment_suffix = "-dev"
 
@@ -77,9 +77,9 @@ resource "kubernetes_namespace" "cargurus_demo" {
   }
 }
 
-resource "kubernetes_namespace" "cargurus_demo_dev" {
+resource "kubernetes_namespace" "cargurus_prod" {
   metadata {
-    name   = "cargurus-demo-dev"
+    name   = "cargurus-prod"
     labels = local.common_namespace_labels
   }
 }
