@@ -41,7 +41,7 @@ variable "common_tags" {
     "Team"                = "Field Engineering"
     "iac"                 = "true"
     "optimization_opt_in" = "true"
-    "critical_until"      = "2024-12-31"
+    "critical_until"      = "2026-12-31"
     "data_classification" = "low"
     "purpose"             = "CERA is a customer facing demo architecture used by Field Engineering team."
   }
