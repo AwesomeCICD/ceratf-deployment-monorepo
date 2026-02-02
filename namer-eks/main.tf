@@ -9,7 +9,7 @@ locals {
 module "fe_eks_cluster" {
   source = "git@github.com:AwesomeCICD/ceratf-module-eks.git?ref=7.2.0"
 
-  cluster_version                = "1.30"
+  cluster_version                = "1.32"
   cluster_suffix                 = var.fe_domain_region
   node_instance_types            = ["m5a.xlarge"]
   nodegroup_desired_capacity     = 2
