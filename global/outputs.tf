@@ -31,6 +31,7 @@ output "common_tags" {
       "aws:partner:product" = var.aws_partner_product_id
     } : {}
   )
+  sensitive = true
 }
 
 output "fe_email_usernames" {
