@@ -63,7 +63,7 @@ variable "break_the_glass" {
 }
 
 variable "aws_partner_product_id" {
-  description = "AWS Partner Revenue Measurement Product ID for resource tagging."
+  description = "AWS Partner Revenue Measurement Product ID for resource tagging. Used for AWS revenue recognition."
   type        = string
   default     = ""
   sensitive   = true
