@@ -28,7 +28,7 @@ output "common_tags" {
   value = merge(
     var.common_tags,
     var.aws_partner_product_id != "" ? {
-      "aws:partner:product" = var.aws_partner_product_id
+      "partner-product-id" = var.aws_partner_product_id
     } : {}
   )
   sensitive = true
