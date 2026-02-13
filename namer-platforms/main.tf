@@ -98,10 +98,6 @@ module "grafana" {
   common_tags = {
     Environment = "production"
     Team        = "platform"
-resource "kubernetes_namespace" "cargurus_demo" {
-  metadata {
-    name   = "cargurus-demo"
-    labels = local.common_namespace_labels
   }
 }
 
