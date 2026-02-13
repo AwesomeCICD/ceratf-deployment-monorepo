@@ -44,6 +44,7 @@ module "release_agent" {
 
   release_agent_token = var.rt_token
 
+  # Note: cargurus-demo and cargurus-prod moved to release_agent_cargurus module
   managed_namespaces = ["default", "guidebook", "boa", "circleci-release-agent-system", "dr-demo", "eddies-demo", "training", "circle-shop"]
 
   depends_on = [module.argo_rollouts]
@@ -58,6 +59,19 @@ module "release_agent_dev" {
   managed_namespaces = ["guidebook-dev", "boa-dev", "dr-demo-dev", "training-dev", "circle-shop-dev"]
 
   environment_suffix = "-dev"
+
+  depends_on = [module.argo_rollouts]
+}
+
+# CarGurus Multi-Repo dedicated Release Agent
+module "release_agent_cargurus" {
+  source = "git@github.com:AwesomeCICD/ceratf-module-helm-cci-release-agent?ref=1.4.0"
+
+  release_agent_token = var.rt_token_cargurus
+
+  managed_namespaces = ["cargurus-demo", "cargurus-prod"]
+
+  environment_suffix = "-cargurus"
 
   depends_on = [module.argo_rollouts]
 }
@@ -84,5 +98,16 @@ module "grafana" {
   common_tags = {
     Environment = "production"
     Team        = "platform"
+resource "kubernetes_namespace" "cargurus_demo" {
+  metadata {
+    name   = "cargurus-demo"
+    labels = local.common_namespace_labels
+  }
+}
+
+resource "kubernetes_namespace" "cargurus_prod" {
+  metadata {
+    name   = "cargurus-prod"
+    labels = local.common_namespace_labels
   }
 }

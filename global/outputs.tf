@@ -25,7 +25,13 @@ output "operator_access_iam_role_name" {
 }
 
 output "common_tags" {
-  value = var.common_tags
+  value = merge(
+    var.common_tags,
+    var.aws_partner_product_id != "" ? {
+      "partner-product-id" = var.aws_partner_product_id
+    } : {}
+  )
+  sensitive = true
 }
 
 output "fe_email_usernames" {

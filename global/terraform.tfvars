@@ -27,3 +27,6 @@ fe_iam_usernames = []
 
 
 break_the_glass = true
+
+# AWS Partner Revenue Measurement Product ID
+aws_partner_product_id = "cd9jjzrok2mveu9hfscldoptu"

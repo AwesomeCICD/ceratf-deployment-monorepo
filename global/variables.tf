@@ -41,7 +41,7 @@ variable "common_tags" {
     "Team"                = "Field Engineering"
     "iac"                 = "true"
     "optimization_opt_in" = "true"
-    "critical_until"      = "2024-12-31"
+    "critical_until"      = "2026-12-31"
     "data_classification" = "low"
     "purpose"             = "CERA is a customer facing demo architecture used by Field Engineering team."
   }
@@ -60,6 +60,13 @@ variable "break_the_glass" {
   type        = bool
   description = "Allows FE team to assume FULL RIGHTS OF PIPLEINE ROLE"
   default     = false
+}
+
+variable "aws_partner_product_id" {
+  description = "AWS Partner Revenue Measurement Product ID for resource tagging. Used for AWS revenue recognition."
+  type        = string
+  default     = ""
+  sensitive   = true
 }
 
 
