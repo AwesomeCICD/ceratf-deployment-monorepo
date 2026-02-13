@@ -84,10 +84,20 @@ module "authentik" {
 }
 
 
-resource "kubernetes_namespace" "cargurus_demo" {
-  metadata {
-    name   = "cargurus-demo"
-    labels = local.common_namespace_labels
+module "grafana" {
+  source = "git@github.com:AwesomeCICD/ceratf-module-helm-grafana.git?ref=2.0.1"
+
+  namespace    = "monitoring"
+  release_name = "grafana-monitoring"
+
+  ingress_enabled         = true
+  ingress_hosts           = ["grafana.${data.terraform_remote_state.ceratf_regional.outputs.target_domain}"]
+  ingress_tls_enabled     = true
+  ingress_tls_secret_name = "grafana-tls"
+
+  common_tags = {
+    Environment = "production"
+    Team        = "platform"
   }
 }
 
