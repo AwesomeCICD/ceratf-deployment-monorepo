@@ -85,7 +85,7 @@ module "authentik" {
 
 
 module "grafana" {
-  source = "git@github.com:AwesomeCICD/ceratf-module-helm-grafana.git?ref=1.0.0"
+  source = "git@github.com:AwesomeCICD/ceratf-module-helm-grafana.git?ref=2.0.0"
 
   namespace    = "monitoring"
   release_name = "grafana"
