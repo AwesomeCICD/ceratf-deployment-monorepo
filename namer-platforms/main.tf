@@ -88,7 +88,7 @@ module "grafana" {
   source = "git@github.com:AwesomeCICD/ceratf-module-helm-grafana.git?ref=2.0.1"
 
   namespace    = "monitoring"
-  release_name = "grafana"
+  release_name = "grafana-monitoring"
 
   ingress_enabled         = true
   ingress_hosts           = ["grafana.${data.terraform_remote_state.ceratf_regional.outputs.target_domain}"]
