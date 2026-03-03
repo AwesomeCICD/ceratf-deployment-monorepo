@@ -54,6 +54,14 @@ output "r53_aux_zone_id" {
   value = aws_route53_zone.aux_domain[0].zone_id
 }
 
+output "audit_log_bucket_arn" {
+  value = aws_s3_bucket.audit_logs.arn
+}
+
+output "audit_log_bucket_name" {
+  value = aws_s3_bucket.audit_logs.id
+}
+
 #output "kuma_fqdn" {
 # value = module.uptime_kuma.kuma_fqdn
 #}

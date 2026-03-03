@@ -70,6 +70,12 @@ variable "aws_partner_product_id" {
 }
 
 
+variable "audit_log_bucket_name" {
+  description = "Name of the S3 bucket for CircleCI audit log streaming."
+  type        = string
+  default     = "cera-circleci-audit-logs"
+}
+
 # variable "kuma_admin_password" {
 #   sensitive   = true
 #   description = "Set TF_VAR_kuma_admin_password in root module execution."
