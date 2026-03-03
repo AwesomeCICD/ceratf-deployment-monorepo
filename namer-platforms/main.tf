@@ -101,6 +101,65 @@ module "grafana" {
   }
 }
 
+###############################################################################
+# Standalone PostgreSQL for CI/CD Usage Data (Usage API + Audit Logs)
+# Feeds the Grafana dashboard with pipeline metrics and audit trail data.
+# Deployed to the monitoring namespace alongside Grafana for internal DNS access.
+###############################################################################
+
+resource "random_password" "circleci_usage_pg" {
+  length  = 24
+  special = false
+}
+
+resource "helm_release" "circleci_usage_postgres" {
+  name       = "circleci-usage-pg"
+  repository = "https://charts.bitnami.com/bitnami"
+  chart      = "postgresql"
+  version    = "15.5.0"
+  namespace  = "monitoring"
+
+  timeout = 300
+  atomic  = true
+  wait    = true
+
+  values = [yamlencode({
+    image = {
+      registry   = "docker.io"
+      repository = "bitnami/postgresql"
+      tag        = "16"
+    }
+
+    auth = {
+      username = "circleci"
+      password = random_password.circleci_usage_pg.result
+      database = "circleci_usage"
+    }
+
+    primary = {
+      persistence = {
+        enabled = true
+        size    = "10Gi"
+      }
+
+      resources = {
+        requests = {
+          cpu    = "100m"
+          memory = "256Mi"
+        }
+        limits = {
+          cpu    = "500m"
+          memory = "512Mi"
+        }
+      }
+    }
+
+    metrics = {
+      enabled = false
+    }
+  })]
+}
+
 resource "kubernetes_namespace" "cargurus_prod" {
   metadata {
     name   = "cargurus-prod"

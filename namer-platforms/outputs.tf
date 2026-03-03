@@ -13,6 +13,32 @@ output "grafana_ingress_hosts" {
   description = "Ingress hosts for external Grafana access"
 }
 
+###############################################################################
+# CircleCI Usage PostgreSQL
+###############################################################################
+
+output "circleci_usage_pg_host" {
+  description = "Internal cluster DNS for the CI/CD usage Postgres"
+  value       = "circleci-usage-pg-postgresql.monitoring.svc.cluster.local"
+}
+
+output "circleci_usage_pg_port" {
+  value = 5432
+}
+
+output "circleci_usage_pg_database" {
+  value = "circleci_usage"
+}
+
+output "circleci_usage_pg_username" {
+  value = "circleci"
+}
+
+output "circleci_usage_pg_password" {
+  value     = random_password.circleci_usage_pg.result
+  sensitive = true
+}
+
 /*
 #For Kubernetes custom resources
 output "cluster_endpoint" {
