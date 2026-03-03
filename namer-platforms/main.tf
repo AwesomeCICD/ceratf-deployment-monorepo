@@ -119,7 +119,7 @@ resource "helm_release" "circleci_usage_postgres" {
   version    = "15.5.0"
   namespace  = "monitoring"
 
-  timeout = 300
+  timeout = 600
   atomic  = true
   wait    = true
 
@@ -127,7 +127,7 @@ resource "helm_release" "circleci_usage_postgres" {
     image = {
       registry   = "docker.io"
       repository = "bitnami/postgresql"
-      tag        = "16"
+      tag        = "latest"
     }
 
     auth = {
