@@ -155,3 +155,84 @@ resource "aws_iam_role_policy_attachment" "operator_policy_attach" {
 # kuma_admin_password = var.kuma_admin_password
 
 #}
+
+
+#-------------------------------------------------------------------------------
+# CIRCLECI AUDIT LOG STREAMING - S3 BUCKET
+# Receives streaming audit logs from the CircleCI org.
+# Downstream: a loader script pulls JSON from here into Postgres for Grafana.
+#-------------------------------------------------------------------------------
+
+resource "aws_s3_bucket" "audit_logs" {
+  bucket = var.audit_log_bucket_name
+  tags = merge(var.common_tags, {
+    "purpose" = "CircleCI audit log streaming destination"
+  })
+}
+
+resource "aws_s3_bucket_versioning" "audit_logs" {
+  bucket = aws_s3_bucket.audit_logs.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "audit_logs" {
+  bucket = aws_s3_bucket.audit_logs.id
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "aws:kms"
+    }
+    bucket_key_enabled = true
+  }
+}
+
+resource "aws_s3_bucket_public_access_block" "audit_logs" {
+  bucket                  = aws_s3_bucket.audit_logs.id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "audit_logs" {
+  bucket = aws_s3_bucket.audit_logs.id
+
+  rule {
+    id     = "expire-old-logs"
+    status = "Enabled"
+
+    transition {
+      days          = 90
+      storage_class = "STANDARD_IA"
+    }
+
+    expiration {
+      days = 365
+    }
+  }
+}
+
+resource "aws_s3_bucket_policy" "audit_logs" {
+  bucket = aws_s3_bucket.audit_logs.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid    = "AllowCircleCIAuditLogDelivery"
+        Effect = "Allow"
+        Principal = {
+          AWS = aws_iam_role.fe_eks.arn
+        }
+        Action = [
+          "s3:PutObject",
+          "s3:GetBucketLocation"
+        ]
+        Resource = [
+          aws_s3_bucket.audit_logs.arn,
+          "${aws_s3_bucket.audit_logs.arn}/*"
+        ]
+      }
+    ]
+  })
+}
