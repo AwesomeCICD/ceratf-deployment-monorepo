@@ -106,6 +106,7 @@ module "grafana" {
         datasources = [
           {
             name      = "circleci-pg-ds"
+            uid       = "circleci-pg-ds"
             type      = "postgres"
             url       = "circleci-usage-pg-postgresql.monitoring.svc.cluster.local:5432"
             database  = "circleci_usage"
@@ -209,7 +210,58 @@ resource "kubernetes_config_map" "circleci_dashboard" {
 }
 
 ###############################################################################
-# Istio VirtualService for Grafana (no nginx ingress controller in CERA)
+# Istio Gateway: add grafana host to the shared subdomains gateway
+# The gateway is not otherwise managed in Terraform — this resource imports
+# the full current spec and appends the grafana host.
+###############################################################################
+
+resource "kubectl_manifest" "grafana_gateway_host" {
+  yaml_body = <<-YAML
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: namer-istio-gateway-subdomains
+      namespace: istio-ingress
+    spec:
+      selector:
+        istio: ingressgateway
+      servers:
+        - hosts:
+            - "*.nexus.namer.circleci-fieldeng.com"
+            - "nexus.namer.circleci-fieldeng.com"
+            - "*.demo.namer.circleci-fieldeng.com"
+            - "*.dev.namer.circleci-fieldeng.com"
+            - "dev.namer.circleci-fieldeng.com"
+            - "vault.namer.circleci-fieldeng.com"
+            - "monitor.namer.circleci-fieldeng.com"
+            - "grafana.${data.terraform_remote_state.ceratf_regional.outputs.target_domain}"
+          port:
+            name: http
+            number: 80
+            protocol: HTTP
+          tls:
+            httpsRedirect: true
+        - hosts:
+            - "*.nexus.namer.circleci-fieldeng.com"
+            - "nexus.namer.circleci-fieldeng.com"
+            - "*.demo.namer.circleci-fieldeng.com"
+            - "*.dev.namer.circleci-fieldeng.com"
+            - "dev.namer.circleci-fieldeng.com"
+            - "vault.namer.circleci-fieldeng.com"
+            - "monitor.namer.circleci-fieldeng.com"
+            - "grafana.${data.terraform_remote_state.ceratf_regional.outputs.target_domain}"
+          port:
+            name: https
+            number: 443
+            protocol: HTTPS
+          tls:
+            credentialName: namer-circleci-fieldeng-com-subdomains
+            mode: SIMPLE
+  YAML
+}
+
+###############################################################################
+# Istio VirtualService for Grafana
 ###############################################################################
 
 resource "kubectl_manifest" "grafana_virtualservice" {

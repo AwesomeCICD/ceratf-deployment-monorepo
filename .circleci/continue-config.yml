@@ -78,11 +78,7 @@ tf_job_defaults: &tf_job_defaults
 jobs:
   do_nothing:
     #a quirk in our rules only allow downstream jobs to run if at least 1 upstream requires is present.
-    resource_class: small
-    docker:
-      - image: cimg/base:stable
-    steps:
-      - run: echo "Nothing to see here, move along."
+    type: no-op
 
   apply_module:
     environment:
