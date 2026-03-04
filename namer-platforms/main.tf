@@ -106,6 +106,7 @@ module "grafana" {
         datasources = [
           {
             name      = "circleci-pg-ds"
+            uid       = "circleci-pg-ds"
             type      = "postgres"
             url       = "circleci-usage-pg-postgresql.monitoring.svc.cluster.local:5432"
             database  = "circleci_usage"
