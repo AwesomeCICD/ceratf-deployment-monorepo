@@ -106,13 +106,14 @@ module "grafana" {
         datasources = [
           {
             name      = "circleci-pg-ds"
-            uid       = "circleci-pg-ds"
-            type      = "postgres"
+            uid       = "P66BDC2B81169D854"
+            type      = "grafana-postgresql-datasource"
             url       = "circleci-usage-pg-postgresql.monitoring.svc.cluster.local:5432"
             database  = "circleci_usage"
             user      = "circleci"
             isDefault = false
             jsonData = {
+              database        = "circleci_usage"
               sslmode         = "disable"
               maxOpenConns    = 100
               maxIdleConns    = 100

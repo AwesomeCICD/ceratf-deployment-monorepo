@@ -1907,11 +1907,11 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT created_at, actor_name, action, target_name FROM circleci_audit_logs WHERE action IN ('project.settings.update', 'project.env_var.create', 'project.env_var.delete') AND created_at >= $__timeFrom() AND created_at <= $__timeTo() ORDER BY created_at DESC LIMIT 20",
+          "rawSql": "SELECT created_at, actor_name, action, payload::json->>'context_name' AS context, payload::json->>'environment_variable_titles' AS secrets_accessed FROM circleci_audit_logs WHERE action IN ('context.secrets.accessed', 'context.env_var.store', 'context.env_var.delete', 'context.restriction.create', 'context.restriction.delete', 'context.create') AND created_at >= $__timeFrom() AND created_at <= $__timeTo() ORDER BY created_at DESC LIMIT 25",
           "refId": "A"
         }
       ],
-      "title": "Recent Config Changes",
+      "title": "Secret Access & Policy Events",
       "type": "table"
     },
     {
@@ -1969,11 +1969,11 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT created_at, actor_name, action, target_name FROM circleci_audit_logs WHERE action IN ('workflow.job.approved', 'context.secrets.accessed', 'org_member.remove') AND created_at >= $__timeFrom() AND created_at <= $__timeTo() ORDER BY created_at DESC LIMIT 20",
+          "rawSql": "SELECT created_at, actor_name, action, target_name FROM circleci_audit_logs WHERE action IN ('project.add', 'project.follow', 'organization.settings.update', 'checkout-key.create', 'trigger.create', 'schedule.create', 'schedule.update', 'schedule.delete', 'workflow.cancel') AND created_at >= $__timeFrom() AND created_at <= $__timeTo() ORDER BY created_at DESC LIMIT 25",
           "refId": "A"
         }
       ],
-      "title": "Approval & Access Events",
+      "title": "Infrastructure & Governance Events",
       "type": "table"
     }
   ],
