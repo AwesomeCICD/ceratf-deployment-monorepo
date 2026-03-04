@@ -90,10 +90,7 @@ module "grafana" {
   namespace    = "monitoring"
   release_name = "grafana-monitoring"
 
-  ingress_enabled         = true
-  ingress_hosts           = ["grafana.${data.terraform_remote_state.ceratf_regional.outputs.target_domain}"]
-  ingress_tls_enabled     = true
-  ingress_tls_secret_name = "grafana-tls"
+  ingress_enabled = false
 
   dashboards_provider_enabled = true
 
@@ -207,6 +204,33 @@ resource "kubernetes_config_map" "circleci_dashboard" {
   data = {
     "circleci-platform-health.json" = file("${path.module}/files/circleci-platform-health.json")
   }
+
+  depends_on = [module.grafana]
+}
+
+###############################################################################
+# Istio VirtualService for Grafana (no nginx ingress controller in CERA)
+###############################################################################
+
+resource "kubectl_manifest" "grafana_virtualservice" {
+  yaml_body = <<-YAML
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: grafana-monitoring-virtual-service
+      namespace: monitoring
+    spec:
+      gateways:
+        - istio-ingress/namer-istio-gateway-subdomains
+      hosts:
+        - "grafana.${data.terraform_remote_state.ceratf_regional.outputs.target_domain}"
+      http:
+        - route:
+            - destination:
+                host: grafana-monitoring.monitoring.svc.cluster.local
+                port:
+                  number: 80
+  YAML
 
   depends_on = [module.grafana]
 }
