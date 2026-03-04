@@ -37,7 +37,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "circleci-pg-ds"
+        "uid": "P66BDC2B81169D854"
       },
       "fieldConfig": {
         "defaults": {
@@ -86,7 +86,7 @@
           "dataset": "circleci_usage",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "circleci-pg-ds"
+            "uid": "P66BDC2B81169D854"
           },
           "editorMode": "code",
           "format": "table",
@@ -101,7 +101,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "circleci-pg-ds"
+        "uid": "P66BDC2B81169D854"
       },
       "fieldConfig": {
         "defaults": {
@@ -151,7 +151,7 @@
           "dataset": "circleci_usage",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "circleci-pg-ds"
+            "uid": "P66BDC2B81169D854"
           },
           "editorMode": "code",
           "format": "table",
@@ -166,7 +166,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "circleci-pg-ds"
+        "uid": "P66BDC2B81169D854"
       },
       "fieldConfig": {
         "defaults": {
@@ -216,7 +216,7 @@
           "dataset": "circleci_usage",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "circleci-pg-ds"
+            "uid": "P66BDC2B81169D854"
           },
           "editorMode": "code",
           "format": "table",
@@ -231,7 +231,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "circleci-pg-ds"
+        "uid": "P66BDC2B81169D854"
       },
       "fieldConfig": {
         "defaults": {
@@ -281,7 +281,7 @@
           "dataset": "circleci_usage",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "circleci-pg-ds"
+            "uid": "P66BDC2B81169D854"
           },
           "editorMode": "code",
           "format": "table",
@@ -296,7 +296,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "circleci-pg-ds"
+        "uid": "P66BDC2B81169D854"
       },
       "fieldConfig": {
         "defaults": {
@@ -346,7 +346,7 @@
           "dataset": "circleci_usage",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "circleci-pg-ds"
+            "uid": "P66BDC2B81169D854"
           },
           "editorMode": "code",
           "format": "table",
@@ -361,7 +361,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "circleci-pg-ds"
+        "uid": "P66BDC2B81169D854"
       },
       "fieldConfig": {
         "defaults": {
@@ -411,7 +411,7 @@
           "dataset": "circleci_usage",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "circleci-pg-ds"
+            "uid": "P66BDC2B81169D854"
           },
           "editorMode": "code",
           "format": "table",
@@ -440,7 +440,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "circleci-pg-ds"
+        "uid": "P66BDC2B81169D854"
       },
       "fieldConfig": {
         "defaults": {
@@ -520,7 +520,7 @@
           "dataset": "circleci_usage",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "circleci-pg-ds"
+            "uid": "P66BDC2B81169D854"
           },
           "editorMode": "code",
           "format": "table",
@@ -535,7 +535,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "circleci-pg-ds"
+        "uid": "P66BDC2B81169D854"
       },
       "fieldConfig": {
         "defaults": {
@@ -640,7 +640,7 @@
           "dataset": "circleci_usage",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "circleci-pg-ds"
+            "uid": "P66BDC2B81169D854"
           },
           "editorMode": "code",
           "format": "table",
@@ -668,7 +668,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "circleci-pg-ds"
+        "uid": "P66BDC2B81169D854"
       },
       "fieldConfig": {
         "defaults": {
@@ -728,7 +728,7 @@
           "dataset": "circleci_usage",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "circleci-pg-ds"
+            "uid": "P66BDC2B81169D854"
           },
           "editorMode": "code",
           "format": "table",
@@ -743,7 +743,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "circleci-pg-ds"
+        "uid": "P66BDC2B81169D854"
       },
       "fieldConfig": {
         "defaults": {
@@ -803,7 +803,7 @@
           "dataset": "circleci_usage",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "circleci-pg-ds"
+            "uid": "P66BDC2B81169D854"
           },
           "editorMode": "code",
           "format": "table",
@@ -831,7 +831,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "circleci-pg-ds"
+        "uid": "P66BDC2B81169D854"
       },
       "fieldConfig": {
         "defaults": {
@@ -915,7 +915,7 @@
           "dataset": "circleci_usage",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "circleci-pg-ds"
+            "uid": "P66BDC2B81169D854"
           },
           "editorMode": "code",
           "format": "table",
@@ -930,7 +930,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "circleci-pg-ds"
+        "uid": "P66BDC2B81169D854"
       },
       "fieldConfig": {
         "defaults": {
@@ -1011,7 +1011,7 @@
           "dataset": "circleci_usage",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "circleci-pg-ds"
+            "uid": "P66BDC2B81169D854"
           },
           "editorMode": "code",
           "format": "table",
@@ -1026,7 +1026,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "circleci-pg-ds"
+        "uid": "P66BDC2B81169D854"
       },
       "fieldConfig": {
         "defaults": {
@@ -1076,7 +1076,7 @@
           "dataset": "circleci_usage",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "circleci-pg-ds"
+            "uid": "P66BDC2B81169D854"
           },
           "editorMode": "code",
           "format": "table",
@@ -1091,7 +1091,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "circleci-pg-ds"
+        "uid": "P66BDC2B81169D854"
       },
       "fieldConfig": {
         "defaults": {
@@ -1151,7 +1151,7 @@
           "dataset": "circleci_usage",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "circleci-pg-ds"
+            "uid": "P66BDC2B81169D854"
           },
           "editorMode": "code",
           "format": "table",
@@ -1166,7 +1166,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "circleci-pg-ds"
+        "uid": "P66BDC2B81169D854"
       },
       "fieldConfig": {
         "defaults": {
@@ -1226,7 +1226,7 @@
           "dataset": "circleci_usage",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "circleci-pg-ds"
+            "uid": "P66BDC2B81169D854"
           },
           "editorMode": "code",
           "format": "table",
@@ -1254,7 +1254,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "circleci-pg-ds"
+        "uid": "P66BDC2B81169D854"
       },
       "fieldConfig": {
         "defaults": {
@@ -1335,7 +1335,7 @@
           "dataset": "circleci_usage",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "circleci-pg-ds"
+            "uid": "P66BDC2B81169D854"
           },
           "editorMode": "code",
           "format": "table",
@@ -1350,7 +1350,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "circleci-pg-ds"
+        "uid": "P66BDC2B81169D854"
       },
       "fieldConfig": {
         "defaults": {
@@ -1431,7 +1431,7 @@
           "dataset": "circleci_usage",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "circleci-pg-ds"
+            "uid": "P66BDC2B81169D854"
           },
           "editorMode": "code",
           "format": "table",
@@ -1459,7 +1459,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "circleci-pg-ds"
+        "uid": "P66BDC2B81169D854"
       },
       "fieldConfig": {
         "defaults": {
@@ -1509,7 +1509,7 @@
           "dataset": "circleci_usage",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "circleci-pg-ds"
+            "uid": "P66BDC2B81169D854"
           },
           "editorMode": "code",
           "format": "table",
@@ -1524,7 +1524,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "circleci-pg-ds"
+        "uid": "P66BDC2B81169D854"
       },
       "fieldConfig": {
         "defaults": {
@@ -1574,7 +1574,7 @@
           "dataset": "circleci_usage",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "circleci-pg-ds"
+            "uid": "P66BDC2B81169D854"
           },
           "editorMode": "code",
           "format": "table",
@@ -1589,7 +1589,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "circleci-pg-ds"
+        "uid": "P66BDC2B81169D854"
       },
       "fieldConfig": {
         "defaults": {
@@ -1732,7 +1732,7 @@
           "dataset": "circleci_usage",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "circleci-pg-ds"
+            "uid": "P66BDC2B81169D854"
           },
           "editorMode": "code",
           "format": "table",
@@ -1760,7 +1760,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "circleci-pg-ds"
+        "uid": "P66BDC2B81169D854"
       },
       "fieldConfig": {
         "defaults": {
@@ -1840,7 +1840,7 @@
           "dataset": "circleci_usage",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "circleci-pg-ds"
+            "uid": "P66BDC2B81169D854"
           },
           "editorMode": "code",
           "format": "table",
@@ -1855,7 +1855,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "circleci-pg-ds"
+        "uid": "P66BDC2B81169D854"
       },
       "fieldConfig": {
         "defaults": {
@@ -1902,7 +1902,7 @@
           "dataset": "circleci_usage",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "circleci-pg-ds"
+            "uid": "P66BDC2B81169D854"
           },
           "editorMode": "code",
           "format": "table",
@@ -1917,7 +1917,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "circleci-pg-ds"
+        "uid": "P66BDC2B81169D854"
       },
       "fieldConfig": {
         "defaults": {
@@ -1964,7 +1964,7 @@
           "dataset": "circleci_usage",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "circleci-pg-ds"
+            "uid": "P66BDC2B81169D854"
           },
           "editorMode": "code",
           "format": "table",
