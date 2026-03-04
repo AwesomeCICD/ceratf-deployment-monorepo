@@ -11,7 +11,8 @@ terraform {
     }
 
     nexus = {
-      source = "datadrivers/nexus"
+      source  = "datadrivers/nexus"
+      version = "2.3.0"
     }
   }
 
