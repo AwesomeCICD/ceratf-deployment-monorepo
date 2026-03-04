@@ -95,9 +95,38 @@ module "grafana" {
   ingress_tls_enabled     = true
   ingress_tls_secret_name = "grafana-tls"
 
+  dashboards_provider_enabled = true
+
   common_tags = {
     Environment = "production"
     Team        = "platform"
+  }
+
+  extra_values = {
+    datasources = {
+      "datasources.yaml" = {
+        apiVersion = 1
+        datasources = [
+          {
+            name      = "circleci-pg-ds"
+            type      = "postgres"
+            url       = "circleci-usage-pg-postgresql.monitoring.svc.cluster.local:5432"
+            database  = "circleci_usage"
+            user      = "circleci"
+            isDefault = false
+            jsonData = {
+              sslmode         = "disable"
+              maxOpenConns    = 100
+              maxIdleConns    = 100
+              connMaxLifetime = 14400
+            }
+            secureJsonData = {
+              password = random_password.circleci_usage_pg.result
+            }
+          }
+        ]
+      }
+    }
   }
 }
 
@@ -158,6 +187,28 @@ resource "helm_release" "circleci_usage_postgres" {
       enabled = false
     }
   })]
+}
+
+###############################################################################
+# CI/CD Platform Health Dashboard (Grafana sidecar auto-discovery)
+# The sidecar watches for ConfigMaps with label grafana_dashboard=1
+###############################################################################
+
+resource "kubernetes_config_map" "circleci_dashboard" {
+  metadata {
+    name      = "circleci-platform-health-dashboard"
+    namespace = "monitoring"
+
+    labels = {
+      grafana_dashboard = "1"
+    }
+  }
+
+  data = {
+    "circleci-platform-health.json" = file("${path.module}/files/circleci-platform-health.json")
+  }
+
+  depends_on = [module.grafana]
 }
 
 resource "kubernetes_namespace" "cargurus_prod" {
