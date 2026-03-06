@@ -108,6 +108,8 @@ jobs:
                 path: <<parameters.path>>
       - terraform/fmt:
           path: << parameters.path >>
+      - terraform/plan:
+          path: << parameters.path >>
       - terraform/validate:
           path: << parameters.path >>
       - terraform/apply:
